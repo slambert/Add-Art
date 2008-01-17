@@ -1,0 +1,3 @@
+content   artbanners jar:chrome/artbanners.jar!/content/
+skin      artbanners classic/1.0 jar:chrome/artbanners.jar!/skin/classic/
+
