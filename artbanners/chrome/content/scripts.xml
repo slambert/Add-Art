@@ -1,5 +1,12 @@
 //this array is for replacing script ads like google adwords/adsense with add-art images
 <scripts>
+	
+	<script regexp="^http://graphics8\.nytimes\.com/.*">
+		<![CDATA[
+	    writeArtFrame(184, 90);
+	  ]]>
+	</script>
+	
   <!-- http://weblogs.mozillazine.org/rumblingedge/ -->
   <script url="http://pagead2.googlesyndication.com/pagead/show_ads.js">
   <![CDATA[

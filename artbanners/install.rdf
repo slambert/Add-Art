@@ -5,7 +5,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="artbanners@addart.eyebeam.org"
                    em:name="artbanners"
-                   em:version="0.3"
+                   em:version="0.4 beta 1"
                    em:creator="AddArt Team"
                    em:description="Ads become art"
                    em:homepageURL="http://www.addart.org/">
