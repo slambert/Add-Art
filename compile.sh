@@ -25,7 +25,7 @@ rm -rf addart
 mv addart_renamed addart
 
 # MacOS can launch it right away for install, too
-echo "Opening w/ Firefox..."
-open -a Firefox addart-build.xpi
+#echo "Opening w/ Firefox..."
+#open -a Firefox addart-build.xpi
 
 exit 0
