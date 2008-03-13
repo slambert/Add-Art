@@ -3,14 +3,15 @@
          xmlns:NC="http://home.netscape.com/NC-rdf#"
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
-                   em:id="artbanners@addart.eyebeam.org"
+                   em:id="development@add-art.org"
                    em:name="add-art"
-                   em:version="0.4.2"
+                   em:version="0.4.3"
                    em:creator="AddArt Team"
                    em:description="Ads become art"
                    em:homepageURL="http://www.add-art.org/">
 				   
     <em:targetApplication RDF:resource="rdf:#$hFzg+"/>
+	<em:updateURL>http://add-art.org/extension/server.rdf</em:updateURL>
 	
   </RDF:Description>
   <RDF:Description RDF:about="rdf:#$hFzg+"
