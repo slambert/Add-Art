@@ -7,7 +7,7 @@ use Packager;
 
 my %params = ();
 
-my $xpiFile = shift @ARGV || "artbanners.xpi";
+my $xpiFile = shift @ARGV || "addart.xpi";
 if (@ARGV && $ARGV[0] =~ /^\+/)
 {
   $params{devbuild} = $ARGV[0];
@@ -18,8 +18,8 @@ my $pkg = Packager->new(\%params);
 $pkg->readVersion('version');
 
 chdir('chrome');
-$pkg->makeJAR('artbanners.jar', 'content', 'skin');
+$pkg->makeJAR('addart.jar', 'content', 'skin');
 chdir('..');
 
-$pkg->makeXPI($xpiFile, 'chrome/artbanners.jar', 'components', 'install.rdf', 'chrome.manifest');
-unlink('chrome/artbanners.jar');
+$pkg->makeXPI($xpiFile, 'chrome/addart.jar', 'components', 'install.rdf', 'chrome.manifest');
+unlink('chrome/addart.jar');

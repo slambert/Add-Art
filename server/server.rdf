@@ -12,7 +12,7 @@
         <!-- The resource attribute points to an RDF:Description entry below with
              a matching about attribute. The actual uri can be whatever you like -->
         <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.3"/>
-        <!--<RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.5"/> -->
+        <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.4"/>
       </RDF:Seq>
     </em:updates>
     <em:signature>MIGTMA0GCSqGSIb3DQEBBQUAA4GBAMO1O2gwSCCth1GwYMgscfaNakpN40PJfOWt
@@ -24,7 +24,6 @@
   <!-- This represents the same Description within the li from the previous example -->
   <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.4.3">
     <em:version>0.4.3</em:version>
-
     <em:targetApplication>
               <RDF:Description>
                 <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
@@ -33,13 +32,31 @@
 
                 <!-- This is where this version of the add-on will be downloaded from -->
                 <em:updateLink>http://add-art.org/extension/addart0.4.3.xpi</em:updateLink>
-				<em:updateHash>md5:51a1200aa59801d5bf24afeb624408af</em:updateHash>
+        				<em:updateHash>md5:51a1200aa59801d5bf24afeb624408af</em:updateHash>
 
                 <!-- A page describing what is new in this updated version -->
                 <em:updateInfoURL>http://add-art.org/extension/versionhistory.html</em:updateInfoURL>
               </RDF:Description>
             </em:targetApplication>
+  </RDF:Description>
 
+
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.4.4">
+    <em:version>0.4.4</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.0.0.*</em:maxVersion>
+
+                <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.4.4.xpi</em:updateLink>
+        				<em:updateHash>md5:7821828812e71f8f97b7528d429fc7ed</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://add-art.org/extension/versionhistory.html</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
   </RDF:Description>
 
 </RDF:RDF>

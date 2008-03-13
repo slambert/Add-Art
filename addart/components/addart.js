@@ -1,5 +1,5 @@
 const componentID = Components.ID("{741b4765-dbc0-c44e-9682-a3182f8fa1cc}");
-const componentName = "@eyebeam.org/artbanners;1";
+const componentName = "@eyebeam.org/addart;1";
 const componentDescr = "Banner to art converter";
 
 var scripts = [];
@@ -109,25 +109,25 @@ const component = {
                                  .getService(Components.interfaces.nsIStyleSheetService);
     var ioService = Components.classes["@mozilla.org/network/io-service;1"]
                               .getService(Components.interfaces.nsIIOService);
-    var uri = ioService.newURI("data:text/css,." + seed + "{-moz-binding: url(chrome://artbanners/content/addart.xml#frame) !important}", null, null);
+    var uri = ioService.newURI("data:text/css,." + seed + "{-moz-binding: url(chrome://addart/content/addart.xml#frame) !important}", null, null);
     styleService.loadAndRegisterSheet(uri, styleService.USER_SHEET);
 
     // Install our hook
-    abp.policy._artbannersOldShouldLoad = abp.policy.shouldLoad;
+    abp.policy._addartOldShouldLoad = abp.policy.shouldLoad;
     abp.policy.shouldLoad = this.shouldLoad;
 
     // Load script wrapping code
     var req = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
                         .createInstance(Components.interfaces.nsIXMLHttpRequest);
     req.overrideMimeType("text/javascript");
-    req.open("GET", "chrome://artbanners/content/script_wrapper.js", false);
+    req.open("GET", "chrome://addart/content/script_wrapper.js", false);
     req.send(false);
     var wrapper = req.responseText;
 
     // Load scripts
     req = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
                     .createInstance(Components.interfaces.nsIXMLHttpRequest);
-    req.open("GET", "chrome://artbanners/content/scripts.xml", false);
+    req.open("GET", "chrome://addart/content/scripts.xml", false);
     req.send(false);
 
     var converter = Components.classes["@mozilla.org/intl/texttosuburi;1"]
@@ -159,7 +159,7 @@ const component = {
 
   shouldLoad: function(contentType, contentLocation, requestOrigin, context, mimeTypeGuess, extra) {
     // Let ABP handle this call first
-    var result = this._artbannersOldShouldLoad.apply(this, arguments);
+    var result = this._addartOldShouldLoad.apply(this, arguments);
 
     if (result != Components.interfaces.nsIContentPolicy.ACCEPT) {
       // We only deal with blocked items
