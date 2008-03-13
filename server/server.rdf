@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+  <!-- This Description resource includes all the update and compatibility information for
+       a single add-on with the id development@add-art.org. You can list multiple
+       add-ons information in the same RDF file. -->
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org">
+    <em:updates>
+      <RDF:Seq>
+        <!-- The resource attribute points to an RDF:Description entry below with
+             a matching about attribute. The actual uri can be whatever you like -->
+        <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.3"/>
+        <!--<RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.5"/> -->
+      </RDF:Seq>
+    </em:updates>
+    <em:signature>MIGTMA0GCSqGSIb3DQEBBQUAA4GBAMO1O2gwSCCth1GwYMgscfaNakpN40PJfOWt
+                  ub2HVdg8+OXMciF8d/9eVWm8eH/IxuxyZlmRZTs3O5tv9eWAY5uBCtqDf1WgTsGk
+                  jrgZow1fITkZI7w0//C8eKdMLAtGueGfNs2IlTd5P/0KH/hf1rPc1wUqEqKCd4+L
+                  BcVq13ad</em:signature>
+  </RDF:Description>
+
+  <!-- This represents the same Description within the li from the previous example -->
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.4.3">
+    <em:version>0.4.3</em:version>
+
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.0.0.*</em:maxVersion>
+
+                <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.4.3.xpi</em:updateLink>
+				<em:updateHash>sha1:78fc1d2887eda35b4ad2e3a0b60120ca271ce6e6</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://add-art.org/extension/versionhistory.html</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
+
+  </RDF:Description>
+
+</RDF:RDF>
