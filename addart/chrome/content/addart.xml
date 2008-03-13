@@ -68,7 +68,7 @@
 		// this is written for random image (not tested!)
 		// needs to be written to increment through 1-8 artists
 		randomImage8 = Math.ceil(Math.random()*8); // random number btwn 1-8
-		var url = "chrome://artbanners/skin/"+randomImage8 + optimalBanners[Math.floor(Math.random() * optimalBanners.length)];
+		var url = "chrome://addart/skin/"+randomImage8 + optimalBanners[Math.floor(Math.random() * optimalBanners.length)];
 		
           // Load our "banner"
           this.innerHTML = '<img src="' + url + '" />';

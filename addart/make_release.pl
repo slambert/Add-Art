@@ -11,6 +11,6 @@ open(VERSION, ">version");
 print VERSION $ARGV[0];
 close(VERSION);
 
-@ARGV = ("artbanners-$version.xpi");
+@ARGV = ("addart-$version.xpi");
 do './create_xpi.pl';
 
