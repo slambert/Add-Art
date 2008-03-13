@@ -207,9 +207,8 @@ const component = {
               frame.setAttribute("class", seed);
               frame.setAttribute("width", width);
               frame.setAttribute("height", height);
-              console.log(context);
-              console.log(context.parentNode);
-              context.parentNode.replaceChild(frame, context);
+              if(context.parentNode)
+                context.parentNode.replaceChild(frame, context);
             }}, 0, timer.TYPE_ONE_SHOT);
           }
         }
