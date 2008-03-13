@@ -13,3 +13,4 @@ close(VERSION);
 
 @ARGV = ("artbanners-$version.xpi");
 do './create_xpi.pl';
+
