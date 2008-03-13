@@ -5,7 +5,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="development@add-art.org"
                    em:name="add-art"
-                   em:version="0.4.3"
+                   em:version="0.4.4"
                    em:creator="AddArt Team"
                    em:description="Ads become art"
                    em:homepageURL="http://www.add-art.org/">
