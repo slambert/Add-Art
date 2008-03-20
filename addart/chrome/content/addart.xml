@@ -66,10 +66,11 @@
           // Select banner URL
           // use the current URL to generate a number b/w 1 and 8 (to maintain some persistence)
           randomImage8 = document.location.href.charCodeAt( document.location.href.length - 5 ) % 8 + 1; 
-          var url = "chrome://addart/skin/"+randomImage8 + optimalBanners[Math.floor(Math.random() * optimalBanners.length)];
+          var filename = randomImage8+optimalBanners[Math.floor(Math.random() * optimalBanners.length)];
+          var url = "chrome://addart/skin/"+filename;
 
           // Set image title attr to the string in the middle of the filename
-          var artistName = url.match(/\d+(.[^\d]+)\d+/)[1];
+          var artistName = filename.match(/\d+(.[^\d]+)\d+/)[1];
           if(artistName)
             this.title = artistName;
 		
