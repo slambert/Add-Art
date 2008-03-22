@@ -13,8 +13,9 @@
              a matching about attribute. The actual uri can be whatever you like -->
         <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.3"/>
         <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.4"/>
-	<RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.5"/>
-	<RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.6b"/>
+		<RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.5"/>
+		<RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.6b"/>
+		<RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.6c"/>
       </RDF:Seq>
     </em:updates>
     <em:signature>MIGTMA0GCSqGSIb3DQEBBQUAA4GBAMO1O2gwSCCth1GwYMgscfaNakpN40PJfOWt
@@ -90,6 +91,24 @@
                 <!-- This is where this version of the add-on will be downloaded from -->
                 <em:updateLink>http://add-art.org/extension/addart0.4.6b.xpi</em:updateLink>
         				<em:updateHash>md5:03adbca54acc1ee88f544c66d22d8e5a</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://add-art.org/extension/versionhistory.html</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
+  </RDF:Description>
+
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.4.6c">
+    <em:version>0.4.6c</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.1.*</em:maxVersion>
+
+                <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.4.6c.xpi</em:updateLink>
+        				<em:updateHash>md5:9eb7ca1678b176e038be6d5cb8ba67d6</em:updateHash>
 
                 <!-- A page describing what is new in this updated version -->
                 <em:updateInfoURL>http://add-art.org/extension/versionhistory.html</em:updateInfoURL>
