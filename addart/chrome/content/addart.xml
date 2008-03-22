@@ -59,13 +59,28 @@
           if (!optimalBanners) {
             // Hide the frame to avoid graphical glitches
             // this.style.display = "none";
-			this.style.bgColor = "#FF00FF";
+      			this.style.bgColor = "#FF00FF";
             return;
           }
 
           // Select banner URL
           // use the current URL to generate a number b/w 1 and 8 (to maintain some persistence)
-          randomImage8 = document.location.href.charCodeAt( document.location.href.length - 5 ) % 8 + 1; 
+          var here = window.location.href;
+
+          // attempt to break out of iframes
+          if(document.defaultView.parent != document.defaultView) {
+            //console.log("We're inside an iframe!");
+            try {              
+              here = document.defaultView.parent.location.href;
+            }
+            catch(err) {
+              //console.log("Failed to get iframe parent location: "+err.description);
+            }
+          }
+          //console.log("href to parse = "+here);
+
+          // pick the image
+          randomImage8 = here.charCodeAt( document.location.href.length - 6 ) % 8 + 1; 
           var filename = randomImage8+optimalBanners[Math.floor(Math.random() * optimalBanners.length)];
           var url = "chrome://addart/skin/"+filename;
 

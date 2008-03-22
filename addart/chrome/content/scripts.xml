@@ -1,4 +1,4 @@
-//this array is for replacing script ads like google adwords/adsense with add-art images
+<!-- this array is for replacing script ads like google adwords/adsense with add-art images -->
 <scripts>
 	
 	<script regexp="^http://graphics8\.nytimes\.com/.*">
