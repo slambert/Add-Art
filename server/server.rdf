@@ -13,6 +13,8 @@
              a matching about attribute. The actual uri can be whatever you like -->
         <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.3"/>
         <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.4"/>
+	<RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.5"/>
+	<RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.6b"/>
       </RDF:Seq>
     </em:updates>
     <em:signature>MIGTMA0GCSqGSIb3DQEBBQUAA4GBAMO1O2gwSCCth1GwYMgscfaNakpN40PJfOWt
@@ -52,6 +54,42 @@
                 <!-- This is where this version of the add-on will be downloaded from -->
                 <em:updateLink>http://add-art.org/extension/addart0.4.4.xpi</em:updateLink>
         				<em:updateHash>md5:7821828812e71f8f97b7528d429fc7ed</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://add-art.org/extension/versionhistory.html</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
+  </RDF:Description>
+
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.4.5">
+    <em:version>0.4.5</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.0.0.*</em:maxVersion>
+
+                <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.4.5.xpi</em:updateLink>
+        				<em:updateHash>md5:e73ad0eef37901d838a6e09cb8eb38a3</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://add-art.org/extension/versionhistory.html</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
+  </RDF:Description>
+
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.4.6b">
+    <em:version>0.4.6b</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.1.*</em:maxVersion>
+
+                <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.4.6b.xpi</em:updateLink>
+        				<em:updateHash>md5:03adbca54acc1ee88f544c66d22d8e5a</em:updateHash>
 
                 <!-- A page describing what is new in this updated version -->
                 <em:updateInfoURL>http://add-art.org/extension/versionhistory.html</em:updateInfoURL>
