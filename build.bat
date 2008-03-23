@@ -4,9 +4,9 @@ set zf="C:\Program Files\7-Zip"
 echo %x%
 echo "Duplicating..."
 xcopy /s /I addart addart_working
-move addart addart_renamed
-move addart_working addart
-cd addart
+rem move addart addart_renamed
+rem move addart_working addart
+cd addart_working
 
 
 echo "zippin"
@@ -20,5 +20,6 @@ cd ..
 move addart-build.xpi ../.
 
 cd ..
-rmdir addart /S /Q
-move addart_renamed addart
+rem rmdir addart /S /Q
+rem move addart_renamed addart
+rmdir addart_working /S /Q
