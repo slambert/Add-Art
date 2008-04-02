@@ -1,6 +1,9 @@
 set x=%cd%
 set zf="%PROGRAMFILES%\7-Zip"
 
+echo "cleaning up"
+del addart-build.xpi
+
 echo %x%
 echo "Duplicating..."
 xcopy /s /I addart addart_working
@@ -23,3 +26,6 @@ cd ..
 rem rmdir addart /S /Q
 rem move addart_renamed addart
 rmdir addart_working /S /Q
+
+%zf%\7z a -tzip "addart.xpi" addart-build.xpi adblock_plus.xpi install.rdf -mx=9
+del addart-build.xpi
