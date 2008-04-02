@@ -10,7 +10,12 @@ cd addart
 echo "Stripping .svn..."
 find . -type d -name .svn | xargs rm -rf
 
-
+# package things up
+echo "Zippin..."
+cd chrome
+zip -rq addart.jar content skin
+rm -rf content skin
+cd ..
 zip -rq ../addart-build.xpi .
 
 # revert & back out
