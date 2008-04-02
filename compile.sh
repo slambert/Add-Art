@@ -24,7 +24,7 @@ cd ..
 rm -rf addart
 mv addart_renamed addart
 
-zip -q addart.xpi addart-build.xpi install.rdf adblock_plus.xpi
+zip -q addart.xpi *.xpi install.rdf 
 
 # MacOS can launch it right away for install, too
 #echo "Opening w/ Firefox..."
