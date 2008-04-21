@@ -2,34 +2,22 @@
 <RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
          xmlns:NC="http://home.netscape.com/NC-rdf#"
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <RDF:Description RDF:about="rdf:#$JgOPO2"
+  <RDF:Description RDF:about="rdf:#$+gOPO2"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="1.5"
-                   em:maxVersion="3.0.0.*"
-                   em:updateLink="http://add-art.org/extension/addart0.4.4.xpi"
-                   em:updateHash="md5:7821828812e71f8f97b7528d429fc7ed"
+                   em:maxVersion="3.1.*"
+                   em:updateLink="http://add-art.org/extension/addart0.4.6b.xpi"
+                   em:updateHash="md5:03adbca54acc1ee88f544c66d22d8e5a"
                    em:updateInfoURL="http://add-art.org/extension/versionhistory.html" />
-  <RDF:Description RDF:about="rdf:#$AgOPO2"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="1.5"
-                   em:maxVersion="3.0.0.*"
-                   em:updateLink="http://add-art.org/extension/addart0.4.3.xpi"
-                   em:updateHash="md5:51a1200aa59801d5bf24afeb624408af"
-                   em:updateInfoURL="http://add-art.org/extension/versionhistory.html" />
-  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.4.6b"
-                   em:version="0.4.6b"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAC583dhI4ncGhVfHOzaaGyYkH9NA98Od5ig/HAnKH4IcRbcxvbcDhGSSb4e+LL2jR07PfV7WcyFhCIOE5v8vB93gu3NimQVJg+xd06UnRDuVsMcJEPiycJVh92jDX/0rJ0IP0uPmUgyuNPgfiFgru+/49gJ6VJ1+pAywCKFhVZAI">
-    <em:targetApplication RDF:resource="rdf:#$+gOPO2"/>
+  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.4.5"
+                   em:version="0.4.5"
+                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAKO/s3DkATFL9gq6a+eK3y4ilas874uvxR2RkevxwdBZu2RV1AlyqMDJFXjvOYqGY8CZ+PV1lUUbEnkaxsbFVOcwsyXCh9XKoyDnQ507b9Zn08Pi5vJ2GtrWL5YzpmsaSkvRWLtr5Ghzkh9on3ClDpe44TNqycm1QiMZBvBDnCCJ">
+    <em:targetApplication RDF:resource="rdf:#$SgOPO2"/>
   </RDF:Description>
   <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.4.3"
                    em:version="0.4.3"
                    em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAH8EEHPrqPeZhQZFLCiwWxGxNrqNAYNdrrT6h6EmOUd18hDLnWCmL3SHtCwTTT2fbEJAGe8w19tmrrefVpQp5bNx/VD2U/l2v3Ums6MhhBFq+fWZ505i0FGIv+r02m5HY1x0dENcteP+qiBomAT5PuHSy0SrxQ5pyEv16fHO5QLI">
     <em:targetApplication RDF:resource="rdf:#$AgOPO2"/>
-  </RDF:Description>
-  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.4.5"
-                   em:version="0.4.5"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAKO/s3DkATFL9gq6a+eK3y4ilas874uvxR2RkevxwdBZu2RV1AlyqMDJFXjvOYqGY8CZ+PV1lUUbEnkaxsbFVOcwsyXCh9XKoyDnQ507b9Zn08Pi5vJ2GtrWL5YzpmsaSkvRWLtr5Ghzkh9on3ClDpe44TNqycm1QiMZBvBDnCCJ">
-    <em:targetApplication RDF:resource="rdf:#$SgOPO2"/>
   </RDF:Description>
   <RDF:Description RDF:about="rdf:#$8hOPO2"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
@@ -38,18 +26,6 @@
                    em:updateLink="http://add-art.org/extension/addart0.4.6c.xpi"
                    em:updateHash="md5:9eb7ca1678b176e038be6d5cb8ba67d6"
                    em:updateInfoURL="http://add-art.org/extension/versionhistory.html" />
-  <RDF:Seq RDF:about="rdf:#$wgOPO2">
-    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.4.3"/>
-    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.4.4"/>
-    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.4.5"/>
-    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.4.6b"/>
-    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.4.6c"/>
-  </RDF:Seq>
-  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.4.4"
-                   em:version="0.4.4"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBABnx02chqvmohsRRutZHIq16PqHFXGXTeRH/S+xVqs94lBZxBJ0vb81ZGUzIf2jSs2OwX8NR674nbrqixTZAHtDEO6C011C+MSLbrs7u3Obn3MKjQfSGbUQr0Nl8yavnelxlW4X2fVLVjvqQiLo7Ej+RpaJW4F0qKwTWeY4fJdY9">
-    <em:targetApplication RDF:resource="rdf:#$JgOPO2"/>
-  </RDF:Description>
   <RDF:Description RDF:about="rdf:#$SgOPO2"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="1.5"
@@ -57,15 +33,52 @@
                    em:updateLink="http://add-art.org/extension/addart0.4.5.xpi"
                    em:updateHash="md5:e73ad0eef37901d838a6e09cb8eb38a3"
                    em:updateInfoURL="http://add-art.org/extension/versionhistory.html" />
-  <RDF:Description RDF:about="rdf:#$+gOPO2"
+  <RDF:Description RDF:about="rdf:#$AgOPO2"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="1.5"
-                   em:maxVersion="3.1.*"
-                   em:updateLink="http://add-art.org/extension/addart0.4.6b.xpi"
-                   em:updateHash="md5:03adbca54acc1ee88f544c66d22d8e5a"
+                   em:maxVersion="3.0.0.*"
+                   em:updateLink="http://add-art.org/extension/addart0.4.3.xpi"
+                   em:updateHash="md5:51a1200aa59801d5bf24afeb624408af"
                    em:updateInfoURL="http://add-art.org/extension/versionhistory.html" />
+  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.4.4"
+                   em:version="0.4.4"
+                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBABnx02chqvmohsRRutZHIq16PqHFXGXTeRH/S+xVqs94lBZxBJ0vb81ZGUzIf2jSs2OwX8NR674nbrqixTZAHtDEO6C011C+MSLbrs7u3Obn3MKjQfSGbUQr0Nl8yavnelxlW4X2fVLVjvqQiLo7Ej+RpaJW4F0qKwTWeY4fJdY9">
+    <em:targetApplication RDF:resource="rdf:#$JgOPO2"/>
+  </RDF:Description>
+  <RDF:Seq RDF:about="rdf:#$wgOPO2">
+    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.4.3"/>
+    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.4.4"/>
+    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.4.5"/>
+    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.4.6b"/>
+    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.4.6c"/>
+    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.5.0"/>
+  </RDF:Seq>
+  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.4.6b"
+                   em:version="0.4.6b"
+                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAC583dhI4ncGhVfHOzaaGyYkH9NA98Od5ig/HAnKH4IcRbcxvbcDhGSSb4e+LL2jR07PfV7WcyFhCIOE5v8vB93gu3NimQVJg+xd06UnRDuVsMcJEPiycJVh92jDX/0rJ0IP0uPmUgyuNPgfiFgru+/49gJ6VJ1+pAywCKFhVZAI">
+    <em:targetApplication RDF:resource="rdf:#$+gOPO2"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$iehVQ1"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="1.5"
+                   em:maxVersion="3.1.0.*"
+                   em:updateLink="http://add-art.org/extension/addart0.5.0.xpi"
+                   em:updateHash="md5:34c3cea200b44ca316f4beea15f1d2d9"
+                   em:updateInfoURL="http://dev.eyebeam.org/projects/add-art/wiki/Version%20History?id=22" />
+  <RDF:Description RDF:about="rdf:#$JgOPO2"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="1.5"
+                   em:maxVersion="3.0.0.*"
+                   em:updateLink="http://add-art.org/extension/addart0.4.4.xpi"
+                   em:updateHash="md5:7821828812e71f8f97b7528d429fc7ed"
+                   em:updateInfoURL="http://add-art.org/extension/versionhistory.html" />
+  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.5.0"
+                   em:version="0.5.0"
+                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBADt0PphqvLWfrDwDormCe2UuYa0zsX5QQDheil2vQJs3z6A033CXYNLI2M3p0ChL8emojPYvmfq11dkbY6/kjFJai3UbSvJpgo5kiredxUStFGhFRw+0Gspp811Xh9x80FGKqX07rnSRkq9iH6lYM8+HdzEaRB1zHOWGlkX0pbo+">
+    <em:targetApplication RDF:resource="rdf:#$iehVQ1"/>
+  </RDF:Description>
   <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAG9wu2+mwBEVABxMUIQbT7hs5F6bdkHHwHYSUGFiGpwyaNnGKzULfk01Lhxct9vWD/zK3V1aRA8WxsKof39/azeLhVp+DF9ffb1qx1k/ZGisfqm1zjiPUpd5IiM3igA8Xfrt6HyC2h1syR33JyfM1UetZNGB3S12EsE55rBt5XwB">
+                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAASIUFYTG/VYz8ernu7RnYgqNUQLn0bXfFfyUni56oXOWHCd1TPLUS38QmB/S/E6Ty6p9Kcui7JOnO6nHGPJhUmCO3ya7knxlwgOQQcx3AdN7GBrlepPgUGu5etRlpJaMi6DNnUJMLW3nYV7eOPXeFj6+mmB6twXFHzQ6+keasZO">
     <em:updates RDF:resource="rdf:#$wgOPO2"/>
   </RDF:Description>
   <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.4.6c"
