@@ -9,12 +9,11 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="development@add-art.org"
                    em:name="add-art"
-                   em:version="0.5.0"
-                   em:creator="AddArt Team"
-                   em:description="Ads become art - classics"
+                   em:version="0.5.1"
+                   em:creator="Add-Art Team"
+                   em:description="Favorite Works of the Mechanical Turks"
                    em:homepageURL="http://www.add-art.org/"
-                   em:updateURL="http://add-art.org/extension/server.rdf"
-                   em:updateKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCjFCNEhEr4LQqcu7E1SsAylMcl0RJwIQ+1MkNCq/2ko1mgXZe7Anvs3p3SrFrKSHZPka89X7odP9G5lu8phMz+B/28FeYJInvXvohTAv7zecBI58VvdD/dIoXIm0tABTDDU+1FNMFmrT6dgxQVprSeMjigRtm2OmVe2oUe+6EZwIDAQAB">
+                   >
     <em:targetApplication RDF:resource="rdf:#$hFzg+"/>
   </RDF:Description>
 </RDF:RDF>
