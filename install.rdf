@@ -9,7 +9,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="development@add-art.org"
                    em:name="add-art-package"
-                   em:version="0.5.2"
+                   em:version="0.5.3"
                    em:type="32"
                    em:updateKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCjFCNEhEr4LQqcu7E1SsAylMcl0RJwIQ+1MkNCq/2ko1mgXZe7Anvs3p3SrFrKSHZPka89X7odP9G5lu8phMz+B/28FeYJInvXvohTAv7zecBI58VvdD/dIoXIm0tABTDDU+1FNMFmrT6dgxQVprSeMjigRtm2OmVe2oUe+6EZwIDAQAB">
     <em:targetApplication RDF:resource="rdf:#$hFzg+"/>
