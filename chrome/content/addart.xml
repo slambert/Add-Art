@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<bindings id="addartBindings"
+    xmlns="http://www.mozilla.org/xbl"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:xbl="http://www.mozilla.org/xbl">
+
+  <binding id="frame">
+    <implementation>
+      <constructor>
+        <![CDATA[
+          var banners = [
+            [728, 90, 'artbanner728x90.jpg'],
+            [468, 60, 'artbanner468x60.jpg'],
+            [392, 72, 'artbanner392x72.jpg'],
+            [1698, 321, 'artbanner1698x312.jpg'],
+            [120, 240, 'artbanner120x240.jpg'],
+            [240, 400, 'artbanner240x400.jpg'],
+            [180, 150, 'artbanner180x150.jpg'],
+            [300, 250, 'artbanner300x250.jpg'],
+            [336, 280, 'artbanner336x280.jpg'],
+            [300, 600, 'artbanner300x600.jpg'],
+            [160, 600, 'artbanner160x600.jpg'],
+            [120, 600, 'artbanner120x600.jpg'],
+            [250, 250, 'artbanner250x250.jpg'],
+            [125, 125, 'artbanner125x125.jpg'],
+            [150, 60, 'artbanner150x60.jpg'],
+            [88, 31, 'artbanner88x31.jpg'],
+            [184, 90, 'artbanner184x90.jpg'],
+          ];
+
+          var width = parseInt(this.getAttribute("width"));
+          var height = parseInt(this.getAttribute("height"));
+
+          this.style.width = width + "px";
+          this.style.height = height + "px";
+          this.style.display = "table-cell";
+          this.style.padding = "0px";
+          this.style.border = "0px";
+          this.style.overflow = "hidden";
+
+          // Find banners with minimal waste of space
+          var optimalBanners = null;
+          var minDiff = Number.POSITIVE_INFINITY;
+          for (var i = 0; i < banners.length; i++) {
+            var banner = banners[i];
+            if (banner[0] > width || banner[1] > height)
+              continue;
+
+            var diff = width*height - banner[0]*banner[1];
+            if (diff < minDiff) {
+              minDiff = diff;
+              optimalBanners = [banner[2]];
+            }
+            else if (diff == minDiff)
+              optimalBanners.push(banner[2]);
+          }
+
+          if (!optimalBanners) {
+            // Hide the frame to avoid graphical glitches
+            // this.style.display = "none";
+      			this.style.bgColor = "#FF00FF";
+            return;
+          }
+
+          // Select banner URL
+          // use the current URL to generate a number b/w 1 and 8 (to maintain some persistence)
+          var here = window.location.href;
+
+          // attempt to break out of iframes
+          if(document.defaultView.parent != document.defaultView) {
+            //console.log("We're inside an iframe!");
+            try {              
+              here = document.defaultView.parent.location.href;
+            }
+            catch(err) {
+              //console.log("Failed to get iframe parent location: "+err.description);
+            }
+          }
+          //console.log("href to parse = "+here);
+
+          // pick the image
+          randomImage8 = here.charCodeAt( document.location.href.length - 6 ) % 8 + 1; 
+          var filename = randomImage8+optimalBanners[Math.floor(Math.random() * optimalBanners.length)];
+          var url = "chrome://addart/skin/"+filename;
+
+          // Set image title attr to the string in the middle of the filename
+          var artistName = filename.match(/\d+(.[^\d]+)\d+/)[1];
+          if(artistName)
+            this.title = artistName;
+		
+          // Load our "banner"
+          this.innerHTML = '<img src="' + url + '" />';
+        ]]>
+      </constructor>
+    </implementation>
+  </binding>
+</bindings>
