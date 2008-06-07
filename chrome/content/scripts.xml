@@ -1,0 +1,119 @@
+<!-- this array is for replacing script ads like google adwords/adsense with add-art images -->
+<scripts>
+	
+	<script regexp="^http://graphics8\.nytimes\.com/.*">
+		<![CDATA[
+	    writeArtFrame(184, 90);
+	  ]]>
+	</script>
+	
+  <!-- http://weblogs.mozillazine.org/rumblingedge/ -->
+  <script url="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+  <![CDATA[
+    writeArtFrame(google_ad_width, google_ad_height);
+  ]]>
+  </script>
+
+  <!-- http://ha.ckers.org/ -->
+  <script url="http://ypn-js.overture.com/partner/js/ypn.js">
+  <![CDATA[
+    writeArtFrame(ctxt_ad_width, ctxt_ad_height);
+  ]]>
+  </script>
+
+  <!-- http://dilbert.com/ -->
+  <script regexp="^http://adsremote\.scripps\.com/.*\badsize=(\d+)x(\d+)\b">
+  <![CDATA[
+    writeArtFrame($$1$$, $$2$$);
+  ]]>
+  </script>
+
+  <!-- http://finance.yahoo.com/ -->
+  <script regexp="^http://ad\.doubleclick\.net/adj/.*\bsz=(\d+)x(\d+)\b">
+  <![CDATA[
+    writeArtFrame($$1$$, $$2$$);
+  ]]>
+  </script>
+
+  <!-- http://finance.yahoo.com/ -->
+  <script regexp="^http://ads\.pointroll\.com/PRServe/.*\bsize=(\d+)_(\d+)\b">
+  <![CDATA[
+    writeArtFrame($$1$$, $$2$$);
+  ]]>
+  </script>
+
+  <!-- http://finance.yahoo.com/ -->
+  <script regexp="^http://ads\.yimg\.com/.*/lrec_\d+\.js$">
+  <![CDATA[
+    writeArtFrame(lrec_w, lrec_h);
+  ]]>
+  </script>
+
+  <!-- http://www.yahoo.com/ -->
+  <script regexp="\.yimg\.com/a/.*/js/ad_eo_[\d.]+\.js$">
+  <![CDATA[
+    window.ad_el = function(id) {
+      return document.getElementById(id);
+    }
+    window.ad_params = function(tag) {
+      var ret = {tag: tag};
+      for (var i = 1; i < arguments.length; i++)
+        ret[arguments[i][0]] = arguments[i][1];
+      return ret;
+    }
+    window.ad_embedObj = function(t,pos,did,w,h,q) {
+      if (did) {
+        if (q.tag == "object")
+          insertArtFrame(ad_el(did), w, h);
+        else if (q.tag == "embed")
+          insertArtFrame(ad_el(did), q.width, q.height);
+      }
+      else {
+        if (q.tag == "object")
+          writeArtFrame(w, h);
+        else if (q.tag == "embed")
+          writeArtFrame(q.width, q.height);
+      }
+    }
+  ]]>
+  </script>
+
+  <!-- http://abcnews.go.com/ -->
+  <script url="http://adsatt.abcnews.starwave.com/ad/sponsors/utilities/adinsert.js">
+  <![CDATA[
+    function getAd(type, size) {
+      if (/^(\d+)x(\d+)$/.test(size))
+        writeArtFrame(parseInt(RegExp.$1), parseInt(RegExp.$2));
+    }
+  ]]>
+  </script>
+
+  <!-- http://www.spiegel.de/ -->
+  <script regexp="^http://adserv\.quality-channel\.de/RealMedia/ads/adstream_mjx\.ads/.*">
+  <![CDATA[
+    window.OAS_RICH = function(position) {
+      switch (position) {
+        case "Top1":
+          document.write('<div style="width: 1px; height: 112px;"></div>');
+          break;
+        case "Right1":
+          writeArtFrame(200, 300);
+          break;
+        case "Bottom3":
+          writeArtFrame(796, 112, 'style="position: absolute; top: 0px; left: 0px;"');
+          writeArtFrame(200, 600, 'style="position: absolute; top: 0px; left: 796px;"');
+          break;
+        case "x10":
+          writeArtFrame(114, 40);
+          break;
+        case "x20":
+          writeArtFrame(210, 118);
+          break;
+        case "x21":
+          writeArtFrame(186, 96);
+          break;
+      }
+    }
+  ]]>
+  </script>
+</scripts>
