@@ -204,7 +204,7 @@
 
                <!-- This is where this version of the add-on will be downloaded from -->
                 <em:updateLink>http://add-art.org/extension/addart0.7.0.xpi</em:updateLink>
-        				<em:updateHash>sha1:795ef01ac1d84312fcacbc1f90ce3a608daaaf9b</em:updateHash>
+        				<em:updateHash>sha1:e8cbb068a29a773a7ee7a60299488b6bab78298a</em:updateHash>
 
                 <!-- A page describing what is new in this updated version -->
                 <em:updateInfoURL>http://dev.eyebeam.org/projects/add-art/wiki/Version%20History</em:updateInfoURL>
