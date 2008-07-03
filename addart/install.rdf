@@ -9,9 +9,9 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="development@add-art.org"
                    em:name="add-art"
-                   em:version="0.5.4"
+                   em:version="0.7.0"
                    em:creator="AddArt Team"
-                   em:description="Monica Studer and Christoph van den Berg: Vue des Alpes.  Sarah Cook, Curator.  Note: Add-Art is not yet compatible with Firefox 3.  We're working on it."
+                   em:description="Charles Broskoski presents: 'Black Monochrome Paintings Cropped and Optimized for the Web'"
                    em:homepageURL="http://www.add-art.org/"
                    em:updateURL="http://add-art.org/extension/server.rdf"
                    em:updateKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCjFCNEhEr4LQqcu7E1SsAylMcl0RJwIQ+1MkNCq/2ko1mgXZe7Anvs3p3SrFrKSHZPka89X7odP9G5lu8phMz+B/28FeYJInvXvohTAv7zecBI58VvdD/dIoXIm0tABTDDU+1FNMFmrT6dgxQVprSeMjigRtm2OmVe2oUe+6EZwIDAQAB">
