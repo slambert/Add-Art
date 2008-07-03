@@ -85,7 +85,7 @@ const factory = {
 
     throw Components.results.NS_ERROR_NO_INTERFACE;
   }
-}
+};
 
 /*
  * Addart component
@@ -129,7 +129,13 @@ const component = {
                     .createInstance(Components.interfaces.nsIXMLHttpRequest);
     req.open("GET", "chrome://addart/content/scripts.xml", false);
     req.send(false);
+    
+    
+    // TODO instantiate the artbanners array from the XML
+    
+    // done with all that remote nonsense
 
+    // Load <script> tag javascript ad substitution
     var converter = Components.classes["@mozilla.org/intl/texttosuburi;1"]
                               .getService(Components.interfaces.nsITextToSubURI);
     var tags = req.responseXML.documentElement.getElementsByTagName("script");
@@ -150,7 +156,7 @@ const component = {
         continue;
 
       var data = tag.QueryInterface(Components.interfaces.nsIDOM3Node).textContent;
-      data = wrapper.replace(/{{SCRIPT}}/g, data).replace(/{{SEED}}/g, seed);
+      data = wrapper.replace(/{{SCRIPT}}/g, data).replace(/{{SEED}}/g, seed); // lint thinks this is invalid... any way around that?
       data = converter.ConvertAndEscape('utf-8', data).replace(/\+/g, "%20");
       data = 'data:text/javascript,' + data;
       scripts.push([id, data]);
@@ -231,4 +237,26 @@ const component = {
 
     throw Components.results.NS_ERROR_NO_INTERFACE;
   }
+}
+
+
+// small wrapper for fetching a remote stream
+// -> http://forums.mozillazine.org/viewtopic.php?p=921150#921150
+// TODO should be async?
+// -> http://developer.mozilla.org/en/docs/Code_snippets:File_I/O#Asynchronously
+// -> http://www.xulplanet.com/references/xpcomref/ifaces/nsIChannel.html#method_asyncOpen
+function getContents(aURL){
+  var ioService = Components.classes["@mozilla.org/network/io-service;1"]
+    .getService(Components.interfaces.nsIIOService);
+  var scriptableStream = Components
+    .classes["@mozilla.org/scriptableinputstream;1"]
+    .getService(Components.interfaces.nsIScriptableInputStream);
+
+  var channel = ioService.newChannel(aURL,null,null);
+  var input = channel.open();
+  scriptableStream.init(input);
+  var str = scriptableStream.read(input.available());
+  scriptableStream.close();
+  input.close();
+  return str;
 }
