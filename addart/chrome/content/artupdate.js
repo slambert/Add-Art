@@ -1,3 +1,6 @@
+// This code checks for a new set of images in a .jar file on the server and 
+// downloads it when available.  This is how new art images get to the user.
+
 // We append "?" + the current unixtime stamp tot he path for image_set.xml
 // to force the file to be downloaded (as opposed to using a cached version
 // of the file).
