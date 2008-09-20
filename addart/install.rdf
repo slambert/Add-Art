@@ -11,7 +11,7 @@
                    em:name="Add-Art"
                    em:version="0.7.0"
                    em:creator="Add-Art Team"
-                   em:description="Add-Art replaces ads with art - new show every 2 weeks"
+                   em:description="Replace ads with art - new show every 2 weeks"
                    em:homepageURL="http://www.add-art.org/"
                    em:iconURL="chrome://addart/content/addart.png"
                    em:updateURL="http://add-art.org/extension/server.rdf"
