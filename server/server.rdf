@@ -212,4 +212,24 @@
             </em:targetApplication>
   </RDF:Description>
 
+
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.8.0">
+    <em:version>0.8.0</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.0.1</em:maxVersion>
+
+               <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.8.0.xpi</em:updateLink>
+        				<em:updateHash>sha1:cd004790d8d69967a852cd7eb22d4130e80b241c</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://dev.eyebeam.org/projects/add-art/wiki/Version%20History</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
+  </RDF:Description>
+
+
 </RDF:RDF>
