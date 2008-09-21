@@ -21,6 +21,7 @@
         <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.5.3"/>
 		<RDF:li resource="urn:mozilla:extension:development@add-art.org:0.5.4"/>
 		<RDF:li resource="urn:mozilla:extension:development@add-art.org:0.7.0"/>
+		<RDF:li resource="urn:mozilla:extension:development@add-art.org:0.8.0"/>
       </RDF:Seq>
     </em:updates>
     <em:signature>MIGTMA0GCSqGSIb3DQEBBQUAA4GBAMO1O2gwSCCth1GwYMgscfaNakpN40PJfOWt
