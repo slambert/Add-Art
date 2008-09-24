@@ -16,6 +16,7 @@ var aaNextSet;
 var aaNextExpiration;
 
 
+
 aaPreferences = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
 //	aaPreferences.setCharPref("extensions.addart.asdf","asdf");	 
 
@@ -61,6 +62,13 @@ else
 	// if the preferences doesn't contain a "next download" timestamp, 
 	//  then go ahead and download info about the current image set
 	getImageSetInfo();
+}
+
+// showUpdateAlert turns on and off the alert telling users about new art.
+// Currently it can only be changed in about:config
+// If the user doesn't have the showUpdateAlert pref already, set it to true
+if(!aaPreferences.prefHasUserValue("extensions.add-art.showUpdateAlert")) {
+	aaPreferences.setBoolPref("extensions.add-art.showUpdateAlert", true);
 }
 
 
@@ -125,12 +133,14 @@ function downloadNewImages(url)
 			aaPreferences.setIntPref("extensions.add-art.currentImageSet", aaNextSet);
 			aaPreferences.setCharPref("extensions.add-art.expiration", aaNextExpiration);
 			
-			alert("Add-Art has downloaded new images,\nplease restart Firefox to see them.");
+			if(aaPreferences.getBoolPref("extensions.add-art.showUpdateAlert"))
+				alert("Add-Art has downloaded new images,\nplease restart Firefox to see them.");
 		 }
 	  }
 	};
  	req.overrideMimeType('text/plain; charset=x-user-defined');
 	req.send(null); 	  
 }
-  
+
+ 
 // *********************************************************************
