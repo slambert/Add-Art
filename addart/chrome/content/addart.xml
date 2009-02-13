@@ -86,8 +86,9 @@
 
           // Set image title attr to the string in the middle of the filename
           var artistName = filename.match(/\d+(.[^\d]+)\d+/)[1];
-          if(artistName)
-            this.title = artistName;
+          //if(artistName)
+          //  this.title = artistName;
+		  this.title = "Replaced by Add-Art";
 		
           // Load our "banner"
           this.innerHTML = '<img src="' + url + '" />';
