@@ -1,167 +1,276 @@
-<?xml version="1.0"?>
-<RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
-         xmlns:NC="http://home.netscape.com/NC-rdf#"
-         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBADyEVm7YcWuBcbfEYlUB5ofcE/g2UvuH5LNPaw2+m41xfpJr9I57Pe09jOG7xCT3fits4miKzpqbAYajjoFKuPEmdhf5LWshocldBZ8RuO6k4QWSLQzez9VJfJ9Z5GU1CAYl/NFDh1DyLZ8QJp0nS/TyR0XCYTS+U/79W8IsTnUg">
-    <em:updates RDF:resource="rdf:#$Q8d0X"/>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+  <!-- This Description resource includes all the update and compatibility information for
+       a single add-on with the id development@add-art.org. You can list multiple
+       add-ons information in the same RDF file. -->
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org">
+    <em:updates>
+      <RDF:Seq>
+        <!-- The resource attribute points to an RDF:Description entry below with
+             a matching about attribute. The actual uri can be whatever you like -->
+        <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.3"/>
+        <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.4"/>
+        <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.5"/>
+        <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.4.6"/>
+        <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.5.0"/>
+        <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.5.1"/>
+        <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.5.2"/>
+        <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.5.3"/>
+        <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.5.4"/>
+        <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.7.0"/>
+        <RDF:li resource="urn:mozilla:extension:development@add-art.org:0.8.0"/>
+		<RDF:li resource="urn:mozilla:extension:development@add-art.org:0.8.1"/>
+		<RDF:li resource="urn:mozilla:extension:development@add-art.org:0.8.2"/>
+      </RDF:Seq>
+    </em:updates>
+    <em:signature>MIGTMA0GCSqGSIb3DQEBBQUAA4GBAMO1O2gwSCCth1GwYMgscfaNakpN40PJfOWt
+                  ub2HVdg8+OXMciF8d/9eVWm8eH/IxuxyZlmRZTs3O5tv9eWAY5uBCtqDf1WgTsGk
+                  jrgZow1fITkZI7w0//C8eKdMLAtGueGfNs2IlTd5P/0KH/hf1rPc1wUqEqKCd4+L
+                  BcVq13ad</em:signature>
   </RDF:Description>
-  <RDF:Description RDF:about="rdf:#$T9d0X"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="1.5"
-                   em:maxVersion="3.0b5"
-                   em:updateLink="http://add-art.org/extension/addart0.5.3.xpi"
-                   em:updateHash="md5:c38cf7390c911cf188094b540499aff8"
-                   em:updateInfoURL="http://add-art.org/extension/versionhistory.html" />
-  <RDF:Description RDF:about="rdf:#$rad0X"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="1.5"
-                   em:maxVersion="3.0.*"
-                   em:updateLink="http://add-art.org/extension/addart0.8.1.xpi"
-                   em:updateHash="sha1:addc6fc84a30ec6717be7ee98ac104e614eef14f"
-                   em:updateInfoURL="http://dev.eyebeam.org/projects/add-art/wiki/Version%20History" />
-  <RDF:Description RDF:about="rdf:#$a9d0X"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="1.5"
-                   em:maxVersion="3.0b5"
-                   em:updateLink="http://add-art.org/extension/addart0.4.5.xpi"
-                   em:updateHash="md5:c38cf7390c911cf188094b540499aff8"
-                   em:updateInfoURL="http://add-art.org/extension/versionhistory.html" />
-  <RDF:Description RDF:about="rdf:#$U8d0X"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="1.5"
-                   em:maxVersion="3.0b5"
-                   em:updateLink="http://add-art.org/extension/addart0.4.3.xpi"
-                   em:updateHash="md5:51a1200aa59801d5bf24afeb624408af"
-                   em:updateInfoURL="http://add-art.org/extension/versionhistory.html" />
-  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.4.6"
-                   em:version="0.4.6"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAIgXCKfGkACNdSswq5qoiJbSTTrLR+8ptOe3INyrQACU3oLG5mK3PVIqlHrWVtfj9J/5CYUJtolAnVvwI43XavJBT7y7NSSUXztJc+5W7qIEugByTQplWIS47AZD+B2AskIA5754NBQoX+JyK+Y5sU/Ex1Z9Db/laJGmTe8P1MtG">
-    <em:targetApplication RDF:resource="rdf:#$j9d0X"/>
+
+  <!-- This represents the same Description within the li from the previous example -->
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.4.3">
+    <em:version>0.4.3</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.0b5</em:maxVersion>
+
+                <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.4.3.xpi</em:updateLink>
+                                        <em:updateHash>md5:51a1200aa59801d5bf24afeb624408af</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://add-art.org/extension/versionhistory.html</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
   </RDF:Description>
-  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.8.0"
-                   em:version="0.8.0"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAFwsWgYqy59mC+BuRKrDh7Objxig+pSVxtMn7k2iD8KmkAJgLN8R5xwgXTMZyplQ2NeOcCiOvryMOgVTBOfaY1CddLeloJvnjshVOZOFF0I5IHHl3yLUb0HQsDSxkf8HTknbZuyGVCec38xOL0RqJHTbSGL/+BYff8eyRmqYXtIr">
-    <em:targetApplication RDF:resource="rdf:#$iad0X"/>
+
+
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.4.4">
+    <em:version>0.4.4</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.0b5</em:maxVersion>
+
+                <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.4.4.xpi</em:updateLink>
+                                        <em:updateHash>md5:c38cf7390c911cf188094b540499aff8</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://add-art.org/extension/versionhistory.html</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
   </RDF:Description>
-  <RDF:Description RDF:about="rdf:#$9ad0X"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="1.5"
-                   em:maxVersion="3.0b5"
-                   em:updateLink="http://add-art.org/extension/addart0.7.0.xpi"
-                   em:updateHash="sha1:e8cbb068a29a773a7ee7a60299488b6bab78298a"
-                   em:updateInfoURL="http://dev.eyebeam.org/projects/add-art/wiki/Version%20History" />
-  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.4.5"
-                   em:version="0.4.5"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAL5qCYi9o2plIDC95ckOQFr9OxhBPYlkX4Q2des9rqEB1RFWeUVWmHoqkcBmfM7j7mlgpYwrG4mqzrQ7Ff6INoBMZX4jt+2bV5S1cD1a19S86dY1uXGRTexODVurrAOvNPwXYhUDbv7zLRo3b1qyJe0utYTjJuCq916YUAZg60my">
-    <em:targetApplication RDF:resource="rdf:#$a9d0X"/>
+
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.4.5">
+    <em:version>0.4.5</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.0b5</em:maxVersion>
+
+                <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.4.5.xpi</em:updateLink>
+                                        <em:updateHash>md5:c38cf7390c911cf188094b540499aff8</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://add-art.org/extension/versionhistory.html</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
   </RDF:Description>
-  <RDF:Seq RDF:about="rdf:#$Q8d0X">
-    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.4.3"/>
-    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.4.4"/>
-    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.4.5"/>
-    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.4.6"/>
-    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.5.0"/>
-    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.5.1"/>
-    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.5.2"/>
-    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.5.3"/>
-    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.5.4"/>
-    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.7.0"/>
-    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.8.0"/>
-    <RDF:li RDF:resource="urn:mozilla:extension:development@add-art.org:0.8.1"/>
-  </RDF:Seq>
-  <RDF:Description RDF:about="rdf:#$B9d0X"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="1.5"
-                   em:maxVersion="3.0b5"
-                   em:updateLink="http://add-art.org/extension/addart0.5.1.xpi"
-                   em:updateHash="md5:c38cf7390c911cf188094b540499aff8"
-                   em:updateInfoURL="http://add-art.org/extension/versionhistory.html" />
-  <RDF:Description RDF:about="rdf:#$19d0X"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="1.5"
-                   em:maxVersion="3.0b5"
-                   em:updateLink="http://add-art.org/extension/addart0.4.4.xpi"
-                   em:updateHash="md5:c38cf7390c911cf188094b540499aff8"
-                   em:updateInfoURL="http://add-art.org/extension/versionhistory.html" />
-  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.5.4"
-                   em:version="0.5.4"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAAgr7C6MljAN37D8lyH+yLRA4WhHhJNACnWXJTaIOo/OnLGKVjVouNG2Qq+OPQM6V6HCGghvmTdTka+Lx9PaN7cplNPiUNIIYqwjAhR1QtdtN0tIl+l+0BOA9GyIETF8E5MgbQog3UlwZRoZWioi2dWTiBdWptXXUdT6HWfD+2XN">
-    <em:targetApplication RDF:resource="rdf:#$0ad0X"/>
+
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.4.6">
+    <em:version>0.4.6</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.0b5</em:maxVersion>
+
+                <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.4.6.xpi</em:updateLink>
+                                        <em:updateHash>md5:c38cf7390c911cf188094b540499aff8</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://add-art.org/extension/versionhistory.html</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
   </RDF:Description>
-  <RDF:Description RDF:about="rdf:#$0ad0X"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="1.5"
-                   em:maxVersion="3.0b5"
-                   em:updateLink="http://add-art.org/extension/addart0.5.4.xpi"
-                   em:updateHash="sha1:49131c94030efad2c084a7ea3fa0e5afa3cb6cdc"
-                   em:updateInfoURL="http://dev.eyebeam.org/projects/add-art/wiki/Version%20History" />
-  <RDF:Description RDF:about="rdf:#$j9d0X"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="1.5"
-                   em:maxVersion="3.0b5"
-                   em:updateLink="http://add-art.org/extension/addart0.4.6.xpi"
-                   em:updateHash="md5:c38cf7390c911cf188094b540499aff8"
-                   em:updateInfoURL="http://add-art.org/extension/versionhistory.html" />
-  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.7.0"
-                   em:version="0.7.0"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBABzIELwWe8NIdvd3NmfPRGX9OKKSa/NifKOJ26YXqiCcN3mqnmog9WRZ23nnoYmZ3RiT/GpameYFkdU/iOu/i1nywTXQn2NNmy9NMzV5e4SoTBDGdgF/67Xy8uaDcvmUaxpskJg04LkFs7Ed7DYdsHULl+cgP8D1hXmwjXfv3bzO">
-    <em:targetApplication RDF:resource="rdf:#$9ad0X"/>
+
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.5.0">
+    <em:version>0.5.0</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.0b5</em:maxVersion>
+
+                <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.5.0.xpi</em:updateLink>
+                                        <em:updateHash>md5:c38cf7390c911cf188094b540499aff8</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://add-art.org/extension/versionhistory.html</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
   </RDF:Description>
-  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.4.3"
-                   em:version="0.4.3"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAJxK3BNXY0XzHAGseTfU7CsvFrt3iroPMxMy8Vl6d+fFrTkikzjRQlydGDYR50KtgiCiUu26R6i03tctj7Tg90Pu5gsRlRJpFOdsWeH7tTMAPunBB/bm4Nz8JAM1rtMcVlkbei8R8QgE0UIiJMyXwDwrtgvdita/l93heGmZJcMV">
-    <em:targetApplication RDF:resource="rdf:#$U8d0X"/>
+
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.5.1">
+    <em:version>0.5.1</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.0b5</em:maxVersion>
+
+                <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.5.1.xpi</em:updateLink>
+                                        <em:updateHash>md5:c38cf7390c911cf188094b540499aff8</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://add-art.org/extension/versionhistory.html</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
   </RDF:Description>
-  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.5.0"
-                   em:version="0.5.0"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAJ4UDFOIvT1a7T7pzeS2dgZOVBs1LGXFEnRqgy+fPrrujHXgJgHioJ+kCowFiUUbmRSSzEoB2+KxYocAPsr2M1k11asMrtZkyNY8H2oCqnnpYhna4/6oOG38CMYn+dtkmjNTUD2i1r+LwcMEo1zWz641PjXEnEux3rdvNrjsvQj4">
-    <em:targetApplication RDF:resource="rdf:#$s9d0X"/>
+
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.5.2">
+    <em:version>0.5.2</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.0b5</em:maxVersion>
+
+                <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.5.2.xpi</em:updateLink>
+                                        <em:updateHash>md5:c38cf7390c911cf188094b540499aff8</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://add-art.org/extension/versionhistory.html</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
   </RDF:Description>
-  <RDF:Description RDF:about="rdf:#$iad0X"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="1.5"
-                   em:maxVersion="3.0.1"
-                   em:updateLink="http://add-art.org/extension/addart0.8.0.xpi"
-                   em:updateHash="sha1:cd004790d8d69967a852cd7eb22d4130e80b241c"
-                   em:updateInfoURL="http://dev.eyebeam.org/projects/add-art/wiki/Version%20History" />
-  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.8.1"
-                   em:version="0.8.1"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAFg++hDNGyiut5EBlesxDizKkGVmgWvWbDBlMomhbvhwG2/MtGdcTCsFcKLGC+Uv5IIPS2HuHCtZ9A8yhQrf4KIjK1m70e+TISiN4Cz8zGkcjDXcLTeQWHfT4YJA7U9h/rVKJNQiCUl7JG6s9E9pzB4+vgRNJAmZ5jP53Ev0NWfY">
-    <em:targetApplication RDF:resource="rdf:#$rad0X"/>
+
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.5.3">
+    <em:version>0.5.3</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.0b5</em:maxVersion>
+
+                <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.5.3.xpi</em:updateLink>
+                                        <em:updateHash>md5:c38cf7390c911cf188094b540499aff8</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://add-art.org/extension/versionhistory.html</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
   </RDF:Description>
-  <RDF:Description RDF:about="rdf:#$K9d0X"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="1.5"
-                   em:maxVersion="3.0b5"
-                   em:updateLink="http://add-art.org/extension/addart0.5.2.xpi"
-                   em:updateHash="md5:c38cf7390c911cf188094b540499aff8"
-                   em:updateInfoURL="http://add-art.org/extension/versionhistory.html" />
-  <RDF:Description RDF:about="rdf:#$s9d0X"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="1.5"
-                   em:maxVersion="3.0b5"
-                   em:updateLink="http://add-art.org/extension/addart0.5.0.xpi"
-                   em:updateHash="md5:c38cf7390c911cf188094b540499aff8"
-                   em:updateInfoURL="http://add-art.org/extension/versionhistory.html" />
-  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.5.1"
-                   em:version="0.5.1"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAAI3roqko4/yeVHAmZDI6cT7HHs9p3uSiIpfhFOTEZyG4MzNJQtzXNtQ9dRes3hD6RseNWzc3JCn2vDopGDGM1Iqoy9CroPGxa+NmH1XM1IMKQy3psL0Cj2sjIYP7Yv1IYursj4uxOr/Yc42bI2e+tHLQc+C8+NCZa2FpAj6OVIm">
-    <em:targetApplication RDF:resource="rdf:#$B9d0X"/>
+
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.5.4">
+    <em:version>0.5.4</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.0b5</em:maxVersion>
+
+                <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.5.4.xpi</em:updateLink>
+                                        <em:updateHash>sha1:49131c94030efad2c084a7ea3fa0e5afa3cb6cdc</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://dev.eyebeam.org/projects/add-art/wiki/Version%20History</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
   </RDF:Description>
-  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.5.3"
-                   em:version="0.5.3"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAFRrsBdD+wPz8aqW1eqUC+C78GBl6JyZ0Zvy59VgYUy2ex50diQc5iHJca4HoxRzswxyjokjM0UlwXyd45Goj+lkHRi0MCsEsfUcJJuvQW2LSISml3ng5hLOibLBayvv6FQZ0zz+1Q09C6EIbXCRiTVXyf4QlGyGTuu6IxIsuotA">
-    <em:targetApplication RDF:resource="rdf:#$T9d0X"/>
+
+
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.7.0">
+    <em:version>0.7.0</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.0b5</em:maxVersion>
+
+               <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.7.0.xpi</em:updateLink>
+                                        <em:updateHash>sha1:e8cbb068a29a773a7ee7a60299488b6bab78298a</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://dev.eyebeam.org/projects/add-art/wiki/Version%20History</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
   </RDF:Description>
-  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.5.2"
-                   em:version="0.5.2"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAJxDeKO1BV/SJb+mBPFa1baF8Bfk6sjHPjMLeEwJJOf39O0rDWOonhKRz2WScLOJhZ07FSQPyP4edBdCQkMjUI9ZKQ9kGNtZwjwBSdcN9zYZTszZAoKCPL/WVR9enrcix+Di6Pou26zSlkWaCJhBNwCRw+RitHCxOz4zh1A9Splb">
-    <em:targetApplication RDF:resource="rdf:#$K9d0X"/>
+
+
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.8.0">
+    <em:version>0.8.0</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.0.1</em:maxVersion>
+
+               <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.8.0.xpi</em:updateLink>
+                                        <em:updateHash>sha1:cd004790d8d69967a852cd7eb22d4130e80b241c</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://dev.eyebeam.org/projects/add-art/wiki/Version%20History</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
   </RDF:Description>
-  <RDF:Description RDF:about="urn:mozilla:extension:development@add-art.org:0.4.4"
-                   em:version="0.4.4"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAHF2vpZFMXZfZ0EUUEpaUJAtYkk/2ZI59wKznzS8DPYdf9wmV+nEnlIQS8plTANiXo7kJ9obttL1Gt+5Ecm7dPgK97S8236Jhw7ahNBxsHV+cYv1f3jEdZGc2lNDhLXH649e3oNYWerxcP0yAvadOG8/U20PinlyAOuSlmEqb6f1">
-    <em:targetApplication RDF:resource="rdf:#$19d0X"/>
+
+
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.8.1">
+    <em:version>0.8.1</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.0.*</em:maxVersion>
+
+               <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/addart0.8.1.xpi</em:updateLink>
+                                        <em:updateHash>sha1:addc6fc84a30ec6717be7ee98ac104e614eef14f</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://dev.eyebeam.org/projects/add-art/wiki/Version%20History</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
   </RDF:Description>
+
+
+  <RDF:Description about="urn:mozilla:extension:development@add-art.org:0.8.2">
+    <em:version>0.8.2</em:version>
+    <em:targetApplication>
+              <RDF:Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.0.*</em:maxVersion>
+
+               <!-- This is where this version of the add-on will be downloaded from -->
+                <em:updateLink>http://add-art.org/extension/add-art-0.8.2-fx.xpi</em:updateLink>
+                                        <em:updateHash>sha1:ec48f643e65c9ed6c1dd23984715711bee10252f</em:updateHash>
+
+                <!-- A page describing what is new in this updated version -->
+                <em:updateInfoURL>http://dev.eyebeam.org/projects/add-art/wiki/Version%20History</em:updateInfoURL>
+              </RDF:Description>
+            </em:targetApplication>
+  </RDF:Description>
+
+
 </RDF:RDF>
