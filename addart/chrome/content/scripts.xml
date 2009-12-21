@@ -1,12 +1,86 @@
 <!-- this array is for replacing script ads like google adwords/adsense with add-art images -->
 <scripts>
+
+  <!-- http://cnn.com/ -->
+ <script regexp="http://ads\.cnn\.com/.*">
+  <![CDATA[
+	// NOTE: This affects the wrong script.  This is a workaround because AdBlock doesn't block
+	// the correct one.
+	window.cnnad_createAd = function(adId,cnnad_url,cnnad_height,cnnad_width,target) {
+		writeArtFrame(cnnad_width, cnnad_height);
+	};
+  ]]>
+  </script>
+
+  <!-- http://miamiherald.com/ (and others) -->
+  <script regexp="http://.*\.yieldmanager\.net/script\.js">
+  <![CDATA[
+	window.yld_mgr = {
+		place_ad_here: function (name) {
+			var ad_size_list = miyahoo["slots"][name]["ad_size_list"].toString();
+			var ad_sizes = ad_size_list.split('x');
+			writeArtFrame(parseInt(ad_sizes[0]), parseInt(ad_sizes[1]));
+		}
+	}
+  ]]>
+  </script>
+
+  <!-- http://miamiherald.com/ (and others) -->
+  <script regexp="http://.*\.overture\.com/.*/ypn.js">
+  <![CDATA[
+    writeArtFrame(ctxt_ad_width, ctxt_ad_height);
+  ]]>
+  </script>
+
+  <!-- http://nytimes.com/ -->
+  <script regexp="^http://creativeby1\.unicast\.com/assets/.*/script_(\d+)_(\d+).js.*">
+  <![CDATA[
+    writeArtFrame($$1$$, $$2$$);
+  ]]>
+  </script>
+
+  <!-- http://nytimes.com/ -->
+  <script regexp="^http://ad\.linkstorms\.com/009/MRMX_XTRT_8343">
+  <![CDATA[
+    writeArtFrame(163, 90);
+  ]]>
+  </script>
+
+  <!-- http://nytimes.com/ -->
+  <script regexp="^http://ad\.linkstorms\.com/stormbird/stormbird-CSv009.js?.*w=(\d+).*h=(\d+).*">
+  <![CDATA[
+    writeArtFrame($$1$$, $$2$$);
+  ]]>
+  </script>
+
+  <!-- http://nytimes.com/ -->
+  <script regexp="^http://bs\.serving-sys\.com/BurstingPipe/adServer.bs?.*w=(\d+).*h=(\d+).*">
+  <![CDATA[
+    writeArtFrame($$1$$, $$2$$);
+  ]]>
+  </script>
 	
-	<script regexp="^http://graphics8\.nytimes\.com/.*">
-		<![CDATA[
-	    writeArtFrame(184, 90);
-	  ]]>
-	</script>
-	
+  <!-- http://nytimes.com/ -->
+  <script regexp="^http://www\.nytimes\.com/ads/.*">
+  <![CDATA[
+    writeArtFrame(movieWidth, movieHeight);
+  ]]>
+  </script>
+
+  <!-- http://nytimes.com/ -->
+  <script regexp="^http://graphics8\.nytimes\.com/.*">
+  <![CDATA[
+    writeArtFrame(184, 90);
+  ]]>
+  </script>
+
+  <!-- http://nytimes.com/ -->
+  <script regexp="^http://ads\.pointroll\.com/PortalServe/.*pRoll(\d+)x(\d+)\b">
+  <![CDATA[
+    writeArtFrame($$1$$, $$2$$);
+  ]]>
+  </script>
+		
   <!-- http://weblogs.mozillazine.org/rumblingedge/ -->
   <script url="http://pagead2.googlesyndication.com/pagead/show_ads.js">
   <![CDATA[
@@ -28,8 +102,8 @@
   ]]>
   </script>
 
-  <!-- http://finance.yahoo.com/ -->
-  <script regexp="^http://ad\.doubleclick\.net/adj/.*\bsz=(\d+)x(\d+)\b">
+  <!-- http://finance.yahoo.com/ (and others) -->
+  <script regexp="^http://ad\.doubleclick\.net/adj/.*sz=(\d+)x(\d+).*">
   <![CDATA[
     writeArtFrame($$1$$, $$2$$);
   ]]>

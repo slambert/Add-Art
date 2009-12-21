@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+im<?xml version="1.0" encoding="UTF-8"?>
 
 <bindings id="addartBindings"
     xmlns="http://www.mozilla.org/xbl"
@@ -80,7 +80,7 @@
           //console.log("href to parse = "+here);
 
           // pick the image
-          randomImage8 = here.charCodeAt( document.location.href.length - 6 ) % 8 + 1; 
+          var randomImage8 = here.charCodeAt( document.location.href.length - 6 ) % 8 + 1; 
           var filename = randomImage8+optimalBanners[Math.floor(Math.random() * optimalBanners.length)];
           var url = "chrome://addart/skin/"+filename;
 
