@@ -9,9 +9,9 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="development@add-art.org"
                    em:name="Add-Art"
-                   em:version="0.8.4"
+                   em:version="0.8.5"
                    em:creator="Add-Art Team"
-                   em:description="Replace ads with art - new show every 2 weeks."
+                   em:description="Replace ads with art - new show every 2 weeks. See add-art.org for more information and forum.add-art.org to discuss. This release includes a new content policy with this release to assure users that shows are SFW as well as changes to replace more ads with art."
                    em:homepageURL="http://www.add-art.org/"
                    em:iconURL="chrome://addart/content/addart.png"
                    >
