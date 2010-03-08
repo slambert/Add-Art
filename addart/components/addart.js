@@ -2,47 +2,42 @@ if(!org) var org={};
 if(!org.eyebeam) org.eyebeam={};
 if(!org.eyebeam.addArt) org.eyebeam.addArt = {};
 
-org.eyebeam.addArt.componentID = Components.ID("{741b4765-dbc0-c44e-9682-a3182f8fa1cc}");
-org.eyebeam.addArt.componentName = "@eyebeam.org/addart;1";
-org.eyebeam.addArt.componentDescr = "Banner to art converter";
-
-org.eyebeam.addArt.scripts = [];
-
-// Seed our class name to make sure it cannot be guessed
-org.eyebeam.addArt.seed = String.fromCharCode("a".charCodeAt(0) + Math.random()*26) + Math.random().toString().replace(/\W/g, '');
-
 /*
  * Module object
  */
 
 org.eyebeam.addArt.module =
 {
+	componentID: Components.ID("{741b4765-dbc0-c44e-9682-a3182f8fa1cc}"),
+	componentName:"@eyebeam.org/addart;1",
+	componentDescr: "Banner to art converter",
+	
   // nsIModule interface implementation
   registerSelf: function(compMgr, fileSpec, location, type)
   {
     compMgr = compMgr.QueryInterface(Components.interfaces.nsIComponentRegistrar);
-    compMgr.registerFactoryLocation(org.eyebeam.addArt.componentID,
-                    org.eyebeam.addArt.componentDescr,
-                    org.eyebeam.addArt.componentName,
+    compMgr.registerFactoryLocation(this.componentID,
+                    this.componentDescr,
+                    this.componentName,
                     fileSpec, location, type);
 
     var catman = Components.classes["@mozilla.org/categorymanager;1"]
                            .getService(Components.interfaces.nsICategoryManager);
-    catman.addCategoryEntry("app-startup", org.eyebeam.addArt.componentDescr, org.eyebeam.addArt.componentName, true, true);
+    catman.addCategoryEntry("app-startup", this.componentDescr, this.componentName, true, true);
   },
 
   unregisterSelf: function(compMgr, fileSpec, location) {
     compMgr = compMgr.QueryInterface(Components.interfaces.nsIComponentRegistrar);
-    compMgr.unregisterFactoryLocation(org.eyebeam.addArt.componentID, fileSpec);
+    compMgr.unregisterFactoryLocation(this.componentID, fileSpec);
 
     var catman = Components.classes["@mozilla.org/categorymanager;1"]
                            .getService(Components.interfaces.nsICategoryManager);
-    catman.deleteCategoryEntry("app-startup", org.eyebeam.addArt.componentName, true);
+    catman.deleteCategoryEntry("app-startup", this.componentName, true);
   },
 
   getClassObject: function(compMgr, cid, iid)
   {
-    if (!cid.equals(org.eyebeam.addArt.componentID))
+    if (!cid.equals(this.componentID))
       throw Components.results.NS_ERROR_NO_INTERFACE;
 
     if (!iid.equals(Components.interfaces.nsIFactory))
@@ -96,6 +91,9 @@ org.eyebeam.addArt.factory = {
  */
 
 org.eyebeam.addArt.component = {
+	seed: null,
+	scripts: null,
+	
   init: function() {
     // Retrieve ABP component
     var abp = null;
@@ -108,12 +106,16 @@ org.eyebeam.addArt.component = {
     if (!abp)
       return;
 
+		this.seed = String.fromCharCode("a".charCodeAt(0) + Math.random()*26) + Math.random().toString().replace(/\W/g, '');
+		
+		this.scripts = [];
+
     // Install our content CSS
     var styleService = Components.classes["@mozilla.org/content/style-sheet-service;1"]
                                  .getService(Components.interfaces.nsIStyleSheetService);
     var ioService = Components.classes["@mozilla.org/network/io-service;1"]
                               .getService(Components.interfaces.nsIIOService);
-    var uri = ioService.newURI("data:text/css,." + org.eyebeam.addArt.seed + "{-moz-binding: url(chrome://addart/content/addart.xml#frame) !important}", null, null);
+    var uri = ioService.newURI("data:text/css,." + this.seed + "{-moz-binding: url(chrome://addart/content/addart.xml#frame) !important}", null, null);
     styleService.loadAndRegisterSheet(uri, styleService.USER_SHEET);
 
     // Install our hook
@@ -160,10 +162,10 @@ org.eyebeam.addArt.component = {
         continue;
 
       var data = tag.QueryInterface(Components.interfaces.nsIDOM3Node).textContent;
-      data = wrapper.replace(/{{SCRIPT}}/g, data).replace(/{{SEED}}/g, org.eyebeam.addArt.seed); // lint thinks this is invalid... any way around that?
+      data = wrapper.replace(/{{SCRIPT}}/g, data).replace(/{{SEED}}/g, this.seed); // lint thinks this is invalid... any way around that?
       data = converter.ConvertAndEscape('utf-8', data).replace(/\+/g, "%20");
       data = 'data:text/javascript,' + data;
-      org.eyebeam.addArt.scripts.push([id, data]);
+      this.scripts.push([id, data]);
     }
   },
 
@@ -175,8 +177,8 @@ org.eyebeam.addArt.component = {
       // We only deal with blocked items
       if (contentType == Components.interfaces.nsIContentPolicy.TYPE_SCRIPT) {
         // Check whether one of our scripts matches the URL
-        for (var i = 0; i < org.eyebeam.addArt.scripts.length; i++) {
-          var script = org.eyebeam.addArt.scripts[i];
+        for (var i = 0; i < this.scripts.length; i++) {
+          var script = this.scripts[i];
           var match = false;
           if (script[0] instanceof RegExp)
             match = contentLocation.spec.match(script[0]);
@@ -214,7 +216,7 @@ org.eyebeam.addArt.component = {
               var frame = context.ownerDocument.createElement("div");
               if (context.hasAttribute("style"))
                 frame.setAttribute("style", context.getAttribute("style"));
-              frame.setAttribute("class", org.eyebeam.addArt.seed);
+              frame.setAttribute("class", this.seed);
               frame.setAttribute("width", width);
               frame.setAttribute("height", height);
               if(context.parentNode)
