@@ -7,21 +7,21 @@ if(!org.eyebeam.addArt) org.eyebeam.addArt = {};
 
 org.eyebeam.addArt.artUpdater = {};
 
-artUpdater = {
-	// Listing all object variables here just for reference
-	date: null,
-	urlCheckXML: null,
-	aaPreferences: null,
-	aaExtensionPath: null,
-	aaFileSep: null,
-	aaFileLoc: null,
-	aaNextSet: null,
-	aaNextExpiration: null,
-	DIR_SERVICE: null,
-	downloadedfile: null,
+artUpdater = function(){
+	// object variables
+	this.date = new Date();
+	this.urlCheckXML = null;
+	this.aaPreferences = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
+	this.aaExtensionPath = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager).getInstallLocation("development@add-art.org").getItemLocation("development@add-art.org").path;
+	this.aaFileSep = null;
+	this.aaFileLoc = null;
+	this.aaNextSet = null;
+	this.aaNextExpiration = null;
+	this.DIR_SERVICE = new Components.Constructor("@mozilla.org/file/directory_service;1","nsIProperties");
+	this.downloadedfile = null;
 	
 	// Here we check and see if we have the most up-to-date set 
-	getImageSetInfo: function()
+	var getImageSetInfo = function()
 	{
 		var request = new XMLHttpRequest();
 		request.open("GET", this.urlCheckXML, true);
@@ -47,10 +47,10 @@ artUpdater = {
 		request.overrideMimeType('text/xml');
 		request.send(null); 
 
-	},
+	};
 
 	// download new images and store locally
-	downloadNewImages: function(url)
+	var downloadNewImages = function(url)
 	{
 		var req = new XMLHttpRequest();
 		req.open('GET', url, true);
@@ -61,13 +61,11 @@ artUpdater = {
 			 if(req.status == 200)
 			 {	
 
-				var outputfile = Components.classes["@mozilla.org/file/local;1"]
-									.createInstance(Components.interfaces.nsILocalFile);
+				var outputfile = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
 				outputfile.initWithPath(this.aaExtensionPath + this.aaFileSep + "chrome" + this.aaFileSep + "~images.jar");
 
 				// file is nsIFile, data is a string
-				var foStream = Components.classes["@mozilla.org/network/file-output-stream;1"]
-										 .createInstance(Components.interfaces.nsIFileOutputStream);
+				var foStream = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);
 
 				// use 0x02 | 0x10 to open file for appending.
 				foStream.init(outputfile, 0x02 | 0x08 | 0x20, 0666, 0); 
@@ -88,66 +86,54 @@ artUpdater = {
 		};
 	 	req.overrideMimeType('text/plain; charset=x-user-defined');
 		req.send(null); 	  
-	},
+	};
 	
-	initialize: function() {
-		this.date = new Date();
-		this.urlCheckXML = "http://add-art.org/extension/image_set.xml?"+this.date.getTime();
-		
-		this.aaPreferences = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
-		
-		this.aaExtensionPath = Components.classes["@mozilla.org/extensions/manager;1"]
-			.getService(Components.interfaces.nsIExtensionManager)
-			.getInstallLocation("development@add-art.org")
-			.getItemLocation("development@add-art.org").path;
+	// Figure out what is the correct file separator (to handle both PCs and Macs) 
+	this.aaFileLoc=(new this.DIR_SERVICE()).get("ProfD", Components.interfaces.nsIFile).path; 
+	// determine the file-separator
+	if (this.aaFileLoc.search(/\\/) != -1) 
+	{
+		this.aaFileSep = "\\";
+	} 
+	else 
+	{
+		this.aaFileSep = "/";
+	}	
 
-		// Figure out what is the correct file separator (to handle both PCs and Macs) 
-		this.DIR_SERVICE = new Components.Constructor("@mozilla.org/file/directory_service;1","nsIProperties");
-		this.aaFileLoc=(new this.DIR_SERVICE()).get("ProfD", Components.interfaces.nsIFile).path; 
-		// determine the file-separator
-		if (this.aaFileLoc.search(/\\/) != -1) 
-		{
-			this.aaFileSep = "\\";
-		} 
-		else 
-		{
-			this.aaFileSep = "/";
-		}	
+	this.urlCheckXML = "http://add-art.org/extension/image_set.xml?"+this.date.getTime();
 
-		// check and see if we have a new set of art (it would have been downloaded during the last
-		// firefox session
-		this.downloadedfile = Components.classes["@mozilla.org/file/local;1"]
-									.createInstance(Components.interfaces.nsILocalFile);
-		this.downloadedfile.initWithPath(this.aaExtensionPath + this.aaFileSep + "chrome" + this.aaFileSep + "~images.jar");
-		if(this.downloadedfile.exists())
-		{
-			this.downloadedfile.moveTo(null, "images.jar");	
-		}
-
-		// check and see if our check-for-new-images date has elapsed
-		if(this.aaPreferences.prefHasUserValue("extensions.add-art.expiration"))
-		{	
-			if(this.date.getTime() > this.aaPreferences.getCharPref("extensions.add-art.expiration"))  // need to store as string because the number is too large for an int
-			{		
-				getImageSetInfo(); // time to check for new images
-			}	
-		}
-		else
-		{
-			// if the preferences doesn't contain a "next download" timestamp, 
-			//  then go ahead and download info about the current image set
-			getImageSetInfo();
-		}
-
-		// showUpdateAlert turns on and off the alert telling users about new art.
-		// Currently it can only be changed in about:config
-		// If the user doesn't have the showUpdateAlert pref already, set it to true
-		if(!this.aaPreferences.prefHasUserValue("extensions.add-art.showUpdateAlert")) {
-			this.aaPreferences.setBoolPref("extensions.add-art.showUpdateAlert", true);
-		}
+	// check and see if we have a new set of art (it would have been downloaded during the last
+	// firefox session
+	this.downloadedfile = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+	this.downloadedfile.initWithPath(this.aaExtensionPath + this.aaFileSep + "chrome" + this.aaFileSep + "~images.jar");
+	if(this.downloadedfile.exists())
+	{
+		this.downloadedfile.moveTo(null, "images.jar");	
 	}
-}
 
-artUpdater.initialize();
+	// check and see if our check-for-new-images date has elapsed
+	if(this.aaPreferences.prefHasUserValue("extensions.add-art.expiration"))
+	{	
+		if(this.date.getTime() > this.aaPreferences.getCharPref("extensions.add-art.expiration"))  // need to store as string because the number is too large for an int
+		{		
+			this.getImageSetInfo(); // time to check for new images
+		}	
+	}
+	else
+	{
+		// if the preferences doesn't contain a "next download" timestamp, 
+		//  then go ahead and download info about the current image set
+		this.getImageSetInfo();
+	}
+
+	// showUpdateAlert turns on and off the alert telling users about new art.
+	// Currently it can only be changed in about:config
+	// If the user doesn't have the showUpdateAlert pref already, set it to true
+	if(!this.aaPreferences.prefHasUserValue("extensions.add-art.showUpdateAlert")) {
+		this.aaPreferences.setBoolPref("extensions.add-art.showUpdateAlert", true);
+	}
+};
+
+//artUpdater.initialize();
 
 // *********************************************************************
