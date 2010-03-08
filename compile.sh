@@ -28,6 +28,6 @@ zip -q addart.xpi *.xpi install.rdf
 
 # MacOS can launch it right away for install, too
 #echo "Opening w/ Firefox..."
-#open -a Firefox addart-build.xpi
+open -a Firefox addart.xpi
 
 exit 0
