@@ -1,10 +1,16 @@
+// Main Add-Art JavaScript Component
+
+// Define namespace
 if(!org) var org={};
 if(!org.eyebeam) org.eyebeam={};
 if(!org.eyebeam.addArt) org.eyebeam.addArt = {};
 
+
+// *** These must be defined directly on the namespace object or things break ***
 org.eyebeam.addArt.seed = String.fromCharCode("a".charCodeAt(0) + Math.random()*26) + Math.random().toString().replace(/\W/g, '');
 
 org.eyebeam.addArt.scripts = [];
+// ******************************************************************************
 
 /*
  * Module object
@@ -65,13 +71,15 @@ org.eyebeam.addArt.module =
   }
 };
 
+
+// Adds the module object to Firefox
 function NSGetModule(comMgr, fileSpec)
 {
   return org.eyebeam.addArt.module;
 }
 
 /*
- * Factory object
+ * Factory object to create component
  */
 
 org.eyebeam.addArt.factory = {
@@ -91,7 +99,7 @@ org.eyebeam.addArt.factory = {
 };
 
 /*
- * Addart component
+ * Add-Art component (does most of the heavy lifting)
  */
 
 org.eyebeam.addArt.component = {	
@@ -159,7 +167,7 @@ org.eyebeam.addArt.component = {
         continue;
 
       var data = tag.QueryInterface(Components.interfaces.nsIDOM3Node).textContent;
-      data = wrapper.replace(/{{SCRIPT}}/g, data).replace(/{{SEED}}/g, org.eyebeam.addArt.seed); // lint thinks this is invalid... any way around that?
+      data = wrapper.replace(/{{SCRIPT}}/g, data).replace(/{{SEED}}/g, org.eyebeam.addArt.seed);
       data = converter.ConvertAndEscape('utf-8', data).replace(/\+/g, "%20");
       data = 'data:text/javascript,' + data;
       org.eyebeam.addArt.scripts.push([id, data]);
