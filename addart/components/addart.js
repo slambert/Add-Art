@@ -71,6 +71,13 @@ org.eyebeam.addArt.module =
   }
 };
 
+function myDump(aMessage) {
+    var consoleService = Components.classes["@mozilla.org/consoleservice;1"]
+                                       .getService(Components.interfaces.nsIConsoleService);
+      consoleService.logStringMessage("add-art: " + aMessage);
+}
+
+
 
 // Adds the module object to Firefox
 function NSGetModule(comMgr, fileSpec)
@@ -105,15 +112,36 @@ org.eyebeam.addArt.factory = {
 org.eyebeam.addArt.component = {	
   init: function() {
     // Retrieve ABP component
-    var abp = null;
-    try {
-      abp = Components.classes["@mozilla.org/adblockplus;1"].createInstance();
-      if (abp && !("policy" in abp))
-        abp = abp.wrappedJSObject;    // Unwrap ABP component
-    } catch(e) {}
+    var policy = null;
+    myDump("logging works");
+    if ("@adblockplus.org/abp/public;1" in Components.classes)
+    {
+      myDump("found abp1.3");
+      // Adblock Plus 1.3 or higher
+      const Cc = Components.classes;
+      const Ci = Components.interfaces;
+      const Cu = Components.utils;
 
-    if (!abp)
-      return;
+      let baseURL = Cc["@adblockplus.org/abp/private;1"].getService(Ci.nsIURI);
+      let policy = Cu.import(baseURL.spec + "ContentPolicy.jsm", null).PolicyPrivate;
+      //var abpURL = Components.classes["@adblockplus.org/abp/private;1"]
+                             //.getService(Components.interfaces.nsIURI);
+      //Components.utils.import(abpURL.spec);
+    }
+    else if ("@mozilla.org/adblockplus;1" in Components.classes)
+    {
+      myDump("found abp1.2");
+      // Adblock Plus 1.2.x or below
+      abp = Components.classes["@mozilla.org/adblockplus;1"]
+                              .createInstance().wrappedJSObject;
+      policy= abp.policy;
+    }
+    else
+    {
+      myDump("did not find abp");
+      // Adblock Plus is not installed
+    }
+
 
     // Install our content CSS
     var styleService = Components.classes["@mozilla.org/content/style-sheet-service;1"]
@@ -124,6 +152,18 @@ org.eyebeam.addArt.component = {
     styleService.loadAndRegisterSheet(uri, styleService.USER_SHEET);
 
     // Install our hook
+    // does abp.policy.shouldload exist?
+    if(!policy){
+      myDump("no abp.policy");
+    }
+    else if (! policy.shouldLoad){
+      myDump("no shouldLoad");
+
+    }
+    else{
+      myDump("shouldLoad exists");
+    }
+
     abp.policy._addartOldShouldLoad = abp.policy.shouldLoad;
     abp.policy.shouldLoad = this.shouldLoad;
 
