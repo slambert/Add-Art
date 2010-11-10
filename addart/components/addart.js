@@ -166,8 +166,8 @@ org.eyebeam.addArt.component = {
       myDump("shouldLoad exists");
     }
 
-    abp.policy._addartOldShouldLoad = abp.policy.shouldLoad;
-    abp.policy.shouldLoad = this.shouldLoad;
+    policy._addartOldShouldLoad = policy.shouldLoad;
+    policy.shouldLoad = this.shouldLoad;
 
     // Load script wrapping code
     var req = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
