@@ -26,8 +26,14 @@ mv addart_renamed addart
 
 zip -q addart.xpi *.xpi install.rdf 
 
-# MacOS can launch it right away for install, too
-#echo "Opening w/ Firefox..."
-open -a Firefox addart.xpi
+# MacOS/linux can launch it right away for install, too
+echo "Opening w/ Firefox..."
+UNAMESTR=`uname`
+echo "$UNAMESTR"
+if [ "$UNAMESTR" = 'Linux' ]; then
+  `firefox addart.xpi`
+elif [ "$UNAMESTR" = 'Darwin' ]; then
+  open -a Firefox addart.xpi
+fi
 
 exit 0
