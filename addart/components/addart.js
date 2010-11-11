@@ -279,7 +279,16 @@ org.eyebeam.addArt.component = {
 
   // nsIObserver interface implementation
   observe: function(subject, topic, data) {
-    this.init();
+    switch (topic)
+    {
+     case "app-startup":
+       observerService.addObserver(this, "final-ui-startup", false);
+       break;
+     case "final-ui-startup":
+       observerService.removeObserver(this, "final-ui-startup");
+       this.init();
+       break;
+    }
   },
 
   // nsISupports interface implementation
