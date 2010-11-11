@@ -132,7 +132,10 @@ org.eyebeam.addArt.component = {
       const Cu = Components.utils;
 
       let baseURL = Cc["@adblockplus.org/abp/private;1"].getService(Ci.nsIURI);
+      myDump(baseURL.spec);
       let policy = Cu.import(baseURL.spec + "ContentPolicy.jsm", null).PolicyPrivate;
+      myDump(policy);
+
       //var abpURL = Components.classes["@adblockplus.org/abp/private;1"]
                              //.getService(Components.interfaces.nsIURI);
       //Components.utils.import(abpURL.spec);
@@ -279,6 +282,9 @@ org.eyebeam.addArt.component = {
 
   // nsIObserver interface implementation
   observe: function(subject, topic, data) {
+    var observerService = Components.classes["@mozilla.org/observer-service;1"]
+    .getService(Components.interfaces.nsIObserverService);
+
     switch (topic)
     {
      case "app-startup":
