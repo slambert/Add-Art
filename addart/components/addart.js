@@ -114,10 +114,8 @@ org.eyebeam.addArt.component = {
     // Retrieve ABP component
     var policy = null;
     var abp = null;
-    myDump("logging works");
     if ("@mozilla.org/adblockplus;1" in Components.classes)
     {
-      myDump("found abp1.2");
       // Adblock Plus 1.2.x or below
       abp = Components.classes["@mozilla.org/adblockplus;1"]
                               .createInstance().wrappedJSObject;
@@ -125,16 +123,13 @@ org.eyebeam.addArt.component = {
     }
     else if ("@adblockplus.org/abp/public;1" in Components.classes)
     {
-      myDump("found abp1.3");
       // Adblock Plus 1.3 or higher
       const Cc = Components.classes;
       const Ci = Components.interfaces;
       const Cu = Components.utils;
 
       let baseURL = Cc["@adblockplus.org/abp/private;1"].getService(Ci.nsIURI);
-      myDump(baseURL.spec);
       policy = Cu.import(baseURL.spec + "ContentPolicy.jsm", null).PolicyPrivate;
-      myDump(policy);
 
       //var abpURL = Components.classes["@adblockplus.org/abp/private;1"]
                              //.getService(Components.interfaces.nsIURI);
@@ -144,7 +139,6 @@ org.eyebeam.addArt.component = {
     {
       myDump("did not find abp");
       // Adblock Plus is not installed
-      myDump(Components.classes);
     }
 
 
@@ -163,10 +157,6 @@ org.eyebeam.addArt.component = {
     }
     else if (! policy.shouldLoad){
       myDump("no shouldLoad");
-
-    }
-    else{
-      myDump("shouldLoad exists");
     }
 
     policy._addartOldShouldLoad = policy.shouldLoad;
