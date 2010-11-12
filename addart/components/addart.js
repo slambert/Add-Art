@@ -133,7 +133,7 @@ org.eyebeam.addArt.component = {
 
       let baseURL = Cc["@adblockplus.org/abp/private;1"].getService(Ci.nsIURI);
       myDump(baseURL.spec);
-      let policy = Cu.import(baseURL.spec + "ContentPolicy.jsm", null).PolicyPrivate;
+      policy = Cu.import(baseURL.spec + "ContentPolicy.jsm", null).PolicyPrivate;
       myDump(policy);
 
       //var abpURL = Components.classes["@adblockplus.org/abp/private;1"]
