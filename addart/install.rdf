@@ -14,6 +14,7 @@
                    em:description="Replace ads with art - new show every 2 weeks. See add-art.org for more info and forum.add-art.org to discuss. This release includes latest AdBlockPlus 1.2 release."
                    em:homepageURL="http://www.add-art.org/"
                    em:iconURL="chrome://addart/content/addart.png"
+                   em:unpack="true"
                    >
     <em:targetApplication RDF:resource="rdf:#$hFzg+"/>
   </RDF:Description>
