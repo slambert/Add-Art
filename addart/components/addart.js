@@ -128,7 +128,7 @@ AddArtComponent.prototype = {
 		this.ImgArray.push( [ 728, 90, ] );
         this.ImgArray.push( [ 468, 60, ] );
         this.ImgArray.push( [ 392, 72, ] );
-        this.ImgArray.push( [ 1698, 32 ] );
+        this.ImgArray.push( [ 1698, 321 ] );
         this.ImgArray.push( [ 120, 240 ] );
         this.ImgArray.push( [ 240, 400 ] );
         this.ImgArray.push( [ 180, 150 ] );
