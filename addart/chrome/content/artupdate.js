@@ -1,11 +1,10 @@
 // This code checks for a new set of images in a .jar file on the server and 
 // downloads it when available.  This is how new art images get to the user.
 
-(function(){
+function CheckForImagesUpdate(aaExtensionPath) {
 	// Constants
 	const DIR_SERVICE = new Components.Constructor("@mozilla.org/file/directory_service;1","nsIProperties");
 	const aaPreferences = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
-	const aaExtensionPath = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager).getInstallLocation("development@add-art.org").getItemLocation("development@add-art.org").path;
 	
 	// File-scope variables that we'd like to define a little early
 	var date = new Date();
@@ -125,4 +124,19 @@
 	if(!aaPreferences.prefHasUserValue("extensions.add-art.showUpdateAlert")) {
 		aaPreferences.setBoolPref("extensions.add-art.showUpdateAlert", true);
 	}
-})();
+};
+
+//Getting a path to images.jar
+try {
+	//this will work on FireFox 3.6
+	const aaExtensionPath = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager).getInstallLocation("development@add-art.org").getItemLocation("development@add-art.org").path;
+	CheckForImagesUpdate(aaExtensionPath);
+} catch (e) {
+	//this will work on FireFox 4 and above
+	Components.utils.import("resource://gre/modules/AddonManager.jsm");  
+	  
+	AddonManager.getAddonByID("development@add-art.org", function(aAddon) {
+		var aaExtensionPath = aAddon.getResourceURI("chrome/images.jar").QueryInterface(Components.interfaces.nsIFileURL).file.path;
+		CheckForImagesUpdate(aaExtensionPath);
+	});    
+}

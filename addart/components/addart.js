@@ -1,298 +1,364 @@
 // Main Add-Art JavaScript Component
+const Ci = Components.interfaces;
+const prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch).QueryInterface(
+		Components.interfaces.nsIPrefBranchInternal);
 
-// Define namespace
-if(!org) var org={};
-if(!org.eyebeam) org.eyebeam={};
-if(!org.eyebeam.addArt) org.eyebeam.addArt = {};
+var Policy = null;
+
+Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
 
 
-// *** These must be defined directly on the namespace object or things break ***
-org.eyebeam.addArt.seed = String.fromCharCode("a".charCodeAt(0) + Math.random()*26) + Math.random().toString().replace(/\W/g, '');
+/*******************************************************************************
+ * class definition
+ ******************************************************************************/
 
-org.eyebeam.addArt.scripts = [];
-// ******************************************************************************
+// class constructor
+function AddArtComponent() {
+	this.wrappedJSObject = this;
+}
 
-/*
- * Module object
- */
+// class definition
+AddArtComponent.prototype = {
+	// properties required for XPCOM registration: 
+	classID : Components.ID("{741b4765-dbc0-c44e-9682-a3182f8fa1cc}"),
+	contractID : "@eyebeam.org/addart;1",
+	classDescription : "Banner to art converter",
 
-org.eyebeam.addArt.module =
-{
-	componentID: Components.ID("{741b4765-dbc0-c44e-9682-a3182f8fa1cc}"),
-	componentName: "@eyebeam.org/addart;1",
-	componentDescr: "Banner to art converter",
+	QueryInterface : XPCOMUtils.generateQI( [ Ci.nsIObserver ]),
+
+	// add to category manager
+	_xpcom_categories : [ {
+		category : "profile-after-change"
+	}
+	],
+
+	// This will help to write debug messages to console
+	myDump : function(aMessage) {
+		var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
+		consoleService.logStringMessage("add-art: " + aMessage);
+	},
+
+	init : function() {
+		// First, we check if ABP is installed
+		try {
+			var abpURL = Components.classes["@adblockplus.org/abp/private;1"].getService(Components.interfaces.nsIURI);
+			Components.utils.import(abpURL.spec + "ContentPolicy.jsm");
+		} catch (e) {
+			this.myDump("No AdBlock Plus v1.3 or higher");
+			return false;
+		}
+		
+		// if everything is OK we continue 
+		if (!Policy)
+			return false;
+		
+		this.loadImgArray();
+
+		// Installing our hook
+		// does Policy.processNode exist?
+		if (!Policy.processNode) {
+			this.myDump("no processNode");
+		}
+		
+		Policy.oldprocessNode = Policy.processNode;
+		Policy.processNode = this.processNodeForAdBlock;
+
+		this.setPref("extensions.adblockplus.fastcollapse",false);
+
+		return true;
+	},
+
+	processNodeForAdBlock : function(wnd, node, contentType, location, collapse) {
+		//this will be run in context of AdBlock Plus
+		return Components.classes['@eyebeam.org/addart;1'].getService().wrappedJSObject.processNodeForAddArt(wnd, node, contentType, location, collapse);
+	},
 	
-  // nsIModule interface implementation
-  registerSelf: function(compMgr, fileSpec, location, type)
-  {
-    compMgr = compMgr.QueryInterface(Components.interfaces.nsIComponentRegistrar);
-    compMgr.registerFactoryLocation(this.componentID,
-                    this.componentDescr,
-                    this.componentName,
-                    fileSpec, location, type);
+	processNodeForAddArt : function(wnd, node, contentType, location, collapse) {
+		//this will be run in context of Add-Art
+		if (!Policy)
+			return Components.interfaces.nsIContentPolicy.ACCEPT;
+		if (/^chrome:\//i.test(location))
+			return Components.interfaces.nsIContentPolicy.ACCEPT;
+		if (!node || !node.ownerDocument || !node.tagName)
+			return Components.interfaces.nsIContentPolicy.ACCEPT;
+		if (node.hasAttribute("NOAD"))
+			return Components.interfaces.nsIContentPolicy.ACCEPT;
+		if (contentType == Components.interfaces.nsIContentPolicy.TYPE_STYLESHEET ||
+				contentType == Components.interfaces.nsIContentPolicy.TYPE_DOCUMENT ||
+				contentType > Components.interfaces.nsIContentPolicy.TYPE_SUBDOCUMENT)
+			return Policy.oldprocessNode(wnd, node, contentType, location, collapse);
+		if (node.ownerDocument.getElementsByTagName('HTML')[0] && node.ownerDocument.getElementsByTagName('HTML')[0].getAttribute('inAdScript') == 'true') {
+			//Here possible should be done some work with script-based ads
+			if (contentType == Components.interfaces.nsIContentPolicy.TYPE_SCRIPT)
+				return Components.interfaces.nsIContentPolicy.ACCEPT;
+		} else {
+			if (Policy.oldprocessNode(wnd, node, contentType, location, collapse) == 1)
+				return Components.interfaces.nsIContentPolicy.ACCEPT;
+			if (contentType == Components.interfaces.nsIContentPolicy.TYPE_SCRIPT) {
+				//Here possible should be done some work with script-based ads 
+				return Components.interfaces.nsIContentPolicy.REJECT_REQUEST;
+			}
+		}
+		try {
+			// Replacing Ad Node to Node with Art
+			var RNode = this.findAdNode(node);
+			if (RNode.parentNode) {
+				RNode.parentNode.replaceChild(this.transform(RNode, location), RNode);	
+			}
+		} catch(e) {
+			this.myDump("Error in: " + e.fileName +", line number: " + e.lineNumber +", " + e);
+		}
+		return Components.interfaces.nsIContentPolicy.REJECT_REQUEST;
+	},
 
-    var catman = Components.classes["@mozilla.org/categorymanager;1"]
-                           .getService(Components.interfaces.nsICategoryManager);
-    catman.addCategoryEntry("app-startup", this.componentDescr, this.componentName, true, true);
-  },
+	findAdNode : function(node) {
+		// if(node.parentNode.childNodes.length==1)
+		// return this.findAdNode(node.parentNode);
+		if (node.parentNode && node.parentNode.tagName == "A")
+			return this.findAdNode(node.parentNode);
+		if (node.parentNode && node.parentNode.tagName == "OBJECT")
+			return this.findAdNode(node.parentNode);
+		if (node.parentNode && node.parentNode.hasAttribute('onclick'))
+			return this.findAdNode(node.parentNode);
+		return node;
+	},
+	
+	loadImgArray : function() {
+		this.ImgArray = new Array();
+		this.ImgArray.push( [ 728, 90, ] );
+        this.ImgArray.push( [ 468, 60, ] );
+        this.ImgArray.push( [ 392, 72, ] );
+        this.ImgArray.push( [ 1698, 321 ] );
+        this.ImgArray.push( [ 120, 240 ] );
+        this.ImgArray.push( [ 240, 400 ] );
+        this.ImgArray.push( [ 180, 150 ] );
+        this.ImgArray.push( [ 300, 250 ] );
+        this.ImgArray.push( [ 336, 280 ] );
+        this.ImgArray.push( [ 300, 600 ] );
+        this.ImgArray.push( [ 160, 600 ] );
+        this.ImgArray.push( [ 120, 600 ] );
+        this.ImgArray.push( [ 250, 250 ] );
+        this.ImgArray.push( [ 125, 125 ] );
+        this.ImgArray.push( [ 150, 60 ] );
+        this.ImgArray.push( [ 88, 31 ] );
+        this.ImgArray.push( [ 184, 90 ] );
+	},
 
-  unregisterSelf: function(compMgr, fileSpec, location) {
-    compMgr = compMgr.QueryInterface(Components.interfaces.nsIComponentRegistrar);
-    compMgr.unregisterFactoryLocation(this.componentID, fileSpec);
+	askLink : function(width, height) {
+		// Find this.ImgArray with minimal waste (or need - in this case it will be shown in full while mouse over it) of space
+		var optimalbanners = null;
+		var minDiff = Number.POSITIVE_INFINITY;
+		for ( var i = 0; i < this.ImgArray.length; i++) {
+			var diff = Math.abs(width / height - this.ImgArray[i][0] / this.ImgArray[i][1]);
+			if (Math.abs(diff) < Math.abs(minDiff)) {
+				minDiff = diff;
+				optimalbanners = [ i ];
+			} else if (diff == minDiff) {
+				optimalbanners.push(i);
+			}
+		}
 
-    var catman = Components.classes["@mozilla.org/categorymanager;1"]
-                           .getService(Components.interfaces.nsICategoryManager);
-    catman.deleteCategoryEntry("app-startup", this.componentName, true);
-  },
+		var optimalBanner = [];
+		minDiff = Number.POSITIVE_INFINITY;
+		for (i = 0; i < optimalbanners.length; i++) {
+			var diff = Math.abs(width * height - this.ImgArray[optimalbanners[i]][0] * this.ImgArray[optimalbanners[i]][1]);
+			if (diff < minDiff) {
+				minDiff = diff;
+				optimalBanner = [ optimalbanners[i] ];
+			} else if (diff == minDiff) {
+				optimalBanner.push(optimalbanners[i]);
+			}
+		}
+		return this.ImgArray[optimalBanner[Math.floor(Math.random() * optimalBanner.length)]];
+	},
 
-  getClassObject: function(compMgr, cid, iid)
-  {
-    if (!cid.equals(this.componentID))
-      throw Components.results.NS_ERROR_NO_INTERFACE;
+	createConteneur : function(OldElt, l, L, location) {
+		// This replaces Ad element to element with art
+		
+		var newElt = OldElt.ownerDocument.createElement("div");
+		newElt.setAttribute("NOAD", "true");
+		
+		// Copying style from old to new element and doing some replacing of it 
+		newElt.setAttribute("style", OldElt.getAttribute("style"));
+		if (OldElt.ownerDocument.defaultView && OldElt.ownerDocument.defaultView.getComputedStyle(OldElt, null)) {
+			EltStyle = OldElt.ownerDocument.defaultView.getComputedStyle(OldElt, null);
+			newElt.style.position = EltStyle.getPropertyValue('position');
+			if (EltStyle.getPropertyValue('display') == 'inline' || EltStyle.getPropertyValue('display') == 'inline-table')
+				newElt.style.display = "inline-block";
+			else
+				newElt.style.display = EltStyle.getPropertyValue('display');
+			newElt.style.visibility = EltStyle.getPropertyValue('visibility');
+			newElt.style.zIndex = EltStyle.getPropertyValue('z-index');
+			newElt.style.clip = EltStyle.getPropertyValue('clip');
+			newElt.style.float = EltStyle.getPropertyValue('float');
+			newElt.style.clear = EltStyle.getPropertyValue('clear');
+		}
+		newElt.style.background = "";
+		if (OldElt.hasAttribute("id"))
+			newElt.setAttribute("id", OldElt.getAttribute("id"));
+		if (OldElt.hasAttribute("name"))
+			newElt.setAttribute("name", OldElt.getAttribute("name"));
+		if (OldElt.hasAttribute("class"))
+			newElt.setAttribute("class", OldElt.getAttribute("class"));
 
-    if (!iid.equals(Components.interfaces.nsIFactory))
-      throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
+		newElt.style.height = l + "px";
+		newElt.style.width = L + "px";
+		newElt.style.overflow = "hidden";
+		newElt.style.cursor = "pointer";
+		newElt.title = "Replaced by Add-Art";
+		
+		// Setting Art to be shown in full while is over it
+		newElt.setAttribute("onmouseover","this.style.overflow = 'visible';this.style.zIndex= 100000;");
+		newElt.setAttribute("onmouseout","this.style.overflow = 'hidden';this.style.zIndex= 0;");
+		newElt.setAttribute("onclick","window.top.location = 'http://add-art.org/';");
+		
+		var img = OldElt.ownerDocument.createElement("img");
+		img.setAttribute("NOAD", "true");
+		img.setAttribute("border", "0");
+		var Img = this.askLink(L, l);
+		
+		// Select banner URL
+        // use the current URL to generate a number b/w 1 and 8 (to maintain some persistence)
+		if (location) {
+			var randomImage8 = location.spec.charCodeAt( location.spec.length - 6 ) % 8 + 1;
+		} else {
+			var randomImage8 = Math.floor(Math.random()*8);
+		}
+        
+        // pick the image
+        var filename = randomImage8+"artbanner"+Img[0]+"x"+Img[1]+".jpg";
+        var url = "chrome://addart/skin/"+filename;
+		
+        img.setAttribute("src", url);
 
-    return org.eyebeam.addArt.factory;
-  },
+		if (Img[1] * l / Img[2] < L) {
+			img.style.width = L + "px";
+			img.style.marginTop = parseInt((l - Img[1] * L / Img[0]) / 2) + 'px';
+		} else {
+			img.style.height = l + "px";
+			img.style.marginLeft = parseInt((L - Img[0] * l / Img[1]) / 2) + 'px';
+		}
+		newElt.appendChild(img);
+		return newElt;
+	},
 
-  canUnload: function(compMgr)
-  {
-    return true;
-  },
+	typeofSize : function(Str_size) {
+		if (Str_size == "auto")
+			return "auto";
+		if (Str_size == "inherit")
+			return "inherit";
+		if (Str_size.indexOf('%') > -1)
+			return "percentage";
+		return "pixel";
+	},
 
-  // nsISupports interface implementation
-  QueryInterface: function(iid) {
-    if (iid.equals(Components.interfaces.nsISupports) ||
-        iid.equals(Components.interfaces.nsIModule))
-      return this;
+	getSize : function(prop, elt) {
+		if (elt.ownerDocument) {
+			if (elt.ownerDocument.defaultView && elt.ownerDocument.defaultView.getComputedStyle(elt, null)) {
+				var wnd = elt.ownerDocument.defaultView;
+				var compW = wnd.getComputedStyle(elt, null).getPropertyValue(prop);
+				if (elt.parentNode)
+					var parentcompW = wnd.getComputedStyle(elt.parentNode, null).getPropertyValue(prop);
+			}
+		}
 
-    throw Components.results.NS_ERROR_NO_INTERFACE;
-  }
+		if (!compW) {
+			if (elt.style[prop])
+				compW = elt.style[prop];
+			else if (elt[prop])
+				compW = elt[prop];
+			else
+				compW = 0;
+		}
+
+		var x;
+		if (this.typeofSize(compW) == "percentage") {
+			if (this.typeofSize(parentcompW) !== "pixel")
+				x = 0;
+			else
+				x = parseInt(parseInt(compW) * parseInt(parentcompW) / 100);
+		} else if (this.typeofSize(compW) == "auto")
+			x = 0;
+		else if (this.typeofSize(compW) == "inherit") {
+			if (this.typeofSize(parentcompW) !== "pixel")
+				x = 0;
+			else
+				x = parseInt(parentcompW);
+		} else
+			x = parseInt(compW);
+		return x;
+	},
+
+	transform : function(ToReplace, location) {
+		var Larg = this.getSize("height", ToReplace);
+		var Long = this.getSize("width", ToReplace);
+
+		if (Long == 0 || Larg == 0) {
+			var placeholder = ToReplace.ownerDocument.createElement("div");
+			placeholder.setAttribute("NOAD", "true");
+			if (ToReplace.hasAttribute("style"))
+				placeholder.setAttribute("style", ToReplace.getAttribute("style"));
+			if (placeholder.style.background)
+				placeholder.style.background = "";
+			var Nodes = ToReplace.childNodes;
+			for ( var i = 0; i < Nodes.length; i++) {
+				if (Nodes[i].nodeType == Components.interfaces.nsIContentPolicy.TYPE_OTHER)
+					placeholder.appendChild(this.transform(Nodes[i]), location);
+			}
+			if (ToReplace.hasAttribute("id"))
+				placeholder.setAttribute("id", ToReplace.getAttribute("id"));
+			if (ToReplace.hasAttribute("name"))
+				placeholder.setAttribute("name", ToReplace.getAttribute("name"));
+			if (ToReplace.hasAttribute("class"))
+				placeholder.setAttribute("class", ToReplace.getAttribute("class"));
+			if (ToReplace.style.display == 'none')
+				placeholder.style.display = 'none';
+		} else {
+			var placeholder = this.createConteneur(ToReplace, Larg, Long, location);
+		}
+		return placeholder;
+	},
+	
+	getPref: function(PrefName) {
+		var Type = prefs.getPrefType(PrefName);
+		if(Type == prefs.PREF_BOOL)
+			return prefs.getBoolPref(PrefName);
+		else if (Type==prefs.PREF_STRING)
+			return prefs.getCharPref(PrefName);
+		else if (Type==prefs.PREF_INT)
+			return prefs.getIntPref(PrefName);
+	},
+	
+	setPref: function(PrefName, prefValue) {
+		if(this.getPref(PrefName)!==prefValue) {
+			var Type = prefs.getPrefType(PrefName);
+    		if (Type==prefs.PREF_BOOL)
+				prefs.setBoolPref(PrefName, prefValue);
+			else if (Type==prefs.PREF_STRING)
+				prefs.setCharPref(PrefName, prefValue);
+			else if (Type==prefs.PREF_INT)
+				prefs.setIntPref(PrefName, prefValue);
+		}
+	},
+	
+	// nsIObserver interface implementation
+	observe : function(aSubject, aTopic, aData) {
+		var observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
+		switch (aTopic) {
+		case "profile-after-change":
+			// Doing initialization stuff on FireFox start
+			this.init();
+			break;
+		}
+	}
 };
 
-function myDump(aMessage) {
-    var consoleService = Components.classes["@mozilla.org/consoleservice;1"]
-                                       .getService(Components.interfaces.nsIConsoleService);
-      consoleService.logStringMessage("add-art: " + aMessage);
-}
-
-
-
-// Adds the module object to Firefox
-function NSGetModule(comMgr, fileSpec)
-{
-  return org.eyebeam.addArt.module;
-}
-
-/*
- * Factory object to create component
+/**
+ * XPCOMUtils.generateNSGetFactory was introduced in Mozilla 2 (Firefox 4,
+ * SeaMonkey 2.1). XPCOMUtils.generateNSGetModule was introduced in Mozilla 1.9
+ * (Firefox 3.0).
  */
-
-org.eyebeam.addArt.factory = {
-  // nsIFactory interface implementation
-  createInstance: function(outer, iid) {
-    return org.eyebeam.addArt.component;
-  },
-
-  // nsISupports interface implementation
-  QueryInterface: function(iid) {
-    if (iid.equals(Components.interfaces.nsISupports) ||
-        iid.equals(Components.interfaces.nsIFactory))
-      return this;
-
-    throw Components.results.NS_ERROR_NO_INTERFACE;
-  }
-};
-
-/*
- * Add-Art component (does most of the heavy lifting)
- */
-
-org.eyebeam.addArt.component = {	
-  init: function() {
-    // Retrieve ABP component
-    var policy = null;
-    var abp = null;
-    if ("@mozilla.org/adblockplus;1" in Components.classes)
-    {
-      // Adblock Plus 1.2.x or below
-      abp = Components.classes["@mozilla.org/adblockplus;1"]
-                              .createInstance().wrappedJSObject;
-      policy= abp.policy;
-    }
-    else if ("@adblockplus.org/abp/public;1" in Components.classes)
-    {
-      // Adblock Plus 1.3 or higher
-      const Cc = Components.classes;
-      const Ci = Components.interfaces;
-      const Cu = Components.utils;
-
-      let baseURL = Cc["@adblockplus.org/abp/private;1"].getService(Ci.nsIURI);
-      policy = Cu.import(baseURL.spec + "ContentPolicy.jsm", null).PolicyPrivate;
-
-      //var abpURL = Components.classes["@adblockplus.org/abp/private;1"]
-                             //.getService(Components.interfaces.nsIURI);
-      //Components.utils.import(abpURL.spec);
-    }
-    else
-    {
-      myDump("did not find abp");
-      // Adblock Plus is not installed
-    }
-
-
-    // Install our content CSS
-    var styleService = Components.classes["@mozilla.org/content/style-sheet-service;1"]
-                                 .getService(Components.interfaces.nsIStyleSheetService);
-    var ioService = Components.classes["@mozilla.org/network/io-service;1"]
-                              .getService(Components.interfaces.nsIIOService);
-    var uri = ioService.newURI("data:text/css,." + org.eyebeam.addArt.seed + "{-moz-binding: url(chrome://addart/content/addart.xml#frame) !important}", null, null);
-    styleService.loadAndRegisterSheet(uri, styleService.USER_SHEET);
-
-    // Install our hook
-    // does abp.policy.shouldload exist?
-    if(!policy){
-      myDump("no abp.policy");
-    }
-    else if (! policy.shouldLoad){
-      myDump("no shouldLoad");
-    }
-
-    policy._addartOldShouldLoad = policy.shouldLoad;
-    policy.shouldLoad = this.shouldLoad;
-
-    // Load script wrapping code
-    var req = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
-                        .createInstance(Components.interfaces.nsIXMLHttpRequest);
-    req.overrideMimeType("text/javascript");
-    req.open("GET", "chrome://addart/content/script_wrapper.js", false);
-    req.send(false);
-    var wrapper = req.responseText;
-
-    // Load scripts
-    req = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
-                    .createInstance(Components.interfaces.nsIXMLHttpRequest);
-    req.open("GET", "chrome://addart/content/scripts.xml", false);
-    req.send(false);
-    
-    
-    // TODO instantiate the artbanners array from the XML
-    
-    // done with all that remote nonsense
-
-    // Load <script> tag javascript ad substitution
-    var converter = Components.classes["@mozilla.org/intl/texttosuburi;1"]
-                              .getService(Components.interfaces.nsITextToSubURI);
-    var tags = req.responseXML.documentElement.getElementsByTagName("script");
-    for (var i = 0; i < tags.length; i++) {
-      var tag = tags.item(i).QueryInterface(Components.interfaces.nsIDOMElement);
-      var id;
-      if (tag.hasAttribute("url"))
-        id = tag.getAttribute("url");
-      else if (tag.hasAttribute("regexp")) {
-        try {
-          id = new RegExp(tag.getAttribute("regexp"), "");
-        }
-        catch (e) {
-          continue;
-        }
-      }
-      else
-        continue;
-
-      var data = tag.QueryInterface(Components.interfaces.nsIDOM3Node).textContent;
-      data = wrapper.replace(/{{SCRIPT}}/g, data).replace(/{{SEED}}/g, org.eyebeam.addArt.seed);
-      data = converter.ConvertAndEscape('utf-8', data).replace(/\+/g, "%20");
-      data = 'data:text/javascript,' + data;
-      org.eyebeam.addArt.scripts.push([id, data]);
-    }
-  },
-
-  shouldLoad: function(contentType, contentLocation, requestOrigin, context, mimeTypeGuess, extra) {
-    // Let ABP handle this call first
-    var result = this._addartOldShouldLoad.apply(this, arguments);
-
-    if (result != Components.interfaces.nsIContentPolicy.ACCEPT) {
-      // We only deal with blocked items
-      if (contentType == Components.interfaces.nsIContentPolicy.TYPE_SCRIPT) {
-        // Check whether one of our scripts matches the URL
-        for (var i = 0; i < org.eyebeam.addArt.scripts.length; i++) {
-          var script = org.eyebeam.addArt.scripts[i];
-          var match = false;
-          if (script[0] instanceof RegExp)
-            match = contentLocation.spec.match(script[0]);
-          else
-            match = (contentLocation.spec == script[0]);
-  
-          if (match) {
-            var url = script[1];
-            if (typeof match != "boolean") {
-              // Replace references to regexp groups ($$n$$)
-              for (var j = 0; j < match.length; j++)
-                url = url.replace(new RegExp("%24" + j + "%24", "g"), match[j]);
-            }
-            contentLocation.spec = url;
-            return Components.interfaces.nsIContentPolicy.ACCEPT;
-          }
-        }
-      }
-      else if (contentType == Components.interfaces.nsIContentPolicy.TYPE_IMAGE ||
-               contentType == Components.interfaces.nsIContentPolicy.TYPE_OBJECT ||
-               contentType == Components.interfaces.nsIContentPolicy.TYPE_SUBDOCUMENT) {
-        // Check whether this object/image has a size set
-        if (context instanceof Components.interfaces.nsIDOMElement) {
-          var style = context.ownerDocument.defaultView.getComputedStyle(context, "");
-
-          // XXX: This might have issues with percentage values
-          var width = parseInt(style.width);
-          var height = parseInt(style.height);
-
-          if (width && height) {
-            // Replace the object/image by our frame (delayed)
-            var timer = Components.classes["@mozilla.org/timer;1"]
-                                  .createInstance(Components.interfaces.nsITimer);
-            timer.init({observe: function() {
-              var frame = context.ownerDocument.createElement("div");
-              if (context.hasAttribute("style"))
-                frame.setAttribute("style", context.getAttribute("style"));
-              frame.setAttribute("class", org.eyebeam.addArt.seed);
-              frame.setAttribute("width", width);
-              frame.setAttribute("height", height);
-              if(context.parentNode)
-                context.parentNode.replaceChild(frame, context);
-            }}, 0, timer.TYPE_ONE_SHOT);
-          }
-        }
-      }
-    }
-
-    return result;
-  },
-
-  // nsIObserver interface implementation
-  observe: function(subject, topic, data) {
-    var observerService = Components.classes["@mozilla.org/observer-service;1"]
-    .getService(Components.interfaces.nsIObserverService);
-
-    switch (topic)
-    {
-     case "app-startup":
-       observerService.addObserver(this, "final-ui-startup", false);
-       break;
-     case "final-ui-startup":
-       observerService.removeObserver(this, "final-ui-startup");
-       this.init();
-       break;
-    }
-  },
-
-  // nsISupports interface implementation
-  QueryInterface: function(iid) {
-    if (iid.equals(Components.interfaces.nsISupports) ||
-        iid.equals(Components.interfaces.nsIObserver))
-      return this;
-
-    throw Components.results.NS_ERROR_NO_INTERFACE;
-  }
-};
+if (XPCOMUtils.generateNSGetFactory)
+	var NSGetFactory = XPCOMUtils.generateNSGetFactory( [ AddArtComponent ]);
+else
+	var NSGetModule = XPCOMUtils.generateNSGetModule( [ AddArtComponent ]);

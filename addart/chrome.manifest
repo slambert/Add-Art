@@ -1,4 +1,9 @@
 content   addart jar:chrome/addart.jar!/content/
 content   addart jar:chrome/addart.jar!/content/ contentaccessible=yes
+
 skin      addart classic/1.0 jar:chrome/images.jar!/images/
 overlay	  chrome://browser/content/browser.xul	chrome://addart/content/addart.xul
+
+component {741b4765-dbc0-c44e-9682-a3182f8fa1cc} components/AddArt.js
+contract @eyebeam.org/addart;1 {741b4765-dbc0-c44e-9682-a3182f8fa1cc}
+category 	profile-after-change 	AddArtComponent		@eyebeam.org/addart;1
