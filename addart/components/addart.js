@@ -125,23 +125,38 @@ AddArtComponent.prototype = {
 	
 	loadImgArray : function() {
 		this.ImgArray = new Array();
-		this.ImgArray.push( [ 728, 90, ] );
-        this.ImgArray.push( [ 468, 60, ] );
-        this.ImgArray.push( [ 392, 72, ] );
-        this.ImgArray.push( [ 1698, 321 ] );
-        this.ImgArray.push( [ 120, 240 ] );
-        this.ImgArray.push( [ 240, 400 ] );
-        this.ImgArray.push( [ 180, 150 ] );
-        this.ImgArray.push( [ 300, 250 ] );
-        this.ImgArray.push( [ 336, 280 ] );
-        this.ImgArray.push( [ 300, 600 ] );
-        this.ImgArray.push( [ 160, 600 ] );
-        this.ImgArray.push( [ 120, 600 ] );
-        this.ImgArray.push( [ 250, 250 ] );
-        this.ImgArray.push( [ 125, 125 ] );
-        this.ImgArray.push( [ 150, 60 ] );
-        this.ImgArray.push( [ 88, 31 ] );
-        this.ImgArray.push( [ 184, 90 ] );
+		// taken from: https://en.wikipedia.org/wiki/Web_banner
+		// 19 images sizes total
+
+		// Rectangles
+        this.ImgArray.push( [ 336, 280 ] ); // Large Rectangle
+        this.ImgArray.push( [ 300, 250 ] ); // Medium Rectangle
+        this.ImgArray.push( [ 180, 150 ] ); // Rectangle
+        this.ImgArray.push( [ 300, 100 ] ); // 3:1 Rectangle
+        this.ImgArray.push( [ 240, 400 ] ); // Vertical Rectangle
+
+        // Squares
+        this.ImgArray.push( [ 250, 250 ] ); // Square Pop-up
+
+        // Banners
+    	this.ImgArray.push( [ 720, 300, ] ); // Pop-Under
+    	this.ImgArray.push( [ 728, 90, ] ); // Leaderboard
+        this.ImgArray.push( [ 468, 60, ] ); // Full Banner
+        this.ImgArray.push( [ 234, 60, ] ); // Half Banner
+        this.ImgArray.push( [ 120, 240 ] ); // Vertical Banner
+
+        //Buttons
+        this.ImgArray.push( [ 120, 90 ] ); // Button 1
+        this.ImgArray.push( [ 120, 60 ] ); // Button 2
+        this.ImgArray.push( [ 88, 31 ] ); // Micro Bar
+        this.ImgArray.push( [ 88, 15 ] ); // Micro Button
+        this.ImgArray.push( [ 125, 125 ] ); // Square Button
+
+        //Skyscrapers
+        this.ImgArray.push( [ 120, 600 ] ); // Standard Skyscraper
+        this.ImgArray.push( [ 160, 600 ] ); // Wide Skyscraper
+        this.ImgArray.push( [ 300, 600 ] ); // Half-Page
+
 	},
 
 	askLink : function(width, height) {
