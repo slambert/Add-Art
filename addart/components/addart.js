@@ -103,7 +103,7 @@ AddArtComponent.prototype = {
 			// Replacing Ad Node to Node with Art
 			var RNode = this.findAdNode(node);
 			if (RNode.parentNode) {
-				RNode.parentNode.replaceChild(this.transform(RNode, location), RNode);	
+				RNode.parentNode.replaceChild(this.transform(RNode), RNode);	
 			}
 		} catch(e) {
 			this.myDump("Error in: " + e.fileName +", line number: " + e.lineNumber +", " + e);
@@ -172,7 +172,7 @@ AddArtComponent.prototype = {
 		return this.ImgArray[optimalBanner[Math.floor(Math.random() * optimalBanner.length)]];
 	},
 
-	createConteneur : function(OldElt, l, L, location) {
+	createConteneur : function(OldElt, l, L) {
 		// This replaces Ad element to element with art
 		
 		var newElt = OldElt.ownerDocument.createElement("div");
@@ -218,9 +218,19 @@ AddArtComponent.prototype = {
 		var Img = this.askLink(L, l);
 		
 		// Select banner URL
-        // use the current URL to generate a number b/w 1 and 8 (to maintain some persistence)
-		if (location) {
-			var randomImage8 = location.spec.charCodeAt( location.spec.length - 6 ) % 8 + 1;
+        // use the URL in a top window to generate a number b/w 1 and 8 (to maintain some persistence)
+		var win = Components.classes['@mozilla.org/appshell/window-mediator;1']
+        .getService(Components.interfaces.nsIWindowMediator)
+        .getMostRecentWindow('navigator:browser');
+		if (win != null) {
+			var el = win.document.getElementById('content');
+			if (el != null) {
+				var loc = el.mCurrentBrowser.contentWindow.location.href;
+			}
+		}
+		
+		if (loc) {
+			var randomImage8 = loc.charCodeAt( loc.length - 6 ) % 8 + 1;
 		} else {
 			var randomImage8 = Math.floor(Math.random()*8);
 		}
@@ -289,7 +299,7 @@ AddArtComponent.prototype = {
 		return x;
 	},
 
-	transform : function(ToReplace, location) {
+	transform : function(ToReplace) {
 		var Larg = this.getSize("height", ToReplace);
 		var Long = this.getSize("width", ToReplace);
 
@@ -303,7 +313,7 @@ AddArtComponent.prototype = {
 			var Nodes = ToReplace.childNodes;
 			for ( var i = 0; i < Nodes.length; i++) {
 				if (Nodes[i].nodeType == Components.interfaces.nsIContentPolicy.TYPE_OTHER)
-					placeholder.appendChild(this.transform(Nodes[i]), location);
+					placeholder.appendChild(this.transform(Nodes[i]));
 			}
 			if (ToReplace.hasAttribute("id"))
 				placeholder.setAttribute("id", ToReplace.getAttribute("id"));
@@ -314,7 +324,7 @@ AddArtComponent.prototype = {
 			if (ToReplace.style.display == 'none')
 				placeholder.style.display = 'none';
 		} else {
-			var placeholder = this.createConteneur(ToReplace, Larg, Long, location);
+			var placeholder = this.createConteneur(ToReplace, Larg, Long);
 		}
 		return placeholder;
 	},
