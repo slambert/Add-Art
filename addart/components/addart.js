@@ -76,13 +76,13 @@ AddArtComponent.prototype = {
 	processNodeForAddArt : function(wnd, node, contentType, location, collapse) {
 		//this will be run in context of Add-Art
 		if (!Policy)
-			return Components.interfaces.nsIContentPolicy.ACCEPT;
+			return true;
 		if (/^chrome:\//i.test(location))
-			return Components.interfaces.nsIContentPolicy.ACCEPT;
+			return true;
 		if (!node || !node.ownerDocument || !node.tagName)
-			return Components.interfaces.nsIContentPolicy.ACCEPT;
+			return true;
 		if (node.hasAttribute("NOAD"))
-			return Components.interfaces.nsIContentPolicy.ACCEPT;
+			return true;
 		if (contentType == Components.interfaces.nsIContentPolicy.TYPE_STYLESHEET ||
 				contentType == Components.interfaces.nsIContentPolicy.TYPE_DOCUMENT ||
 				contentType > Components.interfaces.nsIContentPolicy.TYPE_SUBDOCUMENT)
@@ -90,13 +90,13 @@ AddArtComponent.prototype = {
 		if (node.ownerDocument.getElementsByTagName('HTML')[0] && node.ownerDocument.getElementsByTagName('HTML')[0].getAttribute('inAdScript') == 'true') {
 			//Here possible should be done some work with script-based ads
 			if (contentType == Components.interfaces.nsIContentPolicy.TYPE_SCRIPT)
-				return Components.interfaces.nsIContentPolicy.ACCEPT;
+				return true;
 		} else {
 			if (Policy.oldprocessNode(wnd, node, contentType, location, collapse) == 1)
-				return Components.interfaces.nsIContentPolicy.ACCEPT;
+				return true;
 			if (contentType == Components.interfaces.nsIContentPolicy.TYPE_SCRIPT) {
 				//Here possible should be done some work with script-based ads 
-				return Components.interfaces.nsIContentPolicy.REJECT_REQUEST;
+				return false;
 			}
 		}
 		try {
@@ -108,7 +108,7 @@ AddArtComponent.prototype = {
 		} catch(e) {
 			this.myDump("Error in: " + e.fileName +", line number: " + e.lineNumber +", " + e);
 		}
-		return Components.interfaces.nsIContentPolicy.REJECT_REQUEST;
+		return false;
 	},
 
 	findAdNode : function(node) {
