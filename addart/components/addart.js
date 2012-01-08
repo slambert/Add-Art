@@ -80,10 +80,14 @@ AddArtComponent.prototype = {
 		if (/^chrome:\//i.test(location))
 			return true;
 		if (!node || !node.ownerDocument || !node.tagName) {
-			return false;
+			if (Policy.oldprocessNode(wnd, node, contentType, location, collapse) == true) {
+				return true;
+			} else {
+				return false;
+			}
 		}			
 		if (node.hasAttribute("NOAD"))
-			return false;
+			return true;
 		if (contentType == Components.interfaces.nsIContentPolicy.TYPE_STYLESHEET ||
 				contentType == Components.interfaces.nsIContentPolicy.TYPE_DOCUMENT ||
 				contentType > Components.interfaces.nsIContentPolicy.TYPE_SUBDOCUMENT)
