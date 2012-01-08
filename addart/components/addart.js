@@ -79,10 +79,11 @@ AddArtComponent.prototype = {
 			return true;
 		if (/^chrome:\//i.test(location))
 			return true;
-		if (!node || !node.ownerDocument || !node.tagName)
-			return true;
+		if (!node || !node.ownerDocument || !node.tagName) {
+			return false;
+		}			
 		if (node.hasAttribute("NOAD"))
-			return true;
+			return false;
 		if (contentType == Components.interfaces.nsIContentPolicy.TYPE_STYLESHEET ||
 				contentType == Components.interfaces.nsIContentPolicy.TYPE_DOCUMENT ||
 				contentType > Components.interfaces.nsIContentPolicy.TYPE_SUBDOCUMENT)
@@ -96,7 +97,7 @@ AddArtComponent.prototype = {
 				return true;
 			if (contentType == Components.interfaces.nsIContentPolicy.TYPE_SCRIPT) {
 				//Here possible should be done some work with script-based ads 
-				return false;
+				return true;
 			}
 		}
 		try {
