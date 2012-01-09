@@ -1,4 +1,3 @@
-
 Add-Art is a Firefox (for now) Browser Extension that replaces ads with art.
 
 When it works, it works pretty good. We all want it to be better, and we welcome your help with that.
@@ -25,6 +24,7 @@ LICENSE: [GPL](https://www.gnu.org/licenses/gpl.txt)
  * [Wladimir Palant](http://adblockplus.org/)
  * [Jamie Wilkinson](http://tramchase.com/)
  * [Matt Katz](http://www.morelightmorelight.com/ ) 
+ * [Prizoff](https://www.freelancer.com/users/2641827.html)
  * [Tobias Leingruber](http://www.tobi-x.com/)
  * [Ethan Ham](http://www.ethanham.com/)
  * [Michael Mandiberg](http://www.mandiberg.com/)

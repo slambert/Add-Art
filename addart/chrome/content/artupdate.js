@@ -136,7 +136,7 @@ try {
 	Components.utils.import("resource://gre/modules/AddonManager.jsm");  
 	  
 	AddonManager.getAddonByID("development@add-art.org", function(aAddon) {
-		var aaExtensionPath = aAddon.getResourceURI("chrome/images.jar").QueryInterface(Components.interfaces.nsIFileURL).file.path;
+		var aaExtensionPath = aAddon.getResourceURI("").QueryInterface(Components.interfaces.nsIFileURL).file.path;
 		CheckForImagesUpdate(aaExtensionPath);
 	});    
 }
