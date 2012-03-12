@@ -9,25 +9,34 @@ const Ci = Components.interfaces;
 const Cr = Components.results;
 const Cu = Components.utils;
 
-let baseURL = Cc["@adblockplus.org/abp/private;1"].getService(Ci.nsIURI);
-Cu.import(baseURL.spec + "AppIntegration.jsm");
-Cu.import(baseURL.spec + "ContentPolicy.jsm");
-Cu.import(baseURL.spec + "FilterClasses.jsm");
-Cu.import(baseURL.spec + "FilterListener.jsm");
-Cu.import(baseURL.spec + "FilterStorage.jsm");
-Cu.import(baseURL.spec + "FilterNotifier.jsm");
-Cu.import(baseURL.spec + "Matcher.jsm");
-Cu.import(baseURL.spec + "Prefs.jsm");
-Cu.import(baseURL.spec + "RequestNotifier.jsm");
-Cu.import(baseURL.spec + "SubscriptionClasses.jsm");
-Cu.import(baseURL.spec + "Synchronizer.jsm");
-Cu.import(baseURL.spec + "Sync.jsm");
-Cu.import(baseURL.spec + "Utils.jsm");
-
 /**
  * Shortcut for document.getElementById(id)
  */
 function E(id)
 {
 	return document.getElementById(id);
+}
+
+/**
+ * Formats a unix time according to user's locale.
+ * @param {Integer} time  unix time in milliseconds
+ * @return {String} formatted date and time
+ */
+function formatTime(time)
+{
+	try
+	{
+		let date = new Date(time);
+		let fmt = Components.classes["@mozilla.org/intl/scriptabledateformat;1"].createInstance(Components.interfaces.nsIScriptableDateFormat);
+		return fmt.FormatDateTime("", Ci.nsIScriptableDateFormat.dateFormatShort,
+																							Ci.nsIScriptableDateFormat.timeFormatNoSeconds,
+																							date.getFullYear(), date.getMonth() + 1, date.getDate(),
+																							date.getHours(), date.getMinutes(), date.getSeconds());
+	}
+	catch(e)
+	{
+		// Make sure to return even on errors
+		Cu.reportError(e);
+		return "";
+	}
 }

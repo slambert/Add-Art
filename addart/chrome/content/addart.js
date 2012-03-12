@@ -10,7 +10,7 @@ var addart = {
 		case "em-action-requested":
 			if (aData == "item-uninstalled") {
 				aSubject.QueryInterface(Components.interfaces.nsIUpdateItem);
-				if (aSubject.id == "proxyactiv@mail.com") {
+				if (aSubject.id == "development@add-art.org") {
 					//Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch).deleteBranch("extensions.addart");
 				}
 			}
@@ -21,18 +21,17 @@ var addart = {
 	onLoad : function() {
 		// initialization code
 		this.initialized = true;
-		this.strings = document.getElementById("proxyactivator-strings");
 		this.prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
 
 		// Setting up prefferences. (Gecko 1.8: Firefox 1.5 / Thunderbird 1.5 / SeaMonkey 1.0)
 		var prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
-		this.prefBranch = prefService.getBranch("extensions.proxyactivator.");
+		this.prefBranch = prefService.getBranch("extensions.add-art.");
 
 		// Setting up a listener on unisntalling addon (Gecko 2.0: Firefox 4 / Thunderbird 3.3 / SeaMonkey 2.1)
 		var listener = {
 			onUninstalling : function(addon) {
-				if (addon.id == "proxyactiv@mail.com") {
-					Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch).deleteBranch("extensions.proxyactivator");
+				if (addon.id == "development@add-art.org") {
+					Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch).deleteBranch("extensions.add-art");
 				}
 			}
 		};
@@ -52,9 +51,24 @@ var addart = {
 		if (!this.prefBranch.prefHasUserValue("firstRunDone") || !this.prefBranch.getBoolPref("firstRunDone")) {
 			this.prefBranch.setBoolPref("firstRunDone", true);
 			this.installButton("nav-bar", "addart-toolbar-button", "urlbar-container");
-
-			// all the rest of the first run code goes here.  
 		}
+		if (!this.prefBranch.prefHasUserValue("enableMoreAds")) {
+			this.prefBranch.setBoolPref("enableMoreAds", true);
+		};
+		if (!this.prefBranch.prefHasUserValue("expandImages")) {
+			this.prefBranch.setBoolPref("expandImages");
+		}
+		if (!this.prefBranch.prefHasUserValue("imageSetXmlUrl")) {
+			request.open("GET", "chrome://addart/content/subscriptions.xml");
+			request.addEventListener("load", function()
+			{
+				var subs = request.responseXML.getElementsByTagName("subscription");
+				subs[0].getAttribute("url");
+				addart.setCharPref("imageSetXmlUrl", "chrome://addart/content/subscriptions.xml");
+				addart.setIntPref("checkedSubscription, 0");
+			}, false);
+			request.send();
+		}		
 	},
 
 	onMenuItemCommand : function(e) {
@@ -94,7 +108,7 @@ var addart = {
 	},
 
 	showOptions : function() {
-		window.openDialog("chrome://addart/content/filters.xul", "Add-Art Options", "chrome,titlebar,toolbar,centerscreen,resizable");
+		window.openDialog("chrome://addart/content/subscriptions.xul", "Add-Art Options", "chrome,titlebar,toolbar,centerscreen,resizable");
 	}
 };
 

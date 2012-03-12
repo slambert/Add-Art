@@ -15,9 +15,6 @@
 <!ENTITY subscription.lastDownload.invalidData 		"Failed, not a valid filters list">
 <!ENTITY subscription.lastDownload.checksumMismatch "Failed, checksum mismatch">
 <!ENTITY subscription.lastDownload.success    		"Success">
-<!ENTITY subscription.minVersion.warning      "This filter subscription requires a newer Adblock Plus version, you should update to the latest Adblock Plus version.">
-<!ENTITY subscription.disabledFilters.warning "Some filters in this subscription are disabled.">
-<!ENTITY subscription.disabledFilters.enable  "Enable disabled filters">
 
 <!ENTITY noSubscriptions.text                 "
 	You haven't added any filter subscriptions yet. Adblock Plus won't block
@@ -25,12 +22,14 @@
 	add some.
 ">
 
-<!ENTITY enableMoreAdToHide.label "Enable more Ads to hide">
-<!ENTITY enableMoreAdToHide.accesskey "h">
+<!ENTITY enableMoreAdToHide.label 		"See more art and more text ads">
+<!ENTITY enableMoreAdToHide.accesskey 	"m">
+<!ENTITY enableMoreAdToHide.url 		"http://add-art.org/settings">
+<!ENTITY enableMoreAdToHide.urltext		"(read more)">
 
 <!ENTITY dialog.title "Add-Art Settings">
 
 <!ENTITY expand.label "Expand images to see hidden parts when hovering on them">
 <!ENTITY expand.accesskey "e">
 
-<!ENTITY close.label                          "Close">
+<!ENTITY close.label                          "Apply and close">

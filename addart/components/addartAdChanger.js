@@ -21,7 +21,7 @@ function AddArtComponent() {
 AddArtComponent.prototype = {
 	// properties required for XPCOM registration: 
 	classID : Components.ID("{741b4765-dbc0-c44e-9682-a3182f8fa1cc}"),
-	contractID : "@eyebeam.org/addart;1",
+	contractID : "@eyebeam.org/addartadchanger;1",
 	classDescription : "Banner to art converter",
 
 	QueryInterface : XPCOMUtils.generateQI( [ Ci.nsIObserver ]),
@@ -39,6 +39,7 @@ AddArtComponent.prototype = {
 	},
 
 	init : function() {
+		this.myDump("init");
 		// First, we check if ABP is installed
 		try {
 			var abpURL = Components.classes["@adblockplus.org/abp/private;1"].getService(Components.interfaces.nsIURI);
@@ -70,22 +71,28 @@ AddArtComponent.prototype = {
 
 	processNodeForAdBlock : function(wnd, node, contentType, location, collapse) {
 		//this will be run in context of AdBlock Plus
-		return Components.classes['@eyebeam.org/addart;1'].getService().wrappedJSObject.processNodeForAddArt(wnd, node, contentType, location, collapse);
+		return Components.classes['@eyebeam.org/addartadchanger;1'].getService().wrappedJSObject.processNodeForAddArt(wnd, node, contentType, location, collapse);
 	},
 	
 	processNodeForAddArt : function(wnd, node, contentType, location, collapse) {
-		//this will be run in context of Add-Art
+		//this will be running in context of Add-Art
 		if (!Policy)
 			return true;
 		if (/^chrome:\//i.test(location))
 			return true;
+		
 		if (!node || !node.ownerDocument || !node.tagName) {
-			if (Policy.oldprocessNode(wnd, node, contentType, location, collapse) == true) {
-				return true;
+			if (this.getPref("extensions.add-art.enableMoreAds") == false) {
+				if (!node || !node.ownerDocument || !node.tagName) {
+					return Policy.oldprocessNode(wnd, node, contentType, location, collapse);
+				} else {
+					return false
+				}
 			} else {
-				return false;
+				return true;
 			}
-		}			
+		}		
+		
 		if (node.hasAttribute("NOAD"))
 			return true;
 		if (contentType == Components.interfaces.nsIContentPolicy.TYPE_STYLESHEET ||
@@ -227,10 +234,14 @@ AddArtComponent.prototype = {
 		newElt.style.cursor = "pointer";
 		newElt.title = "Replaced by Add-Art";
 		
+		// Expanding images
 		// Setting Art to be shown in full while is over it
-		newElt.setAttribute("onmouseover","this.style.overflow = 'visible';this.style.zIndex= 100000;");
-		newElt.setAttribute("onmouseout","this.style.overflow = 'hidden';this.style.zIndex= 0;");
-		newElt.setAttribute("onclick","window.top.location = 'http://add-art.org/';");
+		if (this.getPref("extensions.add-art.expandImages")) {
+			newElt.setAttribute("onmouseover","this.style.overflow = 'visible';this.style.zIndex= 100000;");
+			newElt.setAttribute("onmouseout","this.style.overflow = 'hidden';this.style.zIndex= 0;");
+			newElt.setAttribute("onclick","window.top.location = 'http://add-art.org/';");	
+		}
+		
 		
 		var img = OldElt.ownerDocument.createElement("img");
 		img.setAttribute("NOAD", "true");
