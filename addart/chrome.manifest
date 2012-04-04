@@ -1,6 +1,6 @@
 content   addart jar:chrome/addart.jar!/content/
 content   addart jar:chrome/addart.jar!/content/ contentaccessible=yes
-locale    addart   en-US         jar:chrome/locale/en-US/
+locale    addart   en-US         jar:chrome/addart.jar!/locale/en-US/
 #skin      addart   classic/1.0   chrome/skin/
 
 skin      addart classic/1.0 jar:chrome/images.jar!/images/
