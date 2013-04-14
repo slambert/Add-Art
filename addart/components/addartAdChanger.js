@@ -6,7 +6,7 @@ const prefs = Components.classes["@mozilla.org/preferences-service;1"].getServic
 var Policy = null;
 
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
-
+Components.utils.import("resource://gre/modules/Services.jsm");
 
 /*******************************************************************************
  * class definition
@@ -21,7 +21,7 @@ function AddArtComponent() {
 AddArtComponent.prototype = {
 	// properties required for XPCOM registration: 
 	classID : Components.ID("{741b4765-dbc0-c44e-9682-a3182f8fa1cc}"),
-	contractID : "@eyebeam.org/addart;1",
+	contractID : "@eyebeam.org/addartadchanger;1",
 	classDescription : "Banner to art converter",
 
 	QueryInterface : XPCOMUtils.generateQI( [ Ci.nsIObserver ]),
@@ -34,19 +34,26 @@ AddArtComponent.prototype = {
 
 	// This will help to write debug messages to console
 	myDump : function(aMessage) {
-		var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
-		consoleService.logStringMessage("add-art: " + aMessage);
+		// var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
+		// consoleService.logStringMessage("add-art: " + aMessage);
+	},
+	myDumpObject: function(object,label) {
+	    stuff = [];
+	    for (s in object) {
+	        stuff.push(s);
+	    }
+	    stuff.sort();
+	    this.myDump(label+': '+stuff);
 	},
 
 	init : function() {
-		// First, we check if ABP is installed
-		try {
-			var abpURL = Components.classes["@adblockplus.org/abp/private;1"].getService(Components.interfaces.nsIURI);
-			Components.utils.import(abpURL.spec + "ContentPolicy.jsm");
-		} catch (e) {
-			this.myDump("No AdBlock Plus v1.3 or higher");
-			return false;
-		}
+		this.myDump("init");
+		
+		let result = {};
+		result.wrappedJSObject = result;
+		Services.obs.notifyObservers(result, "adblockplus-require", 'contentPolicy');
+
+		Policy = result.exports.Policy;
 		
 		// if everything is OK we continue 
 		if (!Policy)
@@ -70,32 +77,38 @@ AddArtComponent.prototype = {
 
 	processNodeForAdBlock : function(wnd, node, contentType, location, collapse) {
 		//this will be run in context of AdBlock Plus
-		return Components.classes['@eyebeam.org/addart;1'].getService().wrappedJSObject.processNodeForAddArt(wnd, node, contentType, location, collapse);
+		return Components.classes['@eyebeam.org/addartadchanger;1'].getService().wrappedJSObject.processNodeForAddArt(wnd, node, contentType, location, collapse);
 	},
 	
 	processNodeForAddArt : function(wnd, node, contentType, location, collapse) {
-		//this will be run in context of Add-Art
 		if (!Policy)
 			return true;
 		if (/^chrome:\//i.test(location))
 			return true;
+
 		if (!node || !node.ownerDocument || !node.tagName) {
-			if (Policy.oldprocessNode(wnd, node, contentType, location, collapse) == true) {
-				return true;
+			if (this.getPref("extensions.add-art.enableMoreAds") == false) {
+				if (!node || !node.ownerDocument || !node.tagName) {
+					return Policy.oldprocessNode(wnd, node, contentType, location, collapse);
+				} else {
+					return false;
+				}
 			} else {
-				return false;
+				return true;
 			}
-		}			
+		}		
+		
 		if (node.hasAttribute("NOAD"))
 			return true;
 		if (contentType == Components.interfaces.nsIContentPolicy.TYPE_STYLESHEET ||
 				contentType == Components.interfaces.nsIContentPolicy.TYPE_DOCUMENT ||
-				contentType > Components.interfaces.nsIContentPolicy.TYPE_SUBDOCUMENT)
+				contentType > Components.interfaces.nsIContentPolicy.TYPE_SUBDOCUMENT	)
 			return Policy.oldprocessNode(wnd, node, contentType, location, collapse);
-		if (node.ownerDocument.getElementsByTagName('HTML')[0] && node.ownerDocument.getElementsByTagName('HTML')[0].getAttribute('inAdScript') == 'true') {
+		if (contentType == Components.interfaces.nsIContentPolicy.TYPE_SCRIPT &&
+				node.ownerDocument.getElementsByTagName('HTML')[0] &&
+				node.ownerDocument.getElementsByTagName('HTML')[0].getAttribute('inAdScript') == 'true') {
 			//Here possible should be done some work with script-based ads
-			if (contentType == Components.interfaces.nsIContentPolicy.TYPE_SCRIPT)
-				return true;
+			return true;
 		} else {
 			if (Policy.oldprocessNode(wnd, node, contentType, location, collapse) == 1)
 				return true;
@@ -104,11 +117,23 @@ AddArtComponent.prototype = {
 				return true;
 			}
 		}
+
 		try {
 			// Replacing Ad Node to Node with Art
-			var RNode = this.findAdNode(node);
+			var RNode = this.findAdNode(node,contentType);
+			if(this.checkDanger(RNode)) {
+				return Policy.oldprocessNode(wnd, node, contentType, location, collapse);
+			}
+
 			if (RNode.parentNode) {
-				RNode.parentNode.replaceChild(this.transform(RNode), RNode);
+				var newNode = this.transform(RNode, wnd);
+
+				if(newNode) {
+					RNode.parentNode.replaceChild(newNode, RNode);	
+				}
+				else {
+					return Policy.oldprocessNode(wnd, node, contentType, location, collapse);
+				}
 			}
 		} catch(e) {
 			this.myDump("Error in: " + e.fileName +", line number: " + e.lineNumber +", " + e);
@@ -116,16 +141,18 @@ AddArtComponent.prototype = {
 		return false;
 	},
 
-	findAdNode : function(node) {
-		// if(node.parentNode.childNodes.length==1)
-		// return this.findAdNode(node.parentNode);
-		if (node.parentNode && node.parentNode.tagName == "A")
-			return this.findAdNode(node.parentNode);
-		if (node.parentNode && node.parentNode.tagName == "OBJECT")
-			return this.findAdNode(node.parentNode);
-		if (node.parentNode && node.parentNode.hasAttribute('onclick'))
-			return this.findAdNode(node.parentNode);
-		return node;
+	findAdNode : function(node,contentType) {
+		var ad_node = node;
+
+		while(ad_node.parentNode && 
+			(ad_node.parentNode.tagName == 'A' ||
+				ad_node.parentNode.tagName == 'OBJECT' ||
+				ad_node.parentNode.tagName == 'IFRAME' ||
+				(ad_node.hasAttribute && ad_node.hasAttribute('onclick')))){	
+			ad_node = ad_node.parentNode;
+		}
+			
+		return ad_node;
 	},
 	
 	loadImgArray : function() {
@@ -191,13 +218,24 @@ AddArtComponent.prototype = {
 		}
 		return this.ImgArray[optimalBanner[Math.floor(Math.random() * optimalBanner.length)]];
 	},
+	checkDanger: function(element) {
+		// if we try to replace elements of this kind, firefox crashes.
+		return typeof(element.wrappedJSObject) == 'function';
+	},
 
-	createConteneur : function(OldElt, l, L) {
+	createConteneur : function(OldElt, wnd, l, L) {
 		// This replaces Ad element to element with art
+		var newElt = null;
+
+		if(this.checkDanger(OldElt)) {			
+			return null;
+		}
+		else {
+			newElt = OldElt.ownerDocument.createElement("div");	
+		}
 		
-		var newElt = OldElt.ownerDocument.createElement("div");
 		newElt.setAttribute("NOAD", "true");
-		
+
 		// Copying style from old to new element and doing some replacing of it 
 		newElt.setAttribute("style", OldElt.getAttribute("style"));
 		if (OldElt.ownerDocument.defaultView && OldElt.ownerDocument.defaultView.getComputedStyle(OldElt, null)) {
@@ -213,6 +251,7 @@ AddArtComponent.prototype = {
 			newElt.style.float = EltStyle.getPropertyValue('float');
 			newElt.style.clear = EltStyle.getPropertyValue('clear');
 		}
+
 		newElt.style.background = "";
 		if (OldElt.hasAttribute("id"))
 			newElt.setAttribute("id", OldElt.getAttribute("id"));
@@ -227,15 +266,19 @@ AddArtComponent.prototype = {
 		newElt.style.cursor = "pointer";
 		newElt.title = "Replaced by Add-Art";
 		
+		// Expanding images
 		// Setting Art to be shown in full while is over it
-		newElt.setAttribute("onmouseover","this.style.overflow = 'visible';this.style.zIndex= 100000;");
-		newElt.setAttribute("onmouseout","this.style.overflow = 'hidden';this.style.zIndex= 0;");
-		newElt.setAttribute("onclick","window.top.location = 'http://add-art.org/';");
-		
+		if (this.getPref("extensions.add-art.expandImages")) {
+			newElt.setAttribute("onmouseover","this.style.overflow = 'visible';this.style.zIndex= 100000;");
+			newElt.setAttribute("onmouseout","this.style.overflow = 'hidden';this.style.zIndex= 0;");
+			newElt.setAttribute("onclick","window.top.location = 'http://add-art.org/';");	
+		}
+
 		var img = OldElt.ownerDocument.createElement("img");
 		img.setAttribute("NOAD", "true");
 		img.setAttribute("border", "0");
 		var Img = this.askLink(L, l);
+		this.myDump('Img:'+Img);
 		
 		// Select banner URL
         // use the URL in a top window to generate a number b/w 1 and 8 (to maintain some persistence)
@@ -261,6 +304,7 @@ AddArtComponent.prototype = {
 		
         img.setAttribute("src", url);
 
+		// return newElt;
 		if (Img[1] * l / Img[2] < L) {
 			img.style.width = L + "px";
 			img.style.marginTop = parseInt((l - Img[1] * L / Img[0]) / 2) + 'px';
@@ -282,13 +326,24 @@ AddArtComponent.prototype = {
 		return "pixel";
 	},
 
+	// getSize:function(prop, elt) {
+	// 	if(prop == 'width') {
+	// 		return Math.max(elt.offsetWidth,elt.scrollWidth);
+	// 	}
+	// 	if(prop == 'height') {
+	// 		return Math.max(elt.offsetHeight,elt.scrollHeight);
+	// 	}
+	// },
+
 	getSize : function(prop, elt) {
 		if (elt.ownerDocument) {
 			if (elt.ownerDocument.defaultView && elt.ownerDocument.defaultView.getComputedStyle(elt, null)) {
 				var wnd = elt.ownerDocument.defaultView;
 				var compW = wnd.getComputedStyle(elt, null).getPropertyValue(prop);
-				if (elt.parentNode)
+
+				if (elt.parentNode) {
 					var parentcompW = wnd.getComputedStyle(elt.parentNode, null).getPropertyValue(prop);
+				}
 			}
 		}
 
@@ -301,6 +356,19 @@ AddArtComponent.prototype = {
 				compW = 0;
 		}
 
+		var capital_name = {'width':'Width','height':'Height'}[prop];
+
+		if(elt.tagName == 'A') {
+			var size = 0;
+			for(var i=0;i<elt.childNodes.length;i++) {
+				var child = elt.childNodes[i];
+				if(child.nodeType == 1) {
+					size = Math.max(size,parseInt(wnd.getComputedStyle(child, null).getPropertyValue(prop)));
+				}
+			};
+			return size;
+		}
+
 		var x;
 		if (this.typeofSize(compW) == "percentage") {
 			if (this.typeofSize(parentcompW) !== "pixel")
@@ -308,7 +376,7 @@ AddArtComponent.prototype = {
 			else
 				x = parseInt(parseInt(compW) * parseInt(parentcompW) / 100);
 		} else if (this.typeofSize(compW) == "auto")
-			x = 0;
+			x = elt['offset'+capital_name];
 		else if (this.typeofSize(compW) == "inherit") {
 			if (this.typeofSize(parentcompW) !== "pixel")
 				x = 0;
@@ -319,13 +387,25 @@ AddArtComponent.prototype = {
 		return x;
 	},
 
-	transform : function(ToReplace) {
-		var Larg = this.getSize("height", ToReplace);
-		var Long = this.getSize("width", ToReplace);
+	transform : function(ToReplace, wnd) {
+		try {
+			var Larg = this.getSize("height", ToReplace);
+			var Long = this.getSize("width", ToReplace);
+
+			if(Larg < 10 || Long < 10) {
+				return null;
+			}
+		}
+		catch(e) {
+			this.myDump(e.lineNumber + ', ' + e);
+		}
+
+		var placeholder = ToReplace.ownerDocument.createElement("div");
 
 		if (Long == 0 || Larg == 0) {
-			var placeholder = ToReplace.ownerDocument.createElement("div");
+			// placeholder = ToReplace.ownerDocument.createElement("div");
 			placeholder.setAttribute("NOAD", "true");
+			
 			if (ToReplace.hasAttribute("style"))
 				placeholder.setAttribute("style", ToReplace.getAttribute("style"));
 			if (placeholder.style.background)
@@ -345,8 +425,9 @@ AddArtComponent.prototype = {
 			if (ToReplace.style.display == 'none')
 				placeholder.style.display = 'none';
 		} else {
-			var placeholder = this.createConteneur(ToReplace, Larg, Long);
+			placeholder = this.createConteneur(ToReplace, wnd, Larg, Long);
 		}
+
 		return placeholder;
 	},
 	
