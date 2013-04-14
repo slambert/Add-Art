@@ -56,16 +56,17 @@ var addart = {
 			this.prefBranch.setBoolPref("enableMoreAds", true);
 		};
 		if (!this.prefBranch.prefHasUserValue("expandImages")) {
-			this.prefBranch.setBoolPref("expandImages");
+			this.prefBranch.setBoolPref("expandImages", true);
 		}
 		if (!this.prefBranch.prefHasUserValue("imageSetXmlUrl")) {
+			var request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
 			request.open("GET", "chrome://addart/content/subscriptions.xml");
+			var d = this;
 			request.addEventListener("load", function()
 			{
 				var subs = request.responseXML.getElementsByTagName("subscription");
-				subs[0].getAttribute("url");
-				addart.setCharPref("imageSetXmlUrl", "chrome://addart/content/subscriptions.xml");
-				addart.setIntPref("checkedSubscription, 0");
+				d.prefBranch.setCharPref("imageSetXmlUrl", subs[0].getAttribute('url'));
+				d.prefBranch.setIntPref("checkedSubscription", 0);
 			}, false);
 			request.send();
 		}		

@@ -24,6 +24,10 @@ function E(id)
  */
 function formatTime(time)
 {
+	if(!time) {
+		return '';
+	}
+	
 	try
 	{
 		let date = new Date(time);

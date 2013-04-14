@@ -12,28 +12,48 @@ const nsIFilePicker = Components.interfaces.nsIFilePicker;
  */
 function onLoad()
 {
-	FillSubscriptionList("chrome://addart/content/subscriptions.xml", (aaPreferences.prefHasUserValue("extensions.add-art.imageSetXmlUrlUser"))?aaPreferences.getCharPref("extensions.add-art.imageSetXmlUrlUser"):null);
+	FillSubscriptionList("chrome://addart/content/subscriptions.xml");
 	
 	E("enableMoreAdToHide").setChecked(getMoreAds());
 	E("expandImages").setChecked(getExpandImages());
 }
 
-function FillSubscriptionList(subscruptionUrlMain, subscruptionUrlUser) {
+function getUserSubscriptions() {
+	if (aaPreferences.prefHasUserValue("extensions.add-art.imageSetXmlUrlUser")) {
+		return aaPreferences.getCharPref("extensions.add-art.imageSetXmlUrlUser").split('|');
+	}
+}
+
+function chainedRequest(urls) {
+	if(!urls.length) {
+		return;
+	}
+
+	request = new XMLHttpRequest();
+	request.open("GET", urls.pop(0));
+	request.addEventListener("readystatechange", function() {
+		if(request.readyState == 4) {
+			FillSubscriptionListFromXML(request.responseXML);
+			makeCheckOnSubscriptions();
+			chainedRequest(urls);
+		}
+	}, false);
+	request.send();
+}
+
+function FillSubscriptionList(subscruptionUrlMain) {
 	var request = new XMLHttpRequest();
 	request.open("GET", subscruptionUrlMain);
 	request.addEventListener("load", function()
 	{	
 		FillSubscriptionListFromXML(request.responseXML);
-		request = new XMLHttpRequest();
-		request.open("GET", subscruptionUrlUser);
-		request.addEventListener("error", function() {
-			makeCheckOnSubscriptions();
-		}, false);
-		request.addEventListener("load", function() {
-			FillSubscriptionListFromXML(request.responseXML);
-			makeCheckOnSubscriptions();
-		}, false);
-		request.send();
+		makeCheckOnSubscriptions();
+
+		var subscriptions = getUserSubscriptions();
+		if(subscriptions) {
+			chainedRequest(subscriptions);
+		}
+
 	}, false);
 	request.send();	
 }
@@ -68,14 +88,16 @@ function makeCheckOnSubscriptions() {
 	} else {
 		checkedSubscription = 0;
 	}
-	E("subscriptions").getElementsByTagName("checkbox")[checkedSubscription].setChecked(true);
+	var radios = E("subscriptions").getElementsByTagName("radio");
+
+	onCheck(E("subscriptions").getElementsByTagName("radio")[checkedSubscription]);
 }
 
 function onAccept() {
 	let i = 0;
-	let checkboxes = E("subscriptions").getElementsByTagName("checkbox");
+	let checkboxes = E("subscriptions").getElementsByTagName("radio");
 	do {
-		if (checkboxes[i].checked) {
+		if (checkboxes[i].selected) {
 			if ( !aaPreferences.prefHasUserValue("extensions.add-art.checkedSubscription") || (aaPreferences.getIntPref("extensions.add-art.checkedSubscription")!=i) ) {
 				aaPreferences.setIntPref("extensions.add-art.checkedSubscription", i);
 				//Update is needed
@@ -84,7 +106,7 @@ function onAccept() {
 			}
 		}
 		i++;
-	} while ( ( i < checkboxes.length) && !checkboxes[i-1].checked);
+	} while ( ( i < checkboxes.length) && !checkboxes[i-1].selected);
 	
 	aaPreferences.setBoolPref("extensions.add-art.enableMoreAds", E("enableMoreAdToHide").checked);
 	aaPreferences.setBoolPref("extensions.add-art.expandImages", E("expandImages").checked);
@@ -118,19 +140,25 @@ function loadInBrowser(url) {
 }
 
 function addSubscription() {
-	//alert("Pressed!");
-	var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
-	fp.init(window, "Choose Subscription", nsIFilePicker.modeOpen);
-	fp.appendFilters(nsIFilePicker.filterXML);
-
-	var rv = fp.show();
-	if (rv == nsIFilePicker.returnOK || rv == nsIFilePicker.returnReplace) {
-		aaPreferences.setCharPref("extensions.add-art.imageSetXmlUrlUser", fp.fileURL.spec);
-		UpdateSubscriptionList();
-	};
+	var url = prompt('Please enter the URL of the new subscription:');
+	if(url) {
+		addUserSubscription(url);
+		updateSubscriptionList();
+	}
 }
 
-function UpdateSubscriptionList() {
+function addUserSubscription(url) {
+	var current = getUserSubscriptions();
+	if(!current) {
+		aaPreferences.setCharPref("extensions.add-art.imageSetXmlUrlUser",url);
+	}
+	else {
+		current.push(url);
+		aaPreferences.setCharPref("extensions.add-art.imageSetXmlUrlUser",current.join('|'));
+	}
+}
+
+function updateSubscriptionList() {
 	while (E("subscriptions").firstChild != null) {
 		E("subscriptions").removeChild(E("subscriptions").firstChild);
 	}
@@ -139,12 +167,12 @@ function UpdateSubscriptionList() {
 }
 
 function onCheck(checkbox) {
-	let checkboxes = E("subscriptions").getElementsByTagName("checkbox");
+	let checkboxes = E("subscriptions").getElementsByTagName("radio");
 	for ( let i = 0; i < checkboxes.length; i++) {
 		if (checkboxes[i] != checkbox) {
-			checkboxes[i].setChecked(false);
+			checkboxes[i].parentNode.selectedIndex = -1;
 		} else {
-			checkboxes[i].setChecked(true);
+			checkboxes[i].parentNode.selectedIndex = 0;
 		}
 	}
 }

@@ -3,6 +3,7 @@ const Ci = Components.interfaces;
 const prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch).QueryInterface(Components.interfaces.nsIPrefBranchInternal);
 
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
+Components.utils.import("resource://gre/modules/AddonManager.jsm");
 
 
 /*******************************************************************************
@@ -79,7 +80,7 @@ ArtUpdateComponent.prototype = {
 	},
 	
 	CheckForUpdates : function() {
-		
+		var that=this;
 		// This code checks for a new set of images in a .jar file on the server and 
 		// downloads it when available.  This is how new art images get to the user.
 		function CheckForImagesUpdate(aaExtensionPath) {
@@ -181,14 +182,7 @@ ArtUpdateComponent.prototype = {
 			}
 			
 
-			// check and see if we have a new set of art (it would have been downloaded during the last
-			// firefox session)
-			var downloadedfile = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
-			downloadedfile.initWithPath(aaExtensionPath + aaFileSep + "chrome" + aaFileSep + "~images.jar");
-			if(downloadedfile.exists())
-			{
-				downloadedfile.moveTo(null, "images.jar");	
-			}
+			that.CheckIfNewImagesReady();
 
 			// check and see if our check-for-new-images date has elapsed
 			if(aaPreferences.prefHasUserValue("extensions.add-art.expiration"))
@@ -211,26 +205,60 @@ ArtUpdateComponent.prototype = {
 				aaPreferences.setBoolPref("extensions.add-art.showUpdateAlert", true);
 			}
 		};
-   	 //Getting a path to images.jar
- 	   try {
- 	   	//this will work on FireFox 3.6
- 	   	const aaExtensionPath = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager).getInstallLocation("development@add-art.org").getItemLocation("development@add-art.org").path;
- 	   	CheckForImagesUpdate(aaExtensionPath);
- 	   } catch (e) {
- 	   	//this will work on FireFox 4 and above
- 	   	Components.utils.import("resource://gre/modules/AddonManager.jsm");  
- 	   	  
- 	   	AddonManager.getAddonByID("development@add-art.org", function(aAddon) {
- 	   		var aaExtensionPath = aAddon.getResourceURI("").QueryInterface(Components.interfaces.nsIFileURL).file.path;
- 	   		CheckForImagesUpdate(aaExtensionPath);
- 	   	});    
- 	   }
+
+	// this.withExtensionPath(CheckForImagesUpdate);
+	 	   	AddonManager.getAddonByID("development@add-art.org", function(aAddon) {
+	 	   		var aaExtensionPath = aAddon.getResourceURI("").QueryInterface(Components.interfaces.nsIFileURL).file.path;
+	 	   		CheckForImagesUpdate(aaExtensionPath);
+	 	   	});
 	},
 	
+	withExtensionPath: function(cb) {
+		//Getting a path to images.jar
+ 	   // try {
+	 	  //  	//this will work on FireFox 3.6
+	 	  //  	const aaExtensionPath = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager).getInstallLocation("development@add-art.org").getItemLocation("development@add-art.org").path;
+	 	  //  	cb(aaExtensionPath);
+ 	   // } catch (e) {
+	 	  //  	//this will work on FireFox 4 and above
+	 	  // Figure out what is the correct file separator (to handle both PCs and Macs) 
+	 	  const DIR_SERVICE = new Components.Constructor("@mozilla.org/file/directory_service;1","nsIProperties");
+			var aaFileLoc=(new DIR_SERVICE()).get("ProfD", Components.interfaces.nsIFile).path; 
+			// determine the file-separator
+			if (aaFileLoc.search(/\\/) != -1) 
+			{
+				aaFileSep = "\\";
+			} 
+			else 
+			{
+				aaFileSep = "/";
+			}
+
+	 	   	AddonManager.getAddonByID("development@add-art.org", function(aAddon) {
+	 	   		var aaExtensionPath = aAddon.getResourceURI("").QueryInterface(Components.interfaces.nsIFileURL).file.path;
+	 	   		cb(aaExtensionPath);
+	 	   	});
+ 	   	// }    
+	},
+
 	CheckForSubscriptionsUpdate : function() {
 		//Here Should be some stuff for updating subscriptions.xml
 	},
 	
+	CheckIfNewImagesReady: function() {
+		// check and see if we have a new set of art (it would have been downloaded during the last
+		// firefox session)
+		this.withExtensionPath(
+			function(aaExtensionPath) {
+				var downloadedfile = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+				downloadedfile.initWithPath(aaExtensionPath + aaFileSep + "chrome" + aaFileSep + "~images.jar");
+				if(downloadedfile.exists())
+				{
+					downloadedfile.moveTo(null, "images.jar");	
+				}
+		});
+
+	},
 	// nsIObserver interface implementation
 	observe : function(aSubject, aTopic, aData) {
 		Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
@@ -238,6 +266,7 @@ ArtUpdateComponent.prototype = {
 		case "profile-after-change":
 			// Doing initialization stuff on FireFox start
 			this.init();
+			this.CheckIfNewImagesReady();
 			break;
 			
 		case "timer-callback":

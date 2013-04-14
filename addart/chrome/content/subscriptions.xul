@@ -67,8 +67,10 @@
 											onclick="if (event.button == 0) { event.stopPropagation();loadInBrowser(this.getAttribute('_url')); }"/>
 								</hbox>
 							</description>
-							<checkbox label="&subscription.enabled.label;" class="tabable" tabindex="-1"
-								checked="false" oncommand="onCheck(this);"/>
+							<radiogroup>
+								<radio label="&subscription.enabled.label;" class="tabable" tabindex="-1"
+								selected="false" oncommand="onCheck(this);"/>
+							</radiogroup>
 						</hbox>
 						<hbox align="center">
 							<description flex="1" class="status">
