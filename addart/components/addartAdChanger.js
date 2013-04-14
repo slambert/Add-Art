@@ -326,15 +326,6 @@ AddArtComponent.prototype = {
 		return "pixel";
 	},
 
-	// getSize:function(prop, elt) {
-	// 	if(prop == 'width') {
-	// 		return Math.max(elt.offsetWidth,elt.scrollWidth);
-	// 	}
-	// 	if(prop == 'height') {
-	// 		return Math.max(elt.offsetHeight,elt.scrollHeight);
-	// 	}
-	// },
-
 	getSize : function(prop, elt) {
 		if (elt.ownerDocument) {
 			if (elt.ownerDocument.defaultView && elt.ownerDocument.defaultView.getComputedStyle(elt, null)) {

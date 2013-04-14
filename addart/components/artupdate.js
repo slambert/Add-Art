@@ -214,31 +214,22 @@ ArtUpdateComponent.prototype = {
 	},
 	
 	withExtensionPath: function(cb) {
-		//Getting a path to images.jar
- 	   // try {
-	 	  //  	//this will work on FireFox 3.6
-	 	  //  	const aaExtensionPath = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager).getInstallLocation("development@add-art.org").getItemLocation("development@add-art.org").path;
-	 	  //  	cb(aaExtensionPath);
- 	   // } catch (e) {
-	 	  //  	//this will work on FireFox 4 and above
-	 	  // Figure out what is the correct file separator (to handle both PCs and Macs) 
-	 	  const DIR_SERVICE = new Components.Constructor("@mozilla.org/file/directory_service;1","nsIProperties");
-			var aaFileLoc=(new DIR_SERVICE()).get("ProfD", Components.interfaces.nsIFile).path; 
-			// determine the file-separator
-			if (aaFileLoc.search(/\\/) != -1) 
-			{
-				aaFileSep = "\\";
-			} 
-			else 
-			{
-				aaFileSep = "/";
-			}
+		const DIR_SERVICE = new Components.Constructor("@mozilla.org/file/directory_service;1","nsIProperties");
+		var aaFileLoc=(new DIR_SERVICE()).get("ProfD", Components.interfaces.nsIFile).path; 
+		// determine the file-separator
+		if (aaFileLoc.search(/\\/) != -1) 
+		{
+			aaFileSep = "\\";
+		} 
+		else 
+		{
+			aaFileSep = "/";
+		}
 
-	 	   	AddonManager.getAddonByID("development@add-art.org", function(aAddon) {
-	 	   		var aaExtensionPath = aAddon.getResourceURI("").QueryInterface(Components.interfaces.nsIFileURL).file.path;
-	 	   		cb(aaExtensionPath);
-	 	   	});
- 	   	// }    
+		AddonManager.getAddonByID("development@add-art.org", function(aAddon) {
+			var aaExtensionPath = aAddon.getResourceURI("").QueryInterface(Components.interfaces.nsIFileURL).file.path;
+			cb(aaExtensionPath);
+		});
 	},
 
 	CheckForSubscriptionsUpdate : function() {
