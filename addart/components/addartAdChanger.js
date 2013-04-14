@@ -278,6 +278,7 @@ AddArtComponent.prototype = {
 		img.setAttribute("NOAD", "true");
 		img.setAttribute("border", "0");
 		var Img = this.askLink(L, l);
+		this.myDump('Img:'+Img);
 		
 		// Select banner URL
         // use the URL in a top window to generate a number b/w 1 and 8 (to maintain some persistence)
@@ -324,6 +325,15 @@ AddArtComponent.prototype = {
 			return "percentage";
 		return "pixel";
 	},
+
+	// getSize:function(prop, elt) {
+	// 	if(prop == 'width') {
+	// 		return Math.max(elt.offsetWidth,elt.scrollWidth);
+	// 	}
+	// 	if(prop == 'height') {
+	// 		return Math.max(elt.offsetHeight,elt.scrollHeight);
+	// 	}
+	// },
 
 	getSize : function(prop, elt) {
 		if (elt.ownerDocument) {
