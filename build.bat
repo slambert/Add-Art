@@ -17,6 +17,7 @@ cd chrome
 %zf%\7z a -tzip "addart.jar" * -r -mx=0
 rmdir content /S /Q
 rmdir skin /S /Q
+rmdir locale /S /Q
 
 cd ..
 %zf%\7z a -tzip "addart-build.xpi" * -r -mx=9
