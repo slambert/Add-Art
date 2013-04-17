@@ -5,13 +5,13 @@
   <RDF:Description RDF:about="rdf:#$hFzg+"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="3.6"
-                   em:maxVersion="19.*" />
+                   em:maxVersion="20.*" />
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="development@add-art.org"
                    em:name="Add-Art"
-                   em:version="0.9.3"
+                   em:version="1.0b17042013"
                    em:creator="Add-Art Team"
-                   em:description="Replace ads with art - new shows every 2 weeks. See add-art.org for more info and forum.add-art.org to discuss. This release includes updates for the latest AdBlockPlus 1.3 release."
+                   em:description="Replace ads with art"
                    em:homepageURL="http://www.add-art.org/"
                    em:iconURL="chrome://addart/content/addart.png"
                    em:unpack="true"

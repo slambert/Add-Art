@@ -12,13 +12,13 @@
 <!ENTITY subscription.lastDownload.unknown    		"N/A">
 <!ENTITY subscription.lastDownload.invalidURL 		"Failed, not a valid address">
 <!ENTITY subscription.lastDownload.connectionError 	"Failed, download failure">
-<!ENTITY subscription.lastDownload.invalidData 		"Failed, not a valid filters list">
+<!ENTITY subscription.lastDownload.invalidData 		"Failed, not a valid image source">
 <!ENTITY subscription.lastDownload.checksumMismatch "Failed, checksum mismatch">
 <!ENTITY subscription.lastDownload.success    		"Success">
 
 <!ENTITY noSubscriptions.text                 "
-	You haven't added any filter subscriptions yet. Adblock Plus won't block
-	anything without filters, please use &quot;Add filter subscription&quot; to
+	You haven't added any image subscriptions yet. Add-Art will show default
+	images without subscriptions, please use &quot;Add subscription&quot; to
 	add some.
 ">
 
