@@ -72,6 +72,8 @@
 								selected="false" oncommand="onCheck(this);"/>
 							</radiogroup>
 						</hbox>
+            <description value="{subscription.author}" flex="1" crop="end"/>
+            <description value="{subscription.description}" flex="1" crop="end"/>
 						<hbox align="center">
 							<description flex="1" class="status">
 								<description value="&subscription.lastDownload.label;"/>
