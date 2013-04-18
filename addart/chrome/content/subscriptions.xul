@@ -14,8 +14,9 @@
 	title="&dialog.title;"
 	id="addArtSubscriptionsbpFiltersWindow"
 	onload="onLoad()"
-	ondialogaccept="onAccept()"
-	buttons="accept"
+	ondialogaccept="onCloseAndRestart()"
+	ondialogextra1="onClose()"
+	buttons="accept,extra1"
 	width="950"
 	height="450"
 	persist="screenX screenY width height sizemode"
@@ -126,7 +127,8 @@
 <findbar id="findbar"/>
 
 <hbox id="buttons" pack="end">
-	<button id="close" dlgtype="accept" label="&close.label;"/>
+	<button id="close" dlgtype="extra1" label="&close.label;"/>
+	<button id="restart" dlgtype="accept" label="&restart.label;"/>
 </hbox>
 
 </dialog>
