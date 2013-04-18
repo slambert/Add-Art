@@ -14,8 +14,9 @@
 	title="&dialog.title;"
 	id="addArtSubscriptionsbpFiltersWindow"
 	onload="onLoad()"
-	ondialogaccept="onAccept()"
-	buttons="accept"
+	ondialogaccept="onCloseAndRestart()"
+	ondialogextra1="onClose()"
+	buttons="accept,extra1"
 	width="950"
 	height="450"
 	persist="screenX screenY width height sizemode"
@@ -72,6 +73,8 @@
 								selected="false" oncommand="onCheck(this);"/>
 							</radiogroup>
 						</hbox>
+            <description value="{subscription.author}" flex="1" crop="end"/>
+            <description value="{subscription.description}" flex="1" crop="end"/>
 						<hbox align="center">
 							<description flex="1" class="status">
 								<description value="&subscription.lastDownload.label;"/>
@@ -124,7 +127,8 @@
 <findbar id="findbar"/>
 
 <hbox id="buttons" pack="end">
-	<button id="close" dlgtype="accept" label="&close.label;"/>
+	<button id="close" dlgtype="extra1" label="&close.label;"/>
+	<button id="restart" dlgtype="accept" label="&restart.label;"/>
 </hbox>
 
 </dialog>
