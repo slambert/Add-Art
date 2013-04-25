@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE overlay SYSTEM "chrome://addart/locale/overlay.dtd">
 
-<overlay id="tumbarumbaOverlay" 
+<overlay id="AddArtOverlay" 
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <script type="application/x-javascript" src="addart.js"/>
@@ -13,7 +13,7 @@
 
   <!-- Firefox toolbar button overlay -->
   <toolbarpalette id="BrowserToolbarPalette">
-  <toolbarbutton id="addart-toolbar-button" image="chrome://addart/content/toolbar-button.png"
+  <toolbarbutton id="addart-toolbar-button" class="toolbarbutton-1" image="chrome://addart/content/toolbar-button.png"
     label="&addartToolbarButton.label;" tooltiptext="&addartToolbarButton.tooltip;"
     oncommand="addart.showOptions();"/>
   </toolbarpalette>
