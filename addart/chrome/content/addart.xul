@@ -5,7 +5,7 @@
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <script type="application/x-javascript" src="addart.js"/>
-  
+
   <stringbundleset id="stringbundleset">
     <stringbundle id="bundle_AdChangeForAdblockPlus"
                   src="chrome://addart/locale/addart.properties"/>
@@ -24,6 +24,5 @@
               label="&addart.label;"
               oncommand="addart.onToolbarButtonCommand();"/>
   </menupopup>	
-
 
 </overlay>

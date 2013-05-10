@@ -115,22 +115,6 @@ function onClose() {
 	this.close();
 }
 
-function onCloseAndRestart() {
-	onClose();
-
-	let canceled = Cc["@mozilla.org/supports-PRBool;1"]
-	.createInstance(Ci.nsISupportsPRBool);
-
-	Services.obs.notifyObservers(canceled, "quit-application-requested", "restart");
-	if (canceled.data) return false; // somebody canceled our quit request
-
-	// restart
-	Cc['@mozilla.org/toolkit/app-startup;1'].getService(Ci.nsIAppStartup)
-	.quit(Ci.nsIAppStartup.eAttemptQuit | Ci.nsIAppStartup.eRestart);
-
-	return true;
-}
-
 function setMoreAds(enabled) {
 	aaPreferences.setBoolPref("extensions.add-art.enableMoreAds", enabled);
 }

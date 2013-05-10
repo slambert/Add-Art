@@ -15,6 +15,46 @@ var addart = {
 				}
 			}
 			break;
+		case "addart-new-art":
+			this.showUpdateAlert();
+			break;
+		}
+	},
+
+	restartNow: function() {
+		let canceled = Cc["@mozilla.org/supports-PRBool;1"]
+			.createInstance(Ci.nsISupportsPRBool);
+
+		Services.obs.notifyObservers(canceled, "quit-application-requested", "restart");
+		if (canceled.data) return false; // somebody canceled our quit request
+
+		// restart
+		Cc['@mozilla.org/toolkit/app-startup;1'].getService(Ci.nsIAppStartup)
+			.quit(Ci.nsIAppStartup.eAttemptQuit | Ci.nsIAppStartup.eRestart);
+	},
+
+	showUpdateAlert: function() {
+		var gBrowser = getTopWin().gBrowser;
+		var message = 'Add-Art has downloaded new images, please restart Firefox to see them.';
+		var nb = gBrowser.getNotificationBox();
+		var n = nb.getNotificationWithValue('addart-alert');
+		if(n) {
+		    n.label = message;
+		} else {
+			that = this;
+			var restart = function() {
+				that.restartNow();
+			};
+
+		    var buttons = [{
+		        label: 'Restart Now',
+		        callback: restart,
+		    }];
+		 	
+		    const priority = nb.PRIORITY_WARNING_MEDIUM;
+		    nb.appendNotification(message, 'addart-alert',
+		                         'chrome://browser/skin/Info.png',
+		                          priority, buttons);
 		}
 	},
 
@@ -44,6 +84,7 @@ var addart = {
 		try {
 			var observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
 			observerService.addObserver(this, "em-action-requested", false);
+			observerService.addObserver(this, "addart-new-art", false);
 		} catch (e) {
 		}
 
@@ -70,6 +111,8 @@ var addart = {
 			}, false);
 			request.send();
 		}		
+
+		this.showUpdateAlert();
 	},
 
 	onMenuItemCommand : function(e) {
