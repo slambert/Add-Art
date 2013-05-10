@@ -1,3 +1,10 @@
+:: build.bat
+:: Written by: Matt Katz
+:: Description: compiles the add-art plugin for Windows
+
+:: TODO:
+:: - review script and rebuild if necessary - April 20, 2013
+
 set x=%cd%
 set zf="%PROGRAMFILES%\7-Zip"
 
