@@ -155,8 +155,7 @@ ArtUpdateComponent.prototype = {
 					aaPreferences.setCharPref("extensions.add-art.expiration", aaNextExpiration);
 
 					myDump("Add-Art has downloaded new images");
-					//if(aaPreferences.getBoolPref("extensions.add-art.showUpdateAlert"))
-					//	alert("Add-Art has downloaded new images,\nplease restart Firefox to see them.");
+					that.showUpdateAlert();
 				});
 			 	req.overrideMimeType('text/plain; charset=x-user-defined');
 				req.send(null); 	  
@@ -213,6 +212,12 @@ ArtUpdateComponent.prototype = {
 	 	   	});
 	},
 	
+	showUpdateAlert: function() {
+		Components.classes["@mozilla.org/observer-service;1"]
+          .getService(Components.interfaces.nsIObserverService)
+          .notifyObservers(null, "addart-new-art", "");
+	},
+
 	withExtensionPath: function(cb) {
 		const DIR_SERVICE = new Components.Constructor("@mozilla.org/file/directory_service;1","nsIProperties");
 		var aaFileLoc=(new DIR_SERVICE()).get("ProfD", Components.interfaces.nsIFile).path; 
