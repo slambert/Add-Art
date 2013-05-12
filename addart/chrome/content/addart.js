@@ -112,7 +112,6 @@ var addart = {
 			request.send();
 		}		
 
-		this.showUpdateAlert();
 	},
 
 	onMenuItemCommand : function(e) {
