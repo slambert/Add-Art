@@ -5,12 +5,12 @@
   <RDF:Description RDF:about="rdf:#$hFzg+"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="3.6"
-                   em:maxVersion="11.0a1" />
+                   em:maxVersion="20.*" />
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="development@add-art.org"
                    em:name="add-art-package"
-				   em:version="0.9.0"
-				   em:type="32"
+				           em:version="1.0b331310052013"
+				           em:type="32"
                    >
     <em:targetApplication RDF:resource="rdf:#$hFzg+"/>
   </RDF:Description>

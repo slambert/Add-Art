@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<!-- This Source Code is subject to the terms of the Mozilla Public License
+	 - version 2.0 (the "License"). You can obtain a copy of the License at
+	 - http://mozilla.org/MPL/2.0/. 
+	 
+	 - Thanks to AdBlockPlus for the source code
+	-->
+
+<subscriptions>
+	<subscription title="Add-Art Feed"
+								description="A variety of works from contemporary curators and artists."
+								url="http://add-art.org/extension/image_set.xml"
+								homepage="https://add-art.org/"
+								author="Administered by Hana Newman, Curated by volunteers"/>
+	<subscription title="test subscription"
+								description="A variety of works from contemporary curators and artists."
+								url="http://benbonfil.com/image_set.xml"
+								homepage="https://add-art.org/"
+								author="Administered by Hana Newman, Curated by volunteers"/>
+	<!-- <subscription title="Eyebeam Artists"
+								description="New media art from Eyebeam fellows and artists."
+								url="http://eyebeam.org/add-art.xml"
+								homepage="https://eyebeam.org/add-art"
+								author="Eyebeam Center for Art and Technology"/>
+	<subscription title="Brooklyn Museum Feed"
+								description="From the collection of the Brooklyn Museum."
+								url="http://brooklynmuseum.org/projects/add-art.xml"
+								homepage="http://brooklynmuseum.org"
+								author="The Brooklyn Museum"/> -->
+</subscriptions>

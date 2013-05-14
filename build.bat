@@ -1,3 +1,10 @@
+:: build.bat
+:: Written by: Matt Katz
+:: Description: compiles the add-art plugin for Windows
+
+:: TODO:
+:: - review script and rebuild if necessary - April 20, 2013
+
 set x=%cd%
 set zf="%PROGRAMFILES%\7-Zip"
 
@@ -17,6 +24,7 @@ cd chrome
 %zf%\7z a -tzip "addart.jar" * -r -mx=0
 rmdir content /S /Q
 rmdir skin /S /Q
+rmdir locale /S /Q
 
 cd ..
 %zf%\7z a -tzip "addart-build.xpi" * -r -mx=9
