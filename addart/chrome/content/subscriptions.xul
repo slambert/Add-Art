@@ -59,7 +59,7 @@
 					<vbox class="''">
 						<hbox align="center">
 							<description class="titleBox" flex="1">
-								<description value="{subscription.title}" flex="1" crop="end"/>
+								<description class="header" value="{subscription.title}" flex="1" crop="end"/>
 								<hbox align="baseline">
 									<description value=" - "/>
 										<description class="text-link" value="&subscription.info.label;"

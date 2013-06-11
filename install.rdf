@@ -9,7 +9,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="development@add-art.org"
                    em:name="add-art-package"
-				           em:version="1.0b331310052013"
+				           em:version="1.0b13910062013"
 				           em:type="32"
                    >
     <em:targetApplication RDF:resource="rdf:#$hFzg+"/>
