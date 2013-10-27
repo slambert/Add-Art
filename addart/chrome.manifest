@@ -1,8 +1,13 @@
-content   addart jar:chrome/addart.jar!/content/
-content   addart jar:chrome/addart.jar!/content/ contentaccessible=yes
-locale    addart   en-US         jar:chrome/addart.jar!/locale/en-US/
+#content   addart jar:chrome/addart.jar!/content/
+#content   addart jar:chrome/addart.jar!/content/ contentaccessible=yes
+#locale    addart   en-US         jar:chrome/addart.jar!/locale/en-US/
+
+content   addart chrome/content/
+content   addart chrome/content/ contentaccessible=yes
+locale    addart   en-US         chrome/locale/en-US/
 
 skin      addart classic/1.0 jar:chrome/images.jar!/images/
+
 overlay	  chrome://browser/content/browser.xul	chrome://addart/content/addart.xul
 
 # Hack to make icon.png available as adblockplus.png in the skin

@@ -50,7 +50,7 @@ ArtUpdateComponent.prototype = {
 	    this.prefs.addObserver("", this, false);  
 	    
 	    this.timer = Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);  
-	    this.timer.init(this, /*3600000*/5*60*1000, Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);  
+	    this.timer.init(this, 3600000, Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);  
 	    
 		return true;
 	},
@@ -96,36 +96,41 @@ ArtUpdateComponent.prototype = {
 			// File-scope variables that we'd like to define a little early
 			var date = new Date();
 			var aaFileSep = null;
-			var aaNextSet = null;
-			var aaNextExpiration = null;
+			var aaLastUpdate = 0;
+			var aaNextCheck = 0;
 			
-			// Checks to see if we have the most up-to-date set 
+			// check remote RSS feed for updates
 			var getImageSetInfo = function()
 			{
 				myDump("getImageSetInfo()");
 				var request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
 				request.open("GET", urlCheckXML, true);
+				myDump(urlCheckXML);
 				request.addEventListener("load", function(aEvt)
-				{
-					myDump("getImageSetInfo(): response rcvd");
-					var imageData = request.responseXML.getElementsByTagName("images");  
+				{	
+					var rss = request.responseXML;
+					var channel = function(type) {
+						return rss.getElementsByTagName(type)[0];
+					};
 
-					if(!aaPreferences.prefHasUserValue("extensions.add-art.currentImageSet") // if we don't have info about the current local image set, go ahead and download images
-						|| imageData[0].getAttribute("set") > aaPreferences.getIntPref("extensions.add-art.currentImageSet"))
-					{	
-						myDump("updating images");
-						aaNextSet = imageData[0].getAttribute("set");
-						aaNextExpiration = imageData[0].getAttribute("expires");	
-						downloadNewImages(imageData[0].getAttribute("url"));	
-					} else {
-						myDump("not updating: "+ imageData[0].getAttribute("url") + ", " + aaPreferences.getIntPref("extensions.add-art.currentImageSet"));
+					var first = channel('item');
+
+					var item = function(type) {
+						return first.getElementsByTagName(type)[0];
+					};	
+
+					var lastBuildDate = new Date(channel('lastBuildDate').innerHTML);
+
+					if(lastBuildDate > aaLastUpdate) {
+						downloadNewImages(item('enclosure').getAttribute('url'));
+						aaLastUpdate = Date.now();
 					}
-						
+															
+					aaNextCheck = Date.now() + 14*24*3600*1000;
 				});
 
 				request.overrideMimeType('text/xml');
-				request.send(null); 
-
+				request.send(null);
 			};
 
 			// Downloads new images and stores locally
@@ -151,8 +156,8 @@ ArtUpdateComponent.prototype = {
 					foStream.write(bytes, bytes.length);
 					foStream.close();
 
-					aaPreferences.setIntPref("extensions.add-art.currentImageSet", aaNextSet);
-					aaPreferences.setCharPref("extensions.add-art.expiration", aaNextExpiration);
+					aaPreferences.setCharPref("extensions.add-art.lastUpdate", aaLastUpdate);
+					aaPreferences.setCharPref("extensions.add-art.nextCheck", aaNextCheck);
 
 					myDump("Add-Art has downloaded new images");
 					that.showUpdateAlert();
@@ -175,7 +180,12 @@ ArtUpdateComponent.prototype = {
 
 			var urlCheckXML = aaPreferences.getCharPref("extensions.add-art.imageSetXmlUrl");
 			if (urlCheckXML != null) {
-				urlCheckXML = urlCheckXML+"?"+date.getTime();
+				if(urlCheckXML.indexOf('?') > 0) {
+					urlCheckXML = urlCheckXML+"&add-art-bust="+date.getTime();
+				}
+				else {
+					urlCheckXML = urlCheckXML+"?add-art-bust="+date.getTime();	
+				}
 			} else {
 				urlCheckXML = "http://add-art.org/extension/image_set.xml?"+date.getTime();
 			}
@@ -184,9 +194,9 @@ ArtUpdateComponent.prototype = {
 			that.CheckIfNewImagesReady();
 
 			// check and see if our check-for-new-images date has elapsed
-			if(aaPreferences.prefHasUserValue("extensions.add-art.expiration"))
+			if(aaPreferences.prefHasUserValue("extensions.add-art.nextCheck"))
 			{	
-				if(date.getTime() > aaPreferences.getCharPref("extensions.add-art.expiration"))  // need to store as string because the number is too large for an int
+				if(date.getTime() > aaPreferences.getCharPref("extensions.add-art.nextCheck"))  // need to store as string because the number is too large for an int
 				{		
 					getImageSetInfo(); // time to check for new images
 				};
@@ -267,22 +277,13 @@ ArtUpdateComponent.prototype = {
 			
 		case "timer-callback":
 			this.CheckForUpdates();
-			/*
-			if (this.switcher) {
-				this.switcher = false;
-				this.CheckForUpdates();
-			} else {
-				this.switcher = true;
-				this.CheckForSubscriptionsUpdate()
-			};
-			*/
 			break;
 			
 		case "nsPref:changed":
 			this.myDump("Pref changed: "+aData);
 			switch(aData)  
 		     {  
-		       case "checkedSubscription":
+		       case "imageSetXmlUrl":
 		    	   this.myDump("Pref changed!");
 		    	   this.CheckForUpdates();
 		    	   break;  
