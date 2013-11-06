@@ -22,8 +22,9 @@ LICENSE: [GPL](https://www.gnu.org/licenses/gpl.txt)
 
  * [Steve Lambert](http://visitsteve.com)
  * [Wladimir Palant](http://adblockplus.org/)
- * [Jamie Wilkinson](http://tramchase.com/)
- * [Matt Katz](http://www.morelightmorelight.com/ ) 
+ * [Jamie Wilkinson](http://tramschase.com/)
+ * [Matt Katz](http://www.morelightmorelight.com/)
+ * [Ben Bonfil](http://benbonfil.com) 
  * [Prizoff](https://www.freelancer.com/users/2641827.html)
  * [Tobias Leingruber](http://www.tobi-x.com/)
  * [Ethan Ham](http://www.ethanham.com/)
@@ -34,7 +35,7 @@ LICENSE: [GPL](https://www.gnu.org/licenses/gpl.txt)
  * [Michelle Kempner](https://twitter.com/#!/mikey_k)
  * [Dan Phiffer](http://phiffer.org/)
  * [Mushon Zer-Aviv](http://mushon.com/)
- * Alyssa Wright
+ * [Alyssa Wright](http://alumni.media.mit.edu/~alyssa/)
  
  And help from 
  

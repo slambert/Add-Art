@@ -9,23 +9,23 @@
 
 <subscriptions>
 	<subscription title="Add-Art Feed"
-								description="A variety of works from contemporary curators and artists."
+								description="The default feed. Usually test images."
 								url="http://add-art.org/extension/image_set.xml"
 								homepage="https://add-art.org/"
-								author="Administered by Hana Newman, Curated by volunteers"/>
-	<subscription title="test subscription"
-								description="A variety of works from contemporary curators and artists."
-								url="http://benbonfil.com/image_set.xml"
-								homepage="https://add-art.org/"
-								author="Administered by Hana Newman, Curated by volunteers"/>
-	<!-- <subscription title="Eyebeam Artists"
-								description="New media art from Eyebeam fellows and artists."
-								url="http://eyebeam.org/add-art.xml"
-								homepage="https://eyebeam.org/add-art"
+								author="The Add-Art Team"/>
+	<subscription title="Rhizome.org"
+								description="Images from the archives of Rhizome, an organization supporting technological experimentation since 1996"
+								url="http://add-art.org/extension/rh/rh.xml"
+								homepage="https://rhizome.org/"
+								author="Rhizome.org"/>
+	<subscription title="Eyebeam Artists"
+								description="New media art from the Eyebeam Art and Technology Center's fellows and artists."
+								url="http://add-art.org/extension/ey/ey.xml"
+								homepage="https://eyebeam.org/"
 								author="Eyebeam Center for Art and Technology"/>
 	<subscription title="Brooklyn Museum Feed"
 								description="From the collection of the Brooklyn Museum."
-								url="http://brooklynmuseum.org/projects/add-art.xml"
+								url="http://add-art.org/extension/bm/bm.xml"
 								homepage="http://brooklynmuseum.org"
-								author="The Brooklyn Museum"/> -->
+								author="The Brooklyn Museum"/>
 </subscriptions>

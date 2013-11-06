@@ -17,6 +17,13 @@ function onLoad()
 	
 	E("enableMoreAdToHide").setChecked(getMoreAds());
 	E("expandImages").setChecked(getExpandImages());
+
+	E("subscriptions").addEventListener('select', function(e) {
+		var div = document.createElementNS("http://www.w3.org/1999/xhtml",'div');
+		div.innerHTML = this.selectedItem._data.subscription.description;
+		
+		E('details').value = div.childNodes[0].nodeValue;
+	});
 }
 
 function getUserSubscriptions() {
@@ -31,11 +38,15 @@ function chainedRequest(urls) {
 	}
 
 	request = new XMLHttpRequest();
-	request.open("GET", urls.pop(0));
+	var url = urls.pop(0);
+	request.open("GET", url);
 	request.addEventListener("readystatechange", function() {
 		if(request.readyState == 4) {
-			FillSubscriptionListFromXML(request.responseXML);
-			makeCheckOnSubscriptions();
+			if(request.responseXML) {
+				FillSubscriptionListFromRSS(url, request.responseXML);
+				makeCheckOnSubscriptions();
+			}
+			
 			chainedRequest(urls);
 		}
 	}, false);
@@ -47,8 +58,11 @@ function FillSubscriptionList(subscruptionUrlMain) {
 	request.open("GET", subscruptionUrlMain);
 	request.addEventListener("load", function()
 	{	
-		FillSubscriptionListFromXML(request.responseXML);
-		makeCheckOnSubscriptions();
+		try {
+			FillSubscriptionListFromRSS(request.responseXML);
+			makeCheckOnSubscriptions();
+		}
+		catch(e){}
 
 		var subscriptions = getUserSubscriptions();
 		if(subscriptions) {
@@ -59,55 +73,95 @@ function FillSubscriptionList(subscruptionUrlMain) {
 	request.send();	
 }
 
-function FillSubscriptionListFromXML(subsXML) {
-	var subs = subsXML.getElementsByTagName("subscription");
-	for (var i = 0; i<subs.length; i++) {
-		var subscr = {
-				title: subs[i].getAttribute("title"),
-				description: subs[i].getAttribute("description"),
-				url: subs[i].getAttribute("url"),
-				homepage: subs[i].getAttribute("homepage"),
-				author: subs[i].getAttribute("author"),
-				};
-		var data = {
-				__proto__:null,
-				subscription: subscr,
-				isExternal: false,
-				downloading: false,
-				disabledFilters: null,
-				};
-		var node = Templater.process(E("subscriptionTemplate"), data);
-		E("subscriptions").appendChild(node);
+function nicer_date(date) {
+	var diff = new Date() - date;
+	var d = {
+			D:date.getDate(),
+			M:monthNames[date.getMonth()],
+			Y:(date.getYear()+1900).toString(),
+		};
+
+	return d.M+' '+d.D+' '+d.Y;
+}
+
+function stripHTML(html) {
+    return html.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>?/gi, '');
+}
+
+function FillSubscriptionListFromRSS(url, rss) {
+	var channel = function(type) {
+		return rss.getElementsByTagName(type)[0];
 	};
+
+	var first = channel('item');
+
+	var item = function(type) {
+		return first.getElementsByTagName(type)[0];
+	};
+
+	var enclosures = first.getElementsByTagName('enclosure');
+	var img = '';
+
+	for(var i=0; i<enclosures.length; i++) {
+		var u = enclosures[i].getAttribute('url');
+		var ext = u.substring(u.length-3, u.length);
+		
+		if(ext == 'jpg' || ext == 'jpeg' || ext == 'png') {
+			img = u;
+		}
+	}
+	
+	var description = stripHTML(item('content:encoded').firstChild.textContent);
+	var summary = description;
+	if(description.length > 40) {
+		summary = description.substring(0, 40) + '...';
+	}
+
+	var subscr = {
+		title: item('title').innerHTML,
+		summary: summary,
+		description: description,
+		url: url,
+		homepage: channel('link').innerHTML,
+		author: item('dc:creator').innerHTML,
+		lastUpdate: nicer_date(new Date(channel('lastBuildDate').innerHTML)),
+		image: img,
+	};
+	var data = {
+		__proto__:null,
+		subscription: subscr,
+		isExternal: false,
+		downloading: false,
+		disabledFilters: null,
+	};
+	var node = Templater.process(E("subscriptionTemplate"), data);
+	E("subscriptions").appendChild(node);
+
+	E("loading").style.display = 'none';
+	E("subscriptions_hbox").style.visibility = 'visible';
 }
 
 function makeCheckOnSubscriptions() {
-	if ( aaPreferences.prefHasUserValue("extensions.add-art.checkedSubscription") ) {
-		checkedSubscription = aaPreferences.getIntPref("extensions.add-art.checkedSubscription");
-		if ( checkedSubscription >= E("subscriptions").childElementCount )
-			checkedSubscription = 0;
-	} else {
-		checkedSubscription = 0;
-	}
-	var radios = E("subscriptions").getElementsByTagName("radio");
+	var subscriptions = E("subscriptions");
+	var current = aaPreferences.getCharPref("extensions.add-art.imageSetXmlUrl");
 
-	onCheck(E("subscriptions").getElementsByTagName("radio")[checkedSubscription]);
+	if(!current) {
+		return;
+	}
+
+	for(var i=0; i<subscriptions.itemCount; i++) {
+		var item = subscriptions.getItemAtIndex(i);
+
+		if(item._data.subscription.url == current) {
+			subscriptions.selectedIndex = i;
+		}
+	}
 }
 
 function onClose() {
-	let i = 0;
-	let checkboxes = E("subscriptions").getElementsByTagName("radio");
-	do {
-		if (checkboxes[i].selected) {
-			if ( !aaPreferences.prefHasUserValue("extensions.add-art.checkedSubscription") || (aaPreferences.getIntPref("extensions.add-art.checkedSubscription")!=i) ) {
-				aaPreferences.setIntPref("extensions.add-art.checkedSubscription", i);
-				//Update is needed
-				aaPreferences.setCharPref("extensions.add-art.imageSetXmlUrl", E("subscriptions").getItemAtIndex(i)._data.subscription.url);
-				aaPreferences.setIntPref("extensions.add-art.currentImageSet", 0);
-			}
-		}
-		i++;
-	} while ( ( i < checkboxes.length) && !checkboxes[i-1].selected);
+	aaPreferences.setCharPref("extensions.add-art.imageSetXmlUrl", E("subscriptions").selectedItem._data.subscription.url);
+	aaPreferences.setCharPref("extensions.add-art.lastUpdate", '0');
+	aaPreferences.setCharPref("extensions.add-art.nextCheck", '0');
 	
 	aaPreferences.setBoolPref("extensions.add-art.enableMoreAds", E("enableMoreAdToHide").checked);
 	aaPreferences.setBoolPref("extensions.add-art.expandImages", E("expandImages").checked);
@@ -169,16 +223,6 @@ function updateSubscriptionList() {
 	FillSubscriptionList("chrome://addart/content/subscriptions.xml", (aaPreferences.prefHasUserValue("extensions.add-art.imageSetXmlUrlUser"))?aaPreferences.getCharPref("extensions.add-art.imageSetXmlUrlUser"):null);
 }
 
-function onCheck(checkbox) {
-	let checkboxes = E("subscriptions").getElementsByTagName("radio");
-	for ( let i = 0; i < checkboxes.length; i++) {
-		if (checkboxes[i] != checkbox) {
-			checkboxes[i].parentNode.selectedIndex = -1;
-		} else {
-			checkboxes[i].parentNode.selectedIndex = 0;
-		}
-	}
-}
 /**
  * Template processing functions.
  * 
