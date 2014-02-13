@@ -5,11 +5,11 @@
   <RDF:Description RDF:about="rdf:#$hFzg+"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="3.6"
-                   em:maxVersion="21.*" />
+                   em:maxVersion="26.*" />
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="development@add-art.org"
                    em:name="Add-Art"
-                   em:version="1.0b13910062013"
+                   em:version="1.0b1402131321"
                    em:creator="Add-Art Team"
                    em:description="Replace ads with art"
                    em:homepageURL="http://www.add-art.org/"
