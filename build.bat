@@ -9,7 +9,7 @@ set x=%cd%
 set zf="%PROGRAMFILES%\7-Zip"
 
 echo "cleaning up"
-del addart-build.xpi
+del addart.xpi
 
 echo %x%
 echo "Duplicating..."

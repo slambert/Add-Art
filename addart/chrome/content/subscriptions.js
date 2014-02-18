@@ -89,53 +89,78 @@ function stripHTML(html) {
 }
 
 function FillSubscriptionListFromRSS(url, rss) {
-	var channel = function(type) {
-		return rss.getElementsByTagName(type)[0];
-	};
-
-	var first = channel('item');
-
-	var item = function(type) {
-		return first.getElementsByTagName(type)[0];
-	};
-
-	var enclosures = first.getElementsByTagName('enclosure');
-	var img = '';
-
-	for(var i=0; i<enclosures.length; i++) {
-		var u = enclosures[i].getAttribute('url');
-		var ext = u.substring(u.length-3, u.length);
-		
-		if(ext == 'jpg' || ext == 'jpeg' || ext == 'png') {
-			img = u;
+	if (!rss)
+	{
+		var subs = url.getElementsByTagName("subscription");
+		for (var i = 0; i<subs.length; i++) {
+			var subscr = {
+					title: subs[i].getAttribute("title"),
+					description: subs[i].getAttribute("description"),
+					url: subs[i].getAttribute("url"),
+					homepage: subs[i].getAttribute("homepage"),
+					author: subs[i].getAttribute("author"),
+					};
+			var data = {
+					__proto__:null,
+					subscription: subscr,
+					isExternal: false,
+					downloading: false,
+					disabledFilters: null,
+					};
+			var node = Templater.process(E("subscriptionTemplate"), data);
+			E("subscriptions").appendChild(node);
 		}
+		
+	}else{
+			var channel = function(type) {
+				return rss.getElementsByTagName(type)[0];
+			};
+
+			var first = channel('item');
+
+			var item = function(type) {
+				return first.getElementsByTagName(type)[0];
+			};
+
+			var enclosures = first.getElementsByTagName('enclosure');
+			var img = '';
+
+			for(var i=0; i<enclosures.length; i++) {
+				var u = enclosures[i].getAttribute('url');
+				var ext = u.substring(u.length-3, u.length);
+				
+				if(ext == 'jpg' || ext == 'jpeg' || ext == 'png') {
+					img = u;
+				}
+			}
+			
+			var description = stripHTML(item('content:encoded').firstChild.textContent);
+			var summary = description;
+			if(description.length > 40) {
+				summary = description.substring(0, 40) + '...';
+			}
+	
+			var subscr = {
+			title: item('title').innerHTML,
+			summary: summary,
+			description: description,
+			url: url,
+			homepage: channel('link').innerHTML,
+			author: item('dc:creator').innerHTML,
+			lastUpdate: nicer_date(new Date(channel('lastBuildDate').innerHTML)),
+			image: img,
+		};
+		var data = {
+			__proto__:null,
+			subscription: subscr,
+			isExternal: false,
+			downloading: false,
+			disabledFilters: null,
+		};
+		var node = Templater.process(E("subscriptionTemplate"), data);
+		E("subscriptions").appendChild(node);
 	}
 	
-	var description = stripHTML(item('content:encoded').firstChild.textContent);
-	var summary = description;
-	if(description.length > 40) {
-		summary = description.substring(0, 40) + '...';
-	}
-
-	var subscr = {
-		title: item('title').innerHTML,
-		summary: summary,
-		description: description,
-		url: url,
-		homepage: channel('link').innerHTML,
-		author: item('dc:creator').innerHTML,
-		lastUpdate: nicer_date(new Date(channel('lastBuildDate').innerHTML)),
-		image: img,
-	};
-	var data = {
-		__proto__:null,
-		subscription: subscr,
-		isExternal: false,
-		downloading: false,
-		disabledFilters: null,
-	};
-	var node = Templater.process(E("subscriptionTemplate"), data);
-	E("subscriptions").appendChild(node);
 
 	E("loading").style.display = 'none';
 	E("subscriptions_hbox").style.visibility = 'visible';

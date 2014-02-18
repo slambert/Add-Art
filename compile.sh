@@ -2,11 +2,13 @@
 
 # duplicate the working directory
 echo "Duplicating..."
+rm -f addart.xpi
 cp -r addart addart_renamed
 cd addart
 
 # package things up
 echo "Zippin..."
+
 cd chrome
 rm -f addart.jar
 zip -rq addart.jar content skin locale
@@ -22,5 +24,6 @@ rm -rf addart
 mv addart_renamed addart
 
 zip -q addart.xpi *.xpi install.rdf 
+rm -f addart-build.xpi
 
 exit 0
