@@ -126,10 +126,14 @@ function FillSubscriptionListFromRSS(url, rss) {
 			
 			var description = stripHTML(item('content:encoded').firstChild.textContent);
 			var summary = description;
-			if(description.length > 40) {
-				summary = description.substring(0, 40) + '...';
+			var welcome = "Welcome to WordPress. This is your first post. Edit or delete it, then start blogging";
+			if(summary = welcome) {
+				summary = '';
 			}
-	
+			else if(summary.length > 40) {
+				summary = summary.substring(0, 40) + '...';
+			}
+
 			var subscr = {
 			title: item('title').innerHTML,
 			summary: summary,
