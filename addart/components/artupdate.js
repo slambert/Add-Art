@@ -122,7 +122,7 @@ ArtUpdateComponent.prototype = {
 					var lastBuildDate = new Date(channel('lastBuildDate').innerHTML);
 
 					if(lastBuildDate > aaLastUpdate) {
-						downloadNewImages(item('enclosure').getAttribute('url'));
+						downloadNewImages(channel('artshow').innerHTML);
 						aaLastUpdate = Date.now();
 					}
 															

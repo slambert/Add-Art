@@ -122,17 +122,7 @@ function FillSubscriptionListFromRSS(url, rss) {
 				return first.getElementsByTagName(type)[0];
 			};
 
-			var enclosures = first.getElementsByTagName('enclosure');
-			var img = '';
-
-			for(var i=0; i<enclosures.length; i++) {
-				var u = enclosures[i].getAttribute('url');
-				var ext = u.substring(u.length-3, u.length);
-				
-				if(ext == 'jpg' || ext == 'jpeg' || ext == 'png') {
-					img = u;
-				}
-			}
+			var img = channel('thumbnail').innerHTML;
 			
 			var description = stripHTML(item('content:encoded').firstChild.textContent);
 			var summary = description;
