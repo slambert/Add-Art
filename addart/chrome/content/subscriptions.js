@@ -88,17 +88,29 @@ function stripHTML(html) {
     return html.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>?/gi, '');
 }
 
+function stripCDATA(html) {
+    return html.replace('<![CDATA[','').replace(']]>','');
+}
+
 function FillSubscriptionListFromRSS(url, rss) {
 	if (!rss)
 	{
 		var subs = url.getElementsByTagName("subscription");
 		for (var i = 0; i<subs.length; i++) {
+			var description = subs[i].getAttribute("description");
+			if(description.length > 40) {
+				var summary = description.substring(0, 40) + '...';
+			} else {
+				var summary = description;
+			}
 			var subscr = {
 					title: subs[i].getAttribute("title"),
-					description: subs[i].getAttribute("description"),
+					summary: summary,
+					description: description,
 					url: subs[i].getAttribute("url"),
 					homepage: subs[i].getAttribute("homepage"),
 					author: subs[i].getAttribute("author"),
+					lastUpdate: '' //preloaded xml files need a date attached
 					};
 			var data = {
 					__proto__:null,
@@ -122,31 +134,27 @@ function FillSubscriptionListFromRSS(url, rss) {
 				return first.getElementsByTagName(type)[0];
 			};
 
-			var enclosures = first.getElementsByTagName('enclosure');
-			var img = '';
-
-			for(var i=0; i<enclosures.length; i++) {
-				var u = enclosures[i].getAttribute('url');
-				var ext = u.substring(u.length-3, u.length);
-				
-				if(ext == 'jpg' || ext == 'jpeg' || ext == 'png') {
-					img = u;
-				}
-			}
+			var img = channel('thumbnail').innerHTML;
 			
 			var description = stripHTML(item('content:encoded').firstChild.textContent);
-			var summary = description;
-			if(description.length > 40) {
-				summary = description.substring(0, 40) + '...';
+			var welcome = "Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!";
+			if(description == welcome) {
+				var description = '';
 			}
-	
+			if(description.length > 40) {
+				var summary = description.substring(0, 40) + '...';
+			} 
+			else {
+				var summary = description;
+			}
+
 			var subscr = {
 			title: item('title').innerHTML,
 			summary: summary,
 			description: description,
 			url: url,
 			homepage: channel('link').innerHTML,
-			author: item('dc:creator').innerHTML,
+			author: stripCDATA(item('dc:creator').innerHTML),
 			lastUpdate: nicer_date(new Date(channel('lastBuildDate').innerHTML)),
 			image: img,
 		};
