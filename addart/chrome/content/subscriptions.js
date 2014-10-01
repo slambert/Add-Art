@@ -88,6 +88,10 @@ function stripHTML(html) {
     return html.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>?/gi, '');
 }
 
+function stripCDATA(html) {
+    return html.replace('<![CDATA[','').replace(']]>','');
+}
+
 function FillSubscriptionListFromRSS(url, rss) {
 	if (!rss)
 	{
@@ -125,13 +129,15 @@ function FillSubscriptionListFromRSS(url, rss) {
 			var img = channel('thumbnail').innerHTML;
 			
 			var description = stripHTML(item('content:encoded').firstChild.textContent);
-			var summary = description;
-			var welcome = "Welcome to WordPress. This is your first post. Edit or delete it, then start blogging";
-			if(summary = welcome) {
-				summary = '';
+			var welcome = "Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!";
+			if(description == welcome) {
+				var description = '';
 			}
-			else if(summary.length > 40) {
-				summary = summary.substring(0, 40) + '...';
+			if(description.length > 40) {
+				var summary = description.substring(0, 40) + '...';
+			} 
+			else {
+				var summary = description;
 			}
 
 			var subscr = {
@@ -140,7 +146,7 @@ function FillSubscriptionListFromRSS(url, rss) {
 			description: description,
 			url: url,
 			homepage: channel('link').innerHTML,
-			author: item('dc:creator').innerHTML.replace('<![CDATA[','').replace(']]>',''),
+			author: stripCDATA(item('dc:creator').innerHTML),
 			lastUpdate: nicer_date(new Date(channel('lastBuildDate').innerHTML)),
 			image: img,
 		};
