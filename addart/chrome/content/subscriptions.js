@@ -97,12 +97,20 @@ function FillSubscriptionListFromRSS(url, rss) {
 	{
 		var subs = url.getElementsByTagName("subscription");
 		for (var i = 0; i<subs.length; i++) {
+			var description = subs[i].getAttribute("description");
+			if(description.length > 40) {
+				var summary = description.substring(0, 40) + '...';
+			} else {
+				var summary = description;
+			}
 			var subscr = {
 					title: subs[i].getAttribute("title"),
-					description: subs[i].getAttribute("description"),
+					summary: summary,
+					description: description,
 					url: subs[i].getAttribute("url"),
 					homepage: subs[i].getAttribute("homepage"),
 					author: subs[i].getAttribute("author"),
+					lastUpdate: '' //preloaded xml files need a date attached
 					};
 			var data = {
 					__proto__:null,
