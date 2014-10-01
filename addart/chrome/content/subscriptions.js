@@ -136,7 +136,7 @@ function FillSubscriptionListFromRSS(url, rss) {
 			description: description,
 			url: url,
 			homepage: channel('link').innerHTML,
-			author: item('dc:creator').innerHTML,
+			author: item('dc:creator').innerHTML.replace('<![CDATA[','').replace(']]>',''),
 			lastUpdate: nicer_date(new Date(channel('lastBuildDate').innerHTML)),
 			image: img,
 		};
