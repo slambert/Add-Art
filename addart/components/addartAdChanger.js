@@ -291,12 +291,8 @@ AddArtComponent.prototype = {
                 var loc = el.mCurrentBrowser.contentWindow.location.href;
             }
         }
-
-        if (loc) {
-            var randomImage8 = loc.charCodeAt( loc.length - 6 ) % 8 + 1;
-        } else {
-            var randomImage8 = Math.floor(Math.random()*8);
-        }
+        
+        var randomImage8 = Math.floor(Math.random()*8);
         
         // pick the image
         var filename = randomImage8+"artbanner"+Img[0]+"x"+Img[1]+".jpg";
