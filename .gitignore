@@ -1,7 +1,11 @@
 # Compiled source #
 ###################
 
-*.xpi
+addart.xpi
+addartbuild.xpi
+addart-build.xpi
+add-art.xpi
+add-art-build.xpi
 
 # OS generated files #
 ######################
