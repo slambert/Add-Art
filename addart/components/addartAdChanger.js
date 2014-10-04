@@ -37,7 +37,7 @@ AddArtComponent.prototype = {
         // var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
         // consoleService.logStringMessage("add-art: " + aMessage);
     },
-    myDumpObject: function(object,label) {
+    myDumpObject : function(object,label) {
         stuff = [];
         for (s in object) {
             stuff.push(s);
@@ -45,7 +45,6 @@ AddArtComponent.prototype = {
         stuff.sort();
         this.myDump(label+': '+stuff);
     },
-
     init : function() {
         this.myDump("init");
         
@@ -291,8 +290,32 @@ AddArtComponent.prototype = {
                 var loc = el.mCurrentBrowser.contentWindow.location.href;
             }
         }
+
+
+        //Randomly selects art, but doesn't show the same one twice until they have all been shown
+        // if(!localStorage.imagesNotLoaded || localStorage.imagesNotLoaded.length==0) {
+        //     var artNotShown = [1,2,3,4,5,6,7,8];
+        //     localStorage.setItem('artNotShown' = JSON.stringify(artNotShown));    
+        // }
+        // var randIndex = Math.floor(Math.random()*localStorage.notShown.length);
+        // localStorage.imageToLoad = localStorage.imagesNotLoaded[randIndex];
+        // localStorage.imagesNotLoaded.splice(randIndex,1);
+
+
+        //Spreads available artwork out across an hour span
+        var date = new Date();
+        var min = date.getMinutes();
+        var eighth = 7.5; //eighth of an hour, in minutes
+        for(var i=0;i<8;i++){
+            var j = i+1;
+            if(min <= eighth*j) {
+                randomImage8 = j;
+                break;
+            }
+        }
         
-        var randomImage8 = Math.floor(Math.random()*8);
+        //completely random selection
+        // var randomImage8 = Math.floor(Math.random()*8);
         
         // pick the image
         var filename = randomImage8+"artbanner"+Img[0]+"x"+Img[1]+".jpg";
