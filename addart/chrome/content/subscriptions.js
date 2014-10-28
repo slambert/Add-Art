@@ -232,6 +232,10 @@ function loadInBrowser(url) {
 function addSubscription() {
 	var url = prompt('Please enter the URL of the new subscription:');
 	if(url) {
+		if (!url.match(/^http([s]?):\/\/.*/)) {
+			s = url;
+			url = 'http://'+s;
+		}
 		addUserSubscription(url);
 		updateSubscriptionList();
 	}
