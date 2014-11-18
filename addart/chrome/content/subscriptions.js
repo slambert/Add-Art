@@ -13,10 +13,17 @@ const nsIFilePicker = Components.interfaces.nsIFilePicker;
  */
 function onLoad()
 {
-	FillSubscriptionList("chrome://addart/content/subscriptions.xml");
-	
+	addDefaultSubscriptionList();
+
+	var subscriptions = getUserSubscriptions();
+	if(subscriptions) {
+		chainedRequest(subscriptions);
+	}
+
+
 	E("enableMoreAdToHide").setChecked(getMoreAds());
 	E("expandImages").setChecked(getExpandImages());
+
 
 	E("subscriptions").addEventListener('select', function(e) {
 		var div = document.createElementNS("http://www.w3.org/1999/xhtml",'div');
@@ -52,14 +59,44 @@ function chainedRequest(urls) {
 	}, false);
 	request.send();
 }
+function addDefaultSubscriptionList() {
+	var defaultShows = [
+		'http://add-art.org/category/eyebeam/feed/',
+		'http://add-art.org/category/rhizome/feed/',
+		'http://add-art.org/category/brooklyn-museum/feed/'
+	];
 
-function FillSubscriptionList(subscruptionUrlMain) {
+	for(var i=0;i<defaultShows.length;i++) {
+		addDefaultSubscription(defaultShows[i]);	
+	}
+}
+function addDefaultSubscription(url) {
 	var request = new XMLHttpRequest();
-	request.open("GET", subscruptionUrlMain);
+	request.open("GET", url);
 	request.addEventListener("load", function()
 	{	
 		try {
-			FillSubscriptionListFromRSS(request.responseXML);
+			FillSubscriptionListFromRSS(url, request.responseXML);
+			makeCheckOnSubscriptions();
+		}
+		catch(e){}
+
+		var subscriptions = getUserSubscriptions();
+		if(subscriptions) {
+			chainedRequest(subscriptions);
+		}
+
+	}, false);
+	request.send();	
+}
+
+function FillSubscriptionList(subscriptionUrlMain) {
+	var request = new XMLHttpRequest();
+	request.open("GET", subscriptionUrlMain);
+	request.addEventListener("load", function()
+	{	
+		try {
+			FillSubscriptionListFromRSS(subscriptionUrlMain, request.responseXML);
 			makeCheckOnSubscriptions();
 		}
 		catch(e){}
@@ -93,83 +130,49 @@ function stripCDATA(html) {
 }
 
 function FillSubscriptionListFromRSS(url, rss) {
-	if (!rss)
-	{
-		var subs = url.getElementsByTagName("subscription");
-		for (var i = 0; i<subs.length; i++) {
-			var description = subs[i].getAttribute("description");
-			if(description.length > 40) {
-				var summary = description.substring(0, 40) + '...';
-			} else {
-				var summary = description;
-			}
-			var subscr = {
-					title: subs[i].getAttribute("title"),
-					summary: summary,
-					description: description,
-					url: subs[i].getAttribute("url"),
-					homepage: subs[i].getAttribute("homepage"),
-					author: subs[i].getAttribute("author"),
-					lastUpdate: '' //preloaded xml files need a date attached
-					};
-			var data = {
-					__proto__:null,
-					subscription: subscr,
-					isExternal: false,
-					downloading: false,
-					disabledFilters: null,
-					};
-			var node = Templater.process(E("subscriptionTemplate"), data);
-			E("subscriptions").appendChild(node);
-		}
+		var channel = function(type) {
+			return rss.getElementsByTagName(type)[0];
+		};
+
+		var first = channel('item');
+
+		var item = function(type) {
+			return first.getElementsByTagName(type)[0];
+		};
+
+		var img = channel('thumbnail').innerHTML;
 		
-	}else{
-			var channel = function(type) {
-				return rss.getElementsByTagName(type)[0];
-			};
+		var description = stripHTML(item('content:encoded').firstChild.textContent);
+		var welcome = "Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!";
+		if(description == welcome) {
+			var description = '';
+		}
+		if(description.length > 40) {
+			var summary = description.substring(0, 40) + '...';
+		} 
+		else {
+			var summary = description;
+		}
 
-			var first = channel('item');
-
-			var item = function(type) {
-				return first.getElementsByTagName(type)[0];
-			};
-
-			var img = channel('thumbnail').innerHTML;
-			
-			var description = stripHTML(item('content:encoded').firstChild.textContent);
-			var welcome = "Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!";
-			if(description == welcome) {
-				var description = '';
-			}
-			if(description.length > 40) {
-				var summary = description.substring(0, 40) + '...';
-			} 
-			else {
-				var summary = description;
-			}
-
-			var subscr = {
-			title: item('title').innerHTML,
-			summary: summary,
-			description: description,
-			url: url,
-			homepage: channel('link').innerHTML,
-			author: stripCDATA(item('dc:creator').innerHTML),
-			lastUpdate: nicer_date(new Date(channel('lastBuildDate').innerHTML)),
-			image: img,
-		};
-		var data = {
-			__proto__:null,
-			subscription: subscr,
-			isExternal: false,
-			downloading: false,
-			disabledFilters: null,
-		};
-		var node = Templater.process(E("subscriptionTemplate"), data);
-		E("subscriptions").appendChild(node);
-	}
-	
-
+		var subscr = {
+		title: item('title').innerHTML,
+		summary: summary,
+		description: description,
+		url: url,
+		homepage: channel('link').innerHTML,
+		author: stripCDATA(item('dc:creator').innerHTML),
+		lastUpdate: nicer_date(new Date(channel('lastBuildDate').innerHTML)),
+		image: img,
+	};
+	var data = {
+		__proto__:null,
+		subscription: subscr,
+		isExternal: false,
+		downloading: false,
+		disabledFilters: null,
+	};
+	var node = Templater.process(E("subscriptionTemplate"), data);
+	E("subscriptions").appendChild(node);
 	E("loading").style.display = 'none';
 	E("subscriptions_hbox").style.visibility = 'visible';
 }
@@ -256,8 +259,7 @@ function updateSubscriptionList() {
 	while (E("subscriptions").firstChild != null) {
 		E("subscriptions").removeChild(E("subscriptions").firstChild);
 	}
-	
-	FillSubscriptionList("chrome://addart/content/subscriptions.xml", (aaPreferences.prefHasUserValue("extensions.add-art.imageSetXmlUrlUser"))?aaPreferences.getCharPref("extensions.add-art.imageSetXmlUrlUser"):null);
+	addDefaultSubscriptionList();
 }
 
 /**
