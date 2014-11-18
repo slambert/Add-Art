@@ -4,9 +4,9 @@ When it works, it works pretty good. We all want it to be better, and we welcome
 
 ##Links
 
-SITE: [Add-Art.org](http://Add-Art.org)
+SITE: [Add-Art.org](http://Add-Art.org) - don't expect much.
 
-WIKI: [https://github.com/slambert/Add-Art/wiki](https://github.com/slambert/Add-Art/wiki)
+WIKI: [https://github.com/slambert/Add-Art/wiki](https://github.com/slambert/Add-Art/wiki) - out of date
 
 LICENSE: [GPL](https://www.gnu.org/licenses/gpl.txt)
 
@@ -25,6 +25,7 @@ LICENSE: [GPL](https://www.gnu.org/licenses/gpl.txt)
  * [Jamie Wilkinson](http://tramschase.com/)
  * [Matt Katz](http://www.morelightmorelight.com/)
  * [Ben Bonfil](http://benbonfil.com) 
+ * [Corey Tegeler](http://coreytegeler.com)
  * [Prizoff](https://www.freelancer.com/users/2641827.html)
  * [Tobias Leingruber](http://www.tobi-x.com/)
  * [Ethan Ham](http://www.ethanham.com/)
