@@ -97,7 +97,7 @@
 				</vbox>
 				<hbox id="subscriptions_hbox" flex="1" style="visibility:hidden">
 					<richlistbox id="subscriptions" rows="2" class="initialFocus"></richlistbox>
-					<box id="details" multiline="true" flex="1"></box>
+					<vbox id="details" multiline="true" flex="1"></vbox>
 				</hbox>
 
 				<hbox orient="vertical">

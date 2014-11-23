@@ -26,17 +26,19 @@ function onLoad()
 
 
 	E("subscriptions").addEventListener('select', function(e) {
+		var xhtml = 'http://www.w3.org/1999/xhtml';
 		var description = this.selectedItem._data.subscription.description;
 		var box = E('details');
-		var div = document.createElementNS("http://www.w3.org/1999/xhtml",'div');
+		var div = document.createElementNS(xhtml,'div');
 		if(box.hasChildNodes) {
 			for(var i=0;i<box.childNodes.length;i++) {
 				box.removeChild(box.childNodes[i]);
 			} 
 		}
-		var html = document.createTextNode("Test test");
+		var html = document.createTextNode(description);
 		div.appendChild(html);
 		box.appendChild(div);
+		box.style.padding="0 10px";
 	});
 }
 
