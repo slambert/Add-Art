@@ -9,7 +9,7 @@
 
 <!DOCTYPE dialog SYSTEM "chrome://addart/locale/addartOptions.dtd">
 
-<dialog
+<window
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	title="&dialog.title;"
 	id="addArtSubscriptionsbpFiltersWindow"
@@ -97,7 +97,7 @@
 				</vbox>
 				<hbox id="subscriptions_hbox" flex="1" style="visibility:hidden">
 					<richlistbox id="subscriptions" rows="2" class="initialFocus"></richlistbox>
-					<textbox id="details" multiline="true" flex="1" disabled="true"></textbox>
+					<box id="details" multiline="true" flex="1"></box>
 				</hbox>
 
 				<hbox orient="vertical">
@@ -119,4 +119,4 @@
 	<button id="close" dlgtype="accept" label="&close.label;"/>
 </hbox>
 
-</dialog>
+</window>

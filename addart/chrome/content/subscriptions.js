@@ -26,10 +26,17 @@ function onLoad()
 
 
 	E("subscriptions").addEventListener('select', function(e) {
+		var description = this.selectedItem._data.subscription.description;
+		var box = E('details');
 		var div = document.createElementNS("http://www.w3.org/1999/xhtml",'div');
-		div.innerHTML = this.selectedItem._data.subscription.description;
-		
-		E('details').value = div.childNodes[0].nodeValue;
+		if(box.hasChildNodes) {
+			for(var i=0;i<box.childNodes.length;i++) {
+				box.removeChild(box.childNodes[i]);
+			} 
+		}
+		var html = document.createTextNode("Test test");
+		div.appendChild(html);
+		box.appendChild(div);
 	});
 }
 
@@ -143,16 +150,14 @@ function FillSubscriptionListFromRSS(url, rss) {
 		var img = channel('thumbnail').innerHTML;
 		
 		var description = stripHTML(item('content:encoded').firstChild.textContent);
-		var welcome = "Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!";
-		if(description == welcome) {
-			var description = '';
-		}
 		if(description.length > 40) {
+
 			var summary = description.substring(0, 40) + '...';
 		} 
 		else {
 			var summary = description;
 		}
+		summary = stripHTML(summary);
 
 		var subscr = {
 		title: item('title').innerHTML,
