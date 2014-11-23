@@ -151,7 +151,7 @@ function FillSubscriptionListFromRSS(url, rss) {
 
 		var img = channel('thumbnail').innerHTML;
 		
-		var description = stripHTML(item('content:encoded').firstChild.textContent);
+		var description = item('content:encoded').firstChild.textContent;
 		if(description.length > 40) {
 
 			var summary = description.substring(0, 40) + '...';
