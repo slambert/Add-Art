@@ -35,10 +35,12 @@ function onLoad()
 				box.removeChild(box.childNodes[i]);
 			} 
 		}
-		var html = document.createTextNode(description);
-		div.appendChild(html);
+		var parser = new DOMParser();
+		var html = parser.parseFromString(description, 'text/html').documentElement;
+
 		box.appendChild(div);
-		box.style.padding="0 10px";
+		div.appendChild(html);
+		box.style.padding = "0 10px";
 	});
 }
 
