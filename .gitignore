@@ -6,6 +6,7 @@ addartbuild.xpi
 addart-build.xpi
 add-art.xpi
 add-art-build.xpi
+*.zip
 
 # OS generated files #
 ######################
