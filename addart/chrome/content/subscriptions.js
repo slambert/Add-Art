@@ -151,7 +151,7 @@ function FillSubscriptionListFromRSS(url, rss) {
 			return first.getElementsByTagName(type)[0];
 		};
 
-		var img = channel('thumbnail').innerHTML;
+		
 		
 		var description = item('content:encoded').firstChild.textContent;
 		if(description.length > 40) {
@@ -163,12 +163,19 @@ function FillSubscriptionListFromRSS(url, rss) {
 		}
 		summary = stripHTML(summary);
 
+		var homepage = channel('link').innerHTML;
+		if(homepage=="") {
+			homepage='http://add-art.org';
+		}
+		
+		var img = channel('thumbnail').innerHTML;
+
 		var subscr = {
 		title: item('title').innerHTML,
 		summary: summary,
 		description: description,
 		url: url,
-		homepage: channel('link').innerHTML,
+		homepage: homepage,
 		author: stripCDATA(item('dc:creator').innerHTML),
 		lastUpdate: nicer_date(new Date(channel('lastBuildDate').innerHTML)),
 		image: img,
