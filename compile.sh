@@ -2,29 +2,32 @@
 
 # duplicate the working directory
 echo "Duplicating..."
-rm -f addart.xpi
-cp -r addart addart_renamed
-cd addart
+	# remove old version
+	rm -f addart.xpi
+	# create backup
+	cp -r addart addart_backup
+	cd addart
 
 # package things up
-echo "Zippin..."
+echo "Zippin up addart-alone.xpi..."
 
-cd chrome
-rm -f addart.jar
-zip -rq addart.jar content skin locale -x "*.DS_Store"
-rm -rf content skin locale
-cd ..
-rm -f ../addart-build.xpi
-zip -rq ../addart-build.xpi . -x "*.DS_Store"
+	cd chrome
+	# rm -f addart.jar
+	zip -rqv addart.jar content locale -x "*.DS_Store"
+	# rm -rf content locale
+	cd ..
+	rm -f ../addart-alone.xpi
+	zip -rqv ../addart-alone.xpi . -x "*.DS_Store"
 
 # revert & back out
 echo "Cleaning up..."
-cd ..
-rm -rf addart
-mv addart_renamed addart
+	cd ..
+	rm -rf addart
+	mv addart_backup addart
 
-zip -q addart.xpi *.xpi install.rdf 
-rm -f addart-build.xpi
+echo "Zippin up addart.xpi..."
+zip -qv addart.xpi *.xpi install.rdf 
+# rm -f addart-alone.xpi
 
 echo "BING BONG, it's ready..."
 
