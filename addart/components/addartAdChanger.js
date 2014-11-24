@@ -270,6 +270,7 @@ AddArtComponent.prototype = {
         if (this.getPref("extensions.add-art.expandImages")) {
             newElt.setAttribute("onmouseover","this.style.overflow = 'visible';this.style.zIndex= 100000;");
             newElt.setAttribute("onmouseout","this.style.overflow = 'hidden';this.style.zIndex= 0;");
+            //AD LINK
             newElt.setAttribute("onclick","window.top.location = 'http://add-art.org/';");  
         }
 

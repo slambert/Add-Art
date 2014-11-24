@@ -9,7 +9,7 @@
 
 <!DOCTYPE dialog SYSTEM "chrome://addart/locale/addartOptions.dtd">
 
-<window
+<dialog
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	title="&dialog.title;"
 	id="addArtSubscriptionsbpFiltersWindow"
@@ -119,4 +119,4 @@
 	<button id="close" dlgtype="accept" label="&close.label;"/>
 </hbox>
 
-</window>
+</dialog>
