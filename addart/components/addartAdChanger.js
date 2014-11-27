@@ -270,8 +270,8 @@ AddArtComponent.prototype = {
         if (this.getPref("extensions.add-art.expandImages")) {
             newElt.setAttribute("onmouseover","this.style.overflow = 'visible';this.style.zIndex= 100000;");
             newElt.setAttribute("onmouseout","this.style.overflow = 'hidden';this.style.zIndex= 0;");
-            //AD LINK
-            newElt.setAttribute("onclick","window.top.location = 'http://add-art.org/';");  
+            var link = this.getPref("extensions.add-art.adLink");
+            newElt.setAttribute("onclick","window.open('"+link+"','_blank');");  
         }
 
         var img = OldElt.ownerDocument.createElement("img");
