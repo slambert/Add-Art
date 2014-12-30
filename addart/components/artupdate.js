@@ -120,7 +120,6 @@ ArtUpdateComponent.prototype = {
 					};	
 
 					var lastBuild = channel('lastBuildDate').innerHTML;
-
 					//Avoids error on first build of default XML show
 					if(lastBuild == undefined) {
 						lastBuild = 0;
