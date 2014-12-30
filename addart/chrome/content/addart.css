@@ -1,0 +1,6 @@
+@import url(chrome://global/skin/);
+@namespace html url("http://www.w3.org/1999/xhtml");
+
+#detials {
+	padding: 1000px 10px;
+}

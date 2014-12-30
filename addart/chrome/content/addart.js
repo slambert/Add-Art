@@ -101,12 +101,13 @@ var addart = {
 		}
 		if (!this.prefBranch.prefHasUserValue("imageSetXmlUrl")) {
 			var request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
-			request.open("GET", "chrome://addart/content/subscriptions.xml");
+			var url = "http://add-art.org/category/default/feed/";
+			request.open("GET", url);
 			var d = this;
 			request.addEventListener("load", function()
 			{
 				var subs = request.responseXML.getElementsByTagName("subscription");
-				d.prefBranch.setCharPref("imageSetXmlUrl", subs[0].getAttribute('url'));
+				d.prefBranch.setCharPref("imageSetXmlUrl", url);
 				d.prefBranch.setIntPref("checkedSubscription", 0);
 			}, false);
 			request.send();
