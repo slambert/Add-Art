@@ -119,7 +119,12 @@ ArtUpdateComponent.prototype = {
 						return first.getElementsByTagName(type)[0];
 					};	
 
-					var lastBuildDate = new Date(channel('lastBuildDate').innerHTML);
+					var lastBuild = channel('lastBuildDate').innerHTML;
+					//Avoids error on first build of default XML show
+					if(lastBuild == undefined) {
+						lastBuild = 0;
+					}
+					var lastBuildDate = new Date(lastBuild);
 
 					if(lastBuildDate > aaLastUpdate) {
 						downloadNewImages(channel('artshow').innerHTML);
