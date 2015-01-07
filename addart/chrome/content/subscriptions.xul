@@ -76,7 +76,6 @@
 										_url="{subscription.homepage}" tooltiptext="{subscription.homepage}"
 										onclick="if (event.button == 0) { event.stopPropagation();loadInBrowser(this.getAttribute('_url')); }"/>
 								</hbox>
-								<description value="{subscription.author}"/>
 					            <description value="{subscription.summary}"/>
 								<hbox>
 									<description class="status">

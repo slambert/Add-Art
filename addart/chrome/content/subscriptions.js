@@ -74,7 +74,8 @@ function addDefaultSubscriptionList() {
 	var defaultShows = [
 		'http://add-art.org/category/eyebeam/feed/',
 		'http://add-art.org/category/rhizome/feed/',
-		'http://add-art.org/category/brooklyn-museum/feed/'
+		'http://add-art.org/category/brooklyn-museum/feed/',
+		'http://add-art.org/category/kadist/feed/'
 	];
 
 	for(var i=0;i<defaultShows.length;i++) {
@@ -175,7 +176,6 @@ function FillSubscriptionListFromRSS(url, rss) {
 		description: description,
 		url: url,
 		homepage: homepage,
-		author: stripCDATA(item('dc:creator').innerHTML),
 		lastUpdate: nicer_date(new Date(channel('lastBuildDate').innerHTML)),
 		image: img,
 	};
