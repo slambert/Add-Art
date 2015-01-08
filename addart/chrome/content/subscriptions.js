@@ -75,7 +75,8 @@ function addDefaultSubscriptionList() {
 		'http://add-art.org/category/eyebeam/feed/',
 		'http://add-art.org/category/rhizome/feed/',
 		'http://add-art.org/category/brooklyn-museum/feed/',
-		'http://add-art.org/category/kadist/feed/'
+		'http://add-art.org/category/kadist/feed/',
+		'http://add-art.org/category/nasa/feed/'
 	];
 
 	for(var i=0;i<defaultShows.length;i++) {
