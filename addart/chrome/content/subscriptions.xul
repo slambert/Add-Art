@@ -12,6 +12,7 @@
 <dialog
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	title="&dialog.title;"
+	resizeable="no"
 	id="addArtSubscriptionsbpFiltersWindow"
 	onload="onLoad()"
 	ondialogaccept="onClose()"
@@ -59,7 +60,7 @@
 				</panel>
  
 				<richlistitem id="subscriptionTemplate" class="subscription" hidden="true" orient="vertical">
-					<vbox>
+					<vbox flex="1">
 						<hbox align="start">
 							<hbox align="center">
 								<!-- <radiogroup>

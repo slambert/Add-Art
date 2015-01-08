@@ -41,6 +41,7 @@ function onLoad()
 		box.appendChild(div);
 		div.appendChild(html);
 		box.style.padding = "0 10px";
+		box.style.overflow = "auto";
 	});
 }
 
