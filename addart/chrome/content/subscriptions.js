@@ -37,11 +37,11 @@ function onLoad()
 		}
 		var parser = new DOMParser();
 		var html = parser.parseFromString(description, 'text/html').documentElement;
-
+		box.style.overflow = "hidden";
+		div.style.overflow = "auto";
+		div.style.height = "350px";
 		box.appendChild(div);
 		div.appendChild(html);
-		box.style.padding = "0 10px";
-		box.style.overflow = "auto";
 	});
 }
 

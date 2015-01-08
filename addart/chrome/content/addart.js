@@ -110,8 +110,7 @@ var addart = {
 				d.prefBranch.setIntPref("checkedSubscription", 0);
 			}, false);
 			request.send();
-		}		
-
+		} 
 	},
 
 	onMenuItemCommand : function(e) {
@@ -151,7 +150,7 @@ var addart = {
 	},
 
 	showOptions : function() {
-		window.openDialog("chrome://addart/content/subscriptions.xul", "Add-Art Options", "chrome,titlebar,toolbar,centerscreen,resizable");
+		window.openDialog("chrome://addart/content/subscriptions.xul", "Add-Art Options", "chrome,titlebar,toolbar,centerscreen");
 	}
 };
 

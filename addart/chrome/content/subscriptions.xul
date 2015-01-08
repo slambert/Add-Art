@@ -12,14 +12,13 @@
 <dialog
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	title="&dialog.title;"
-	resizeable="no"
 	id="addArtSubscriptionsbpFiltersWindow"
 	onload="onLoad()"
 	ondialogaccept="onClose()"
 	buttons="accept"
 	width="950"
 	height="450"
-	persist="screenX screenY width height sizemode"
+	persist="screenX screenY sizemode"
 	windowtype="abp:filters">
 
 <script type="application/x-javascript;version=1.7">
