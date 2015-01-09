@@ -1,0 +1,19 @@
+{
+    "shows":[
+        {
+            "url" : "http://add-art.org/category/eyebeam/feed/"
+        },
+        {
+            "url" : "http://add-art.org/category/rhizome/feed/"
+        },
+        {
+            "url" : "http://add-art.org/category/brooklyn-museum/feed/"
+        },
+        {
+            "url" : "http://add-art.org/category/kadist/feed/"
+        },
+        {
+            "url" : "http://add-art.org/category/nasa/feed/"
+        }
+    ]
+}
