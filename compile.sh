@@ -12,9 +12,13 @@ echo "Duplicating..."
 echo "Zippin up addart-alone.xpi..."
 
 	cd chrome
-	# rm -f addart.jar
+	# Remove old addart.jar
+	rm -f addart.jar
+	# jar up the content and locale folders
 	zip -rqv addart.jar content locale -x "*.DS_Store"
-	# rm -rf content locale
+	# delete the content and locale folders
+	# so they don't end up duplicated in the .xpi
+	rm -rf content locale
 	cd ..
 	rm -f ../addart-alone.xpi
 	zip -rqv ../addart-alone.xpi . -x "*.DS_Store"
