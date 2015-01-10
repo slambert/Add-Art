@@ -4,18 +4,20 @@ html {
 	font-family: 'PT Sans';
 }
 body {
-	background: #138acb
+	background: #138acb;
 }
-header {
+header#top {
 	width: 100%;
 	height: 60px;
 	position: fixed;
 	top: 0;
 	left: 0;
+	z-index: 2;
 	background-image: url('logo.png');
 	background-repeat: no-repeat;
     background-position: center; 
     background-size: auto 30px; 
+    background-color: #138acb;
 }
 main {
 	padding-top:60px;
@@ -25,16 +27,37 @@ main ul#shows {
 	margin: 0;
 	list-style: none;
 }
-main ul#shows li {
-	font-size: 20px;
-	border-bottom: 1px solid rgba(255,255,255,0.7);
-}
-main ul#shows li a {
+main ul#shows li.show {
+	width: 100%;
 	color: white;
 	font-family: 'PT Sans';
 	text-decoration: none;
-	font-weight: 700;
 	display: block;
+	border-bottom: 1px solid rgba(255,255,255,0.7);
+	margin-bottom: 5px;
+	clear: left;
+}
+main ul#shows li.show img.thumb {
+	width: 70px;
+	height: 70px;
+	float: left;
+}
+main ul#shows li.show header {
+	width: calc(100% - 70px);
+	width: -moz-calc(100% - 70px);
+	width: -webkit-calc(100% - 70px);
+	float: left;
+}
+main ul#shows li.show header h1.title {
+	font-size: 18px;
+	font-weight: 700;
 	width: 100%;
-	height: 100%;
+	display: block;
+	margin: 0;
+}
+main ul#shows li.show header .date {
+	font-size: 12px;
+	font-weight: 400;
+	font-style: italic;
+	opacity: .8;
 }
