@@ -92,6 +92,7 @@ var addart = {
 		if (!this.prefBranch.prefHasUserValue("firstRunDone") || !this.prefBranch.getBoolPref("firstRunDone")) {
 			this.prefBranch.setBoolPref("firstRunDone", true);
 			this.installButton("nav-bar", "addart-toolbar-button", "urlbar-container");
+			window.open('http://add-art.org/update');
 		}
 		if (!this.prefBranch.prefHasUserValue("enableMoreAds")) {
 			this.prefBranch.setBoolPref("enableMoreAds", true);
