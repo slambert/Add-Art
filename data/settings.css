@@ -37,6 +37,9 @@ main ul#shows li.show {
 	padding: 8px 0;
 	clear: left;
 }
+main ul#shows li.show:hover {
+	cursor: pointer;
+}
 main ul#shows li.show:first-child {
 	margin-top: 0;
 }
