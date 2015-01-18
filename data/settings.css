@@ -2,9 +2,18 @@
 html {
 	margin: 0;
 	font-family: 'PT Sans';
+	height: 100%;
 }
 body {
 	background: #138acb;
+	height: 100%;
+}
+body.loading {
+	/*needs custom loader*/
+	background-image: url(http://www.mytreedb.com/uploads/mytreedb/loader/ajax_loader_blue_512.gif); 
+	background-size: 30px;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 header#top {
 	width: 100%;
@@ -26,19 +35,27 @@ main ul#shows {
 	padding: 0;
 	margin: 0;
 	list-style: none;
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
 }
 main ul#shows li.show {
 	width: 100%;
 	color: white;
 	font-family: 'PT Sans';
 	text-decoration: none;
-	display: block;
+	display: list-item;
 	/*border-bottom: 1px solid rgba(255,255,255,0.7);*/
 	padding: 8px 0;
 	clear: left;
+	
 }
 main ul#shows li.show:hover {
-	cursor: pointer;
+
 }
 main ul#shows li.show:first-child {
 	margin-top: 0;

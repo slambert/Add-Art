@@ -14,7 +14,11 @@ function buildInterface(subs) {
 	var $showTemplate = $('ul#shows li.show');
 	for(var i = 0; i < subs.length; i++) {
 		addSub(subs[i],i);
-		if(i!=subs.length-1) $shows.append($showTemplate.clone());
+		if(i!=subs.length-1) {
+			$shows.append($showTemplate.clone());
+		} else {
+			$('body').removeClass('loading');
+		}
 	}
 }
 
