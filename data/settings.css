@@ -33,19 +33,23 @@ main ul#shows li.show {
 	font-family: 'PT Sans';
 	text-decoration: none;
 	display: block;
-	border-bottom: 1px solid rgba(255,255,255,0.7);
-	margin-bottom: 5px;
+	/*border-bottom: 1px solid rgba(255,255,255,0.7);*/
+	padding: 8px 0;
 	clear: left;
+}
+main ul#shows li.show:first-child {
+	margin-top: 0;
 }
 main ul#shows li.show img.thumb {
 	width: 70px;
 	height: 70px;
+	margin-right: 8px;
 	float: left;
 }
 main ul#shows li.show header {
-	width: calc(100% - 70px);
-	width: -moz-calc(100% - 70px);
-	width: -webkit-calc(100% - 70px);
+	width: calc(100% - 78px);
+	width: -moz-calc(100% - 78px);
+	width: -webkit-calc(100% - 78px);
 	float: left;
 }
 main ul#shows li.show header h1.title {

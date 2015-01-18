@@ -14,14 +14,14 @@ function buildInterface(subs) {
 	var $showTemplate = $('ul#shows li.show');
 	for(var i = 0; i < subs.length; i++) {
 		addSub(subs[i],i);
-		$shows.append($showTemplate.clone());
+		if(i!=subs.length-1) $shows.append($showTemplate.clone());
 	}
 }
 
 function addSub(show,i) {
 	var $row = $('ul#shows li.show').eq(i);
 	$row.find('h1.title').html(show.title);
-	$row.find('.date').html('Last updated on '+show.date);
+	$row.find('.date').html('Last updated on '+ show.date );
 	$row.find('img.thumb').attr('src', show.thumbnail);
 	// var info = {
 	// 	title : show.title,
@@ -36,3 +36,5 @@ function addSub(show,i) {
 	// 	list.append(item);
 	// }
 }
+
+
