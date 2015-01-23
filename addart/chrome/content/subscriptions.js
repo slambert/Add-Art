@@ -77,6 +77,7 @@ function addDefaultSubscriptionList() {
 		'http://add-art.org/category/rhizome/feed/',
 		'http://add-art.org/category/brooklyn-museum/feed/',
 		'http://add-art.org/category/kadist/feed/',
+		'http://add-art.org/category/no-ad/feed/',
 		'http://add-art.org/category/nasa/feed/'
 	];
 
