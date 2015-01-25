@@ -26,7 +26,7 @@ function addSub(show,i) {
 	var $row = $('ul#shows li.show').eq(i);
 	$row.find('h1.title').html(show.title);
 	$row.find('.date').html('Last updated on '+ show.date );
-	$row.find('img.thumb').attr('src', show.thumbnail);
+	$row.find('.thumb img').attr('src', show.thumbnail);
 	// var info = {
 	// 	title : show.title,
 	// 	date : show.date,
