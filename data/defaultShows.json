@@ -13,6 +13,9 @@
             "url" : "http://add-art.org/category/kadist/feed/"
         },
         {
+            "url" : "http://add-art.org/category/no-ad/feed/"
+        },
+        {
             "url" : "http://add-art.org/category/nasa/feed/"
         }
     ]
