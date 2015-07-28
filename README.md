@@ -20,9 +20,13 @@ LICENSE: [GPL][8]
 
 ## Contribute
 
-Check out what's being working on in the [issues][9] section.
+The main thing we're working on are getting Add-Art working with the [Mozilla Add-Ons SDK](https://developer.mozilla.org/en-US/Add-ons/SDK) - also known as [Issue #49](https://github.com/slambert/Add-Art/issues/49). We've [created a branch](https://github.com/slambert/Add-Art/tree/sdk) so you pick right up on our work. 
 
- 1. Fork it 
+You can see what else we've been working on in the [issues][9] section.
+
+Do contribute:
+
+ 1. Fork the project 
  * Create a branch
  * Commit your changes
  * Push to the branch
