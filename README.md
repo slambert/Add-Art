@@ -20,7 +20,7 @@ LICENSE: [GPL][8]
 
 ## Contribute
 
-The main thing we're working on are getting Add-Art working with the [Mozilla Add-Ons SDK](https://developer.mozilla.org/en-US/Add-ons/SDK) - also known as [Issue #49](https://github.com/slambert/Add-Art/issues/49). We've [created a branch](https://github.com/slambert/Add-Art/tree/sdk) so you pick right up on our work. 
+The main thing we're working on are getting Add-Art working with the [Mozilla Add-Ons SDK](https://developer.mozilla.org/en-US/Add-ons/SDK) - also known as [Issue #49](https://github.com/slambert/Add-Art/issues/49). We've [created a branch](https://github.com/slambert/Add-Art/tree/sdk) so you pick right up on our work. We're also working on a Chrome version and you can check out that repo at [github.com/coreytegeler/add-art-chrome](https://github.com/coreytegeler/add-art-chrome)
 
 You can see what else we've been working on in the [issues][9] section.
 
