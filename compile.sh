@@ -9,7 +9,7 @@ echo "Duplicating..."
 	cd addart
 
 # package things up
-echo "Zippin up addart-alone.xpi..."
+echo "Zippin up addart.xpi..."
 
 	cd chrome
 	# Remove old addart.jar
@@ -21,7 +21,7 @@ echo "Zippin up addart-alone.xpi..."
 	rm -rf content locale
 	cd ..
 	rm -f ../addart-alone.xpi
-	zip -rqv ../addart-alone.xpi . -x "*.DS_Store"
+	zip -rqv ../addart.xpi . -x "*.DS_Store"
 
 # revert & back out
 echo "Cleaning up..."
@@ -29,9 +29,9 @@ echo "Cleaning up..."
 	rm -rf addart
 	mv addart_backup addart
 
-echo "Zippin up addart.xpi..."
-zip -qv addart.xpi *.xpi install.rdf 
-# rm -f addart-alone.xpi
+# echo "Zippin up addart.xpi..."
+# zip -qv addart.xpi *.xpi install.rdf 
+# # rm -f addart-alone.xpi
 
 echo "BING BONG, it's ready..."
 

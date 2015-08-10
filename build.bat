@@ -4,6 +4,8 @@
 
 :: TODO:
 :: - review script and rebuild if necessary - April 20, 2013
+::      - tried to re-write this, but I have no way of testing. 
+::      Good luck! Steve 2015-08-10
 
 set x=%cd%
 set zf="%PROGRAMFILES%\7-Zip"
@@ -35,5 +37,5 @@ rem rmdir addart /S /Q
 rem move addart_renamed addart
 rmdir addart_working /S /Q
 
-%zf%\7z a -tzip "addart.xpi" *.xpi install.rdf -mx=9
+:: %zf%\7z a -tzip "addart.xpi" *.xpi install.rdf -mx=9
 del addart-build.xpi
