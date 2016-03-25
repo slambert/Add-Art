@@ -1,0 +1,34 @@
+{
+  "title": "Add-Art",
+  "name": "add-art",
+  "version": "0.0.1",
+  "description": "Replace ads with art.",
+  "main": "index.js",
+  "author": "@owise1",
+  "engines": {
+    "firefox": ">=35.0a1"
+  },
+  "scripts": {
+    "watch": "watchify -t [ babelify --presets react ] src/popup.js -o data/js/popup.js",
+    "build": "browserify -t [ babelify --presets react ] src/popup.js -o data/js/popup.js",
+    "run" : "npm run build; jpm run"
+  },
+  "license": "MIT",
+  "keywords": [
+    "jetpack"
+  ],
+  "dependencies": {
+    "babel-preset-react": "^6.3.13",
+    "babelify": "^7.2.0",
+    "ramda": "^0.19.1",
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6",
+    "reflux": "^0.3.0",
+    "watchify": "^3.7.0"
+  },
+  "permissions": {
+    "cross-domain-content": [
+      "http://add-art.org/feed"
+    ]
+  }
+}
