@@ -2,6 +2,7 @@
   "title": "Add-Art",
   "name": "add-art",
   "version": "2.2.0",
+  "id" : "development@add-art.org",
   "description": "Replace ads with art.",
   "main": "index.js",
   "author": "slambert,owise1",
