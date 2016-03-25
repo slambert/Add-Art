@@ -1,13 +1,7 @@
 # Compiled source #
 ###################
 
-addart.xpi
-addartbuild.xpi
-addart-build.xpi
-addart-alone.xpi
-add-art.xpi
-add-art-build.xpi
-add-art-alone.xpi
+*.xpi
 *.zip
 
 # OS generated files #

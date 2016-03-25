@@ -1,10 +1,10 @@
 {
   "title": "Add-Art",
   "name": "add-art",
-  "version": "0.0.1",
+  "version": "2.2.0",
   "description": "Replace ads with art.",
   "main": "index.js",
-  "author": "@owise1",
+  "author": "slambert,owise1",
   "engines": {
     "firefox": ">=35.0a1"
   },
@@ -13,9 +13,10 @@
     "build": "browserify -t [ babelify --presets react ] src/popup.js -o data/js/popup.js",
     "run" : "npm run build; jpm run"
   },
-  "license": "MIT",
+  "license": "GPL-3.0",
   "keywords": [
-    "jetpack"
+    "ads",
+    "art"
   ],
   "dependencies": {
     "babel-preset-react": "^6.3.13",
