@@ -1,0 +1,301 @@
+@import url(http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic);
+html {
+	margin: 0;
+	padding: 0;
+	font-family: 'PT Sans';
+	background-color: #fafafa;
+	height: 400px;
+	width: 100%;
+	overflow: hidden;
+}
+body {
+	background: white;
+	margin: 0;
+	padding: 0;
+	height: 400px;
+	width: 100%;
+	overflow: auto;
+	position: relative;
+}
+.vert-align {
+	display: table-cell;
+	vertical-align: middle;
+}
+.horz-align {
+	display: table;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+.clear{
+  clear:both;
+}
+::-webkit-scrollbar {
+    height: 0px;
+    width: 0px;
+} 
+body.loading {
+	/*needs custom loader*/
+	background-image: url(http://www.mytreedb.com/uploads/mytreedb/loader/ajax_loader_blue_512.gif); 
+	background-size: 30px;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+body.loading img{
+  display: none; 
+}
+header#top {
+	width: 100%;
+	height: 60px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	background-image: url('images/essays.svg');
+	background-repeat: no-repeat;
+  background-position: center; 
+  background-size: 100% 100%; 
+  background-color: #ED1C24;
+}
+header#top #addSource {
+	background-image: url('images/plus.png');
+	background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 11;
+    height: 60px;
+    width: 60px;
+    cursor: pointer;
+}
+header#top #close {
+	background-image: url('images/close.png');
+	background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 20px;
+    position: absolute;
+    top: -400px;
+    right: 0px;
+    z-index: 11;
+    height: 60px;
+    width: 60px;
+    cursor: pointer;
+    -webkit-transition: -webkit-transform 500ms cubic-bezier(0.995, 0.250, 0.765, 0.250);
+    transition: transform 500ms cubic-bezier(0.995, 0.250, 0.765, 0.250);
+}
+header#top #close.visible {
+	-webkit-transform: translateY(400px);
+	transform: translateY(400px);
+	-webkit-transition: -webkit-transform 500ms cubic-bezier(0.250, 0.765, 0.250, 0.995); 
+    transition: transform 500ms cubic-bezier(0.250, 0.765, 0.250, 0.995);
+}
+#squares {
+	padding-top:60px;
+}
+#squares ul#shows {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+  display: -ms-flexbox;  /* TWEENER - IE 10 */
+  display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+  display: flex;  
+  flex-wrap: wrap;
+}
+#squares ul#shows li.show {
+	width: 50%;
+	height: 150px;
+	background: white;
+	font-family: 'PT Sans';
+	text-decoration: none;
+	display: block;
+	float:left;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	position: relative;
+}
+#squares ul#shows li.show .active {
+  width: 100%;
+  height: 150px;
+  position: absolute; 
+  top: 0;
+  left: 0;
+  background: url(images/icon-64.png) center center no-repeat rgba(0,0,0,0.2);
+  display: none; 
+  z-index: 3;
+}
+#squares ul#shows li.show.active .active {
+  display: block; 
+}
+
+#squares ul#shows li.show .content {
+	
+}
+#squares ul#shows li.show .thumb {
+	width: 100%;
+	height: 148px;
+	box-shadow: 0 1px 1px 0px rgba(0,0,0,0.1);
+	border: 1px solid #fafafa;
+	position: absolute;
+	top:0;
+	left:0;
+	z-index: 2;
+	-webkit-transition: -webkit-transform 400ms cubic-bezier(0.250, 0.765, 0.250, 0.995); 
+    transition: transform 400ms cubic-bezier(0.250, 0.765, 0.250, 0.995);
+}
+#squares ul#shows li.show .thumb .short-title{
+  position: absolute; 
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 4px 5px 2px;
+  text-transform: uppercase;
+  background-color: #000;
+  color: #fff;
+  font-size:  14px;
+  text-align: center; 
+  font-weight: bold; 
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+#squares ul#shows li.show.addendum .thumb .short-title{
+  background-color: #ED1C24;
+}
+#squares ul#shows li.show:hover .thumb {
+	/*-webkit-transform: translateY(150px);*/
+	/*transform: translateY(150px);*/
+}
+#squares ul#shows li.show .thumb img {
+	width: 100%;
+	height: 100%;
+}
+#infoPages {
+	position: absolute;
+	top: -100%;
+	z-index: 4;
+}
+.infoPage {
+	background: white;
+	position: fixed;
+	top: -400px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	overflow-y: scroll;
+	-webkit-transition: -webkit-transform 500ms cubic-bezier(0.250, 0.765, 0.250, 0.995); 
+    transition: transform 500ms cubic-bezier(0.250, 0.765, 0.250, 0.995);
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,.3);
+}
+.infoPage.opened {
+	-webkit-transform: translateY(400px);
+	transform: translateY(400px);
+  z-index: 6;
+}
+.infoPage .inner {
+	overflow-y: scroll;
+	padding: 70px 10px 20px 10px;
+}
+.infoPage header {
+	width: 100%;
+}
+.infoPage header h1.title {
+	font-size: 18px;
+	font-weight: 700;
+	display: block;
+	margin: 0;
+}
+.infoPage header .date {
+	font-size: 12px;
+	font-weight: 400;
+	font-style: italic;
+	opacity: .8;
+	margin: 1px 0 3px 0;
+}
+.infoPage .description {
+	font-size: 14px;
+	line-height: 19px;
+  padding-top: 10px;
+  white-space: pre-wrap;
+}
+.infoPage .description img {
+	padding: 10px 0;
+	display: table;
+	margin: auto;
+	max-width: 100%;
+}
+.infoPage .selectSource {
+	width: 100%;
+	height: 60px;
+	display: table;
+	font-size: 20px;
+	text-align: center;
+	font-weight: bolder;
+	color: white;
+	cursor: pointer;
+  background-color: #ED1C24;
+}
+
+#newSource {
+	position: fixed;
+	top: -300px;
+	left: 0px;
+	height: 300px;
+	width: 100%;
+	z-index: 8;
+	display: table;
+	background: #ED1C24;
+	overflow-y: scroll;
+	-webkit-transition: -webkit-transform 500ms cubic-bezier(0.250, 0.765, 0.250, 0.995); 
+    transition: transform 500ms cubic-bezier(0.250, 0.765, 0.250, 0.995);
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,.3);
+}
+#newSource p{
+  padding: 5px 0;
+  color: #fff;
+}
+#newSource p a{
+  color: #fff;
+}
+#newSource.opened {
+	-webkit-transform: translateY(300px);
+	transform: translateY(300px);
+}
+#newSource input[type="text"] {
+	display: table;
+	margin: auto;
+	padding: 10px;
+	width: 200px;
+	height: 25px;
+	font-size: 20px;
+	font-weight: bold;
+	border: none;
+	outline: none;
+	float: left;
+}
+#newSource #addNewSource {
+	display: block;
+	height: 37px;
+	width: 37px;
+	background-image: url('images/plus.png');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 23px;
+	float: left;
+	border: 4px solid white;
+}
+.autoUpdate{
+  padding: 10px;
+  clear: both;
+  text-align: center; 
+  position: relative; 
+  z-index: 5;
+}
+

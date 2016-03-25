@@ -19,3 +19,5 @@ add-art-alone.xpi
 .Trashes
 ehthumbs.db
 Thumbs.db
+**.swp
+node_modules/

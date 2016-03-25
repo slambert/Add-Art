@@ -1,14 +1,8 @@
-Add-Art is a Firefox (for now) Browser Extension that replaces ads with art.
-
-Featured sources of art include:
-
-- [The Brooklyn Museum][1]
-- [Eyebeam][2]
-- [Kadist Foundation][3]
-- [NASA][4]
-- [Rhizome][5]
+#Add-Art
+Add-Art is a Firefox ([Chrome](https://github.com/coreytegeler/add-art-chrome) & [Safari](https://github.com/owise1/add-art-safari)) Browser Extension that replaces ads with art.
 
 When it works, it works pretty good. We all want it to be better, and we welcome your help with that.
+
 
 ##Links
 
@@ -20,8 +14,6 @@ LICENSE: [GPL][8]
 
 ## Contribute
 
-The main thing we're working on are getting Add-Art working with the [Mozilla Add-Ons SDK](https://developer.mozilla.org/en-US/Add-ons/SDK) - also known as [Issue #49](https://github.com/slambert/Add-Art/issues/49). We've [created a branch](https://github.com/slambert/Add-Art/tree/sdk) so you pick right up on our work. We're also working on a Chrome version and you can check out that repo at [github.com/coreytegeler/add-art-chrome](https://github.com/coreytegeler/add-art-chrome)
-
 You can see what else we've been working on in the [issues][9] section.
 
 Do contribute:
@@ -32,6 +24,38 @@ Do contribute:
  * Push to the branch
  * Comment on the issue (or create an issue) with a link to your branch
  * Sit back and wait
+
+### Development 
+
+#### To install:
+
+First you'll need to [install jpm](https://developer.mozilla.org/en-US/Add-ons/SDK/Tools/jpm#Installation). Then install the npm packages:
+
+```
+npm install
+```
+
+#### To work on the popup:
+
+```
+npm run watch
+```
+Then open `data/popup.html` in a browser
+
+#### To run extension in the browser:
+
+```
+npm run run
+```
+
+#### How it currently works
+
+Add-Art v2 no longer depends on Ad Block Plus and makes use of the [Mozilla Addons SDK](https://developer.mozilla.org/en-US/Add-ons/SDK). An "essay" (or exhibition) within add-art is simply a JSON file. [This repo](https://github.com/owise1/addendum-exhibitions) lays out an essay's JSON schema.  
+
+Kadist's [Addendum](http://addendum.kadist.org/) visual essays ship with the extension. The configuration for those essays are kept [here](https://github.com/owise1/addendum-exhibitions). 
+
+Users can also create their own essays on the [add-art site](http://add-art.org/essays/).  They receive a link to the JSON for the essay and can use it to import the show into their extension.
+
 
 ## Contributors
 
@@ -52,10 +76,11 @@ Do contribute:
  * [Dan Phiffer][24]
  * [Mushon Zer-Aviv][25]
  * [Alyssa Wright][26]
+ * [Oliver Wise][27]
  
- And help from 
- 
-  * Hana Newman
+And help from 
+
+* Hana Newman
 
 
 [1]: http://www.brooklynmuseum.org/
@@ -84,3 +109,5 @@ Do contribute:
 [24]: http://phiffer.org/
 [25]: http://mushon.com/
 [26]: http://alumni.media.mit.edu/~alyssa/
+[27]: http://owise1.guru
+
