@@ -45,7 +45,7 @@ Then open `data/popup.html` in a browser
 #### To run extension in the browser:
 
 ```
-npm run run
+npm run jpm 
 ```
 
 #### How it currently works

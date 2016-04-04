@@ -3,6 +3,7 @@ const { defer } = require('sdk/core/promise')
 var ss = require("sdk/simple-storage")
 var pageMod = require("sdk/page-mod")
 var data = require("sdk/self").data
+var tabs = require('sdk/tabs')
 var { ToggleButton } = require('sdk/ui/button/toggle')
 var panels = require("sdk/panel")
 var self = require("sdk/self")
@@ -92,7 +93,6 @@ function communication (worker){
         worker.port.emit('exhibitionError', true)
       }
     })
-
   })
 }
 
@@ -155,5 +155,12 @@ function go(){
       }
     }
   })
+
+  // installed for the first time?
+  if (!ss.storage.lastOpen) {
+    ss.storage.lastOpen = Date.now()
+    tabs.open('http://add-art.org/update')
+  }
+
 }
 

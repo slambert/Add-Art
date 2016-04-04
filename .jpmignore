@@ -1,3 +1,9 @@
 node_modules/
 .git
+.gitignore
+**.swp
+**.DS_Store
 !node_modules/ramda/*
+node_modules/ramda/.eslintignore
+node_modules/ramda/.jshintignore
+node_modules/ramda/.eslintrc

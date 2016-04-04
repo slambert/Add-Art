@@ -1,7 +1,7 @@
 {
   "title": "Add-Art",
   "name": "add-art",
-  "version": "2.2.0",
+  "version": "2.2.2",
   "id" : "development@add-art.org",
   "description": "Replace ads with art.",
   "main": "index.js",
@@ -12,7 +12,7 @@
   "scripts": {
     "watch": "watchify -t [ babelify --presets react ] src/popup.js -o data/js/popup.js",
     "build": "browserify -t [ babelify --presets react ] src/popup.js -o data/js/popup.js",
-    "run" : "npm run build; jpm run"
+    "jpm" : "npm run build; jpm run"
   },
   "license": "GPL-3.0",
   "keywords": [
