@@ -29,7 +29,7 @@ function fetch (url) {
   xhr.onerror = function (evt){
     d.reject(evt)
   }
-  xhr.open('GET', url, false)
+  xhr.open('GET', url, true)
   xhr.send(null)
   return d.promise
 }
