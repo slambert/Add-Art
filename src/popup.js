@@ -65,15 +65,16 @@ var ExhibitionList = ({ exhibitions, currentExhibition }) => {
 
 var ExhibitionInfo = React.createClass({
   render : function (){
-    var className = 'infoPage'
+    var className = 'infoPage', linkHtml = ''
     if (this.props.open) className += ' opened'
+    if (this.props.exhibition.link) linkHtml = <div className="link"><a href={this.props.exhibition.link}>{this.props.exhibition.link.replace('http://','')}</a></div>
     return (
       <div className={className}>
         <div className="inner">
           <header>
             <h1 className="title">{this.props.exhibition.title}</h1>
             <div className="date">{helpers.formatDate(this.props.exhibition.date)}</div>
-            <div className="link"><a href={this.props.exhibition.link}>{this.props.exhibition.link.replace('http://','')}</a></div>
+            {linkHtml}
           </header>
           <div className="description">{this.props.exhibition.description}</div>
         </div>

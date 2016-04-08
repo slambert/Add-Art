@@ -28944,7 +28944,7 @@ const ExhibitionStore = Reflux.createStore({
 module.exports = ExhibitionStore;
 
 },{"./exhibitionActions.js":180,"./mockAddon.js":182,"reflux":176}],182:[function(require,module,exports){
-var anotherExhibition = { "_id": "606a8cb43bb59495855c02d8fdc00e30", "_rev": "2-1f420881a834232227b4f3520f9bb04c", "date": 1458164980053, "title": "Test Essay", "artist": "owise1", "description": "Lorem ipsum dolor sit amet turducken shoulder hamburger brisket chuck ball tip turkey pork short ribs pig bresaola. Rump brisket tail, meatball chuck ham leberkas frankfurter sausage corned beef pork flank swine meatloaf andouille. Fatback capicola tongue sirloin, pork jerky pig chuck cow bresaola. Filet mignon turducken pig ribeye, chuck pork chop frankfurter leberkas t-bone capicola tri-tip jowl. Venison andouille biltong flank hamburger beef ribs chicken corned beef cow pork belly tenderloin filet mignon shank pork boudin.", "link": "http:\/\/owise1.guru", "thumbnail": "http:\/\/i.giphy.com\/m4UPmDFCkqX6M.gif", "works": [{ "image": "http:\/\/i.giphy.com\/u2cUV1E1JUkOA.gif", "title": "", "link": "" }, { "image": "http:\/\/i.giphy.com\/oLzT6CJRZYPrq.gif", "title": "", "link": "" }], "type": "exhibition" };
+var anotherExhibition = { "_id": "606a8cb43bb59495855c02d8fdc00e30", "_rev": "2-1f420881a834232227b4f3520f9bb04c", "date": 1458164980053, "title": "Test Essay", "artist": "owise1", "description": "Lorem ipsum dolor sit amet turducken shoulder hamburger brisket chuck ball tip turkey pork short ribs pig bresaola. Rump brisket tail, meatball chuck ham leberkas frankfurter sausage corned beef pork flank swine meatloaf andouille. Fatback capicola tongue sirloin, pork jerky pig chuck cow bresaola. Filet mignon turducken pig ribeye, chuck pork chop frankfurter leberkas t-bone capicola tri-tip jowl. Venison andouille biltong flank hamburger beef ribs chicken corned beef cow pork belly tenderloin filet mignon shank pork boudin.", "thumbnail": "http:\/\/i.giphy.com\/m4UPmDFCkqX6M.gif", "works": [{ "image": "http:\/\/i.giphy.com\/u2cUV1E1JUkOA.gif", "title": "", "link": "" }, { "image": "http:\/\/i.giphy.com\/oLzT6CJRZYPrq.gif", "title": "", "link": "" }], "type": "exhibition" };
 
 var store = {
   exhibitions: [{
@@ -29124,8 +29124,18 @@ var ExhibitionInfo = React.createClass({
   displayName: 'ExhibitionInfo',
 
   render: function () {
-    var className = 'infoPage';
+    var className = 'infoPage',
+        linkHtml = '';
     if (this.props.open) className += ' opened';
+    if (this.props.exhibition.link) linkHtml = React.createElement(
+      'div',
+      { className: 'link' },
+      React.createElement(
+        'a',
+        { href: this.props.exhibition.link },
+        this.props.exhibition.link.replace('http://', '')
+      )
+    );
     return React.createElement(
       'div',
       { className: className },
@@ -29145,15 +29155,7 @@ var ExhibitionInfo = React.createClass({
             { className: 'date' },
             helpers.formatDate(this.props.exhibition.date)
           ),
-          React.createElement(
-            'div',
-            { className: 'link' },
-            React.createElement(
-              'a',
-              { href: this.props.exhibition.link },
-              this.props.exhibition.link.replace('http://', '')
-            )
-          )
+          linkHtml
         ),
         React.createElement(
           'div',
