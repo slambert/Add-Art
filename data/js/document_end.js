@@ -5,6 +5,7 @@ jQuery(function ($){
     var tried = 0
     ;(function checkIFrames() {
       var selectors = [
+        'div[id^=google_ads]',
         'iframe[id^=google_ads]',
         'iframe[src*=serving-sys]',
         'ins.adsbygoogle',

@@ -6,6 +6,7 @@
       if (elem.offsetHeight < 2) goodBye = true 
       if (elem.tagName !== 'IFRAME' 
           && elem.tagName !== 'IMG'
+          && elem.tagName !== 'DIV'
           && elem.tagName !== 'OBJECT'
           && elem.tagName !== 'A'
           && elem.tagName !== 'INS'
