@@ -14,6 +14,7 @@
 
       if ($(elem).data('replaced')) goodBye = true
       $(elem).data('replaced', true)
+      $(elem).parent().data('replaced', true) // just in case
       if (goodBye) return
 
       var origW = elem.offsetWidth

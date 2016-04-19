@@ -12,19 +12,20 @@ var R = require('ramda')
 var helpers = require('./src/addArtHelpers.js')
 
 
-var lastUrl, 
-    currentPieceI
+var lastUrl,
+    currentPieceI,
+    selectors = false
 function resetPieceI (){
   lastUrl = false
   currentPieceI = -1
 }
 resetPieceI()
 
-function fetch (url) {
+function fetch (url, txt) {
   var d = defer()
   var xhr = new XMLHttpRequest()
   xhr.onload = function (){
-    d.resolve(JSON.parse(xhr.responseText))
+    d.resolve(txt ? xhr.responseText : JSON.parse(xhr.responseText))
   }
   xhr.onerror = function (evt){
     d.reject(evt)
@@ -40,8 +41,19 @@ fetch( "https://raw.githubusercontent.com/owise1/addendum-exhibitions/master/exh
   if (!ss.storage.disableAutoUpdate) {
     ss.storage.currentExhibition = ss.storage.exhibitions[0].title
   }
-  go()
+  return fetch('https://easylist-downloads.adblockplus.org/easylist.txt', true)
 })
+.then(function (txt) {
+  selectors = txt.split("\n")
+        .reverse()
+        .filter(function name(line) {
+          return /^##/.test(line)
+        })
+        .map(function (line) {
+          return line.replace(/^##/, '')
+        })
+  go()
+}, go)
 
 function getCurrentExhibition (){
   return R.find(R.propEq('title', ss.storage.currentExhibition), ss.storage.exhibitions)
@@ -51,7 +63,8 @@ function communication (worker){
   worker.port.on('exhibition', function() {
     worker.port.emit('exhibition', {
       exhibition : getCurrentExhibition(),
-      pieceI : getPieceI()
+      pieceI : getPieceI(),
+      selectors : selectors
     })
   })
   function emitExhibitions (){

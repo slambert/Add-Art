@@ -4,7 +4,7 @@ jQuery(function ($){
     var howMany = 3
     var tried = 0
     ;(function checkIFrames() {
-      var selectors = [
+      var selectors = exhibition.selectors || [
         'div[id^=google_ads]',
         'iframe[id^=google_ads]',
         'iframe[src*=serving-sys]',
