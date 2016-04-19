@@ -16,6 +16,7 @@ const ExhibitionStore = Reflux.createStore({
     this.addon = typeof addon === 'undefined' ? require('./mockAddon.js') : addon
 
     this.addon.port.on('exhibitions', function(exhibitions) {
+      console.log(exhibitions);
       _this.state.currentExhibition = exhibitions.currentExhibition
       _this.state.exhibitions = exhibitions.exhibitions
       _this.state.disableAutoUpdate = exhibitions.disableAutoUpdate

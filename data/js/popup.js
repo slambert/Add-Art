@@ -28838,11 +28838,8 @@ var addArtHelpers = {
     var dateObj = new Date(parseInt(date));
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var day = dateObj.getDate();
-    console.log(day);
     var month = months[dateObj.getMonth()];
-    console.log(month);
     var year = dateObj.getUTCFullYear();
-    console.log(year);
     return month + ' ' + day + ', ' + year;
   },
   verifyExhibition: function (exhib) {
@@ -28888,6 +28885,7 @@ const ExhibitionStore = Reflux.createStore({
     this.addon = typeof addon === 'undefined' ? require('./mockAddon.js') : addon;
 
     this.addon.port.on('exhibitions', function (exhibitions) {
+      console.log(exhibitions);
       _this.state.currentExhibition = exhibitions.currentExhibition;
       _this.state.exhibitions = exhibitions.exhibitions;
       _this.state.disableAutoUpdate = exhibitions.disableAutoUpdate;
@@ -28946,7 +28944,7 @@ const ExhibitionStore = Reflux.createStore({
 module.exports = ExhibitionStore;
 
 },{"./exhibitionActions.js":180,"./mockAddon.js":182,"reflux":176}],182:[function(require,module,exports){
-var anotherExhibition = { "_id": "606a8cb43bb59495855c02d8fdc00e30", "_rev": "2-1f420881a834232227b4f3520f9bb04c", "date": 1458164980053, "title": "Test Essay", "artist": "owise1", "description": "Lorem ipsum dolor sit amet turducken shoulder hamburger brisket chuck ball tip turkey pork short ribs pig bresaola. Rump brisket tail, meatball chuck ham leberkas frankfurter sausage corned beef pork flank swine meatloaf andouille. Fatback capicola tongue sirloin, pork jerky pig chuck cow bresaola. Filet mignon turducken pig ribeye, chuck pork chop frankfurter leberkas t-bone capicola tri-tip jowl. Venison andouille biltong flank hamburger beef ribs chicken corned beef cow pork belly tenderloin filet mignon shank pork boudin.", "thumbnail": "http:\/\/i.giphy.com\/m4UPmDFCkqX6M.gif", "works": [{ "image": "http:\/\/i.giphy.com\/u2cUV1E1JUkOA.gif", "title": "", "link": "" }, { "image": "http:\/\/i.giphy.com\/oLzT6CJRZYPrq.gif", "title": "", "link": "" }], "type": "exhibition" };
+var anotherExhibition = { "_id": "606a8cb43bb59495855c02d8fdc00e30", "_rev": "2-1f420881a834232227b4f3520f9bb04c", "date": 1458164980053, "title": "Test Essay", "artist": "owise1", "description": "Lorem ipsum dolor sit amet turducken shoulder hamburger brisket chuck ball tip turkey pork short ribs pig bresaola. Rump brisket tail, meatball chuck ham leberkas frankfurter sausage corned beef pork flank swine meatloaf andouille. Fatback capicola tongue sirloin, pork jerky pig chuck cow bresaola. Filet mignon turducken pig ribeye, chuck pork chop frankfurter leberkas t-bone capicola tri-tip jowl. Venison andouille biltong flank hamburger beef ribs chicken corned beef cow pork belly tenderloin filet mignon shank pork boudin.", "thumbnail": "http:\/\/i.giphy.com\/m4UPmDFCkqX6M.gif", "works": [{ "image": "http:\/\/i.giphy.com\/u2cUV1E1JUkOA.gif", "title": "", "link": "" }, { "image": "http:\/\/i.giphy.com\/oLzT6CJRZYPrq.gif", "title": "", "link": "" }], "type": "exhibition", "url": "http://sharemiodotcom.ly" };
 
 var store = {
   exhibitions: [{
@@ -29127,7 +29125,9 @@ var ExhibitionInfo = React.createClass({
 
   render: function () {
     var className = 'infoPage',
-        linkHtml = '';
+        linkHtml = '',
+        exhib = this.props.exhibition,
+        description = exhib.description;
     if (this.props.open) className += ' opened';
     if (this.props.exhibition.link) linkHtml = React.createElement(
       'div',
@@ -29138,6 +29138,7 @@ var ExhibitionInfo = React.createClass({
         this.props.exhibition.link.replace('http://', '')
       )
     );
+    if (!exhib.addendum && exhib.url) description += "\n\nEssay URL:\n" + exhib.url;
     return React.createElement(
       'div',
       { className: className },
@@ -29162,7 +29163,7 @@ var ExhibitionInfo = React.createClass({
         React.createElement(
           'div',
           { className: 'description' },
-          this.props.exhibition.description
+          description
         )
       ),
       React.createElement(

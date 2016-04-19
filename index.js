@@ -84,6 +84,7 @@ function communication (worker){
     .then(function (exhibition){
       if (helpers.verifyExhibition(exhibition)) {
         var exhibs = ss.storage.customExhibitions || []
+        exhibition.url = url  // save for later
         exhibs.push(exhibition)
         ss.storage.customExhibitions = exhibs.sort(helpers.exhibitionsSort)
         ss.storage.currentExhibition = exhibition.title
@@ -111,7 +112,7 @@ function getPieceI() {
 }
 
 function go(){
-  // on end 
+  // on end
   pageMod.PageMod({
     include: "*",
     contentScriptFile: [data.url("js/lib/jquery-1.11.2.min.js"),
@@ -120,20 +121,20 @@ function go(){
     onAttach : communication
   })
 
-  // on ready 
-  pageMod.PageMod({
-    include: "*",
-    contentScriptFile: [data.url("js/lib/jquery-1.11.2.min.js"),
-                        data.url("js/document_start.js")],
-    contentScriptWhen : 'ready'
-  })
+  // on ready
+  // pageMod.PageMod({
+  //   include: "*",
+  //   contentScriptFile: [data.url("js/lib/jquery-1.11.2.min.js"),
+  //                       data.url("js/document_start.js")],
+  //   contentScriptWhen : 'ready'
+  // })
 
   // popup
   var panel,button
-    
+
   panel = panels.Panel({
     contentURL: self.data.url("popup.html"),
-    onHide: function (){ 
+    onHide: function (){
       button.state('window', {checked: false})
     }
   })
