@@ -14,7 +14,8 @@ var helpers = require('./src/addArtHelpers.js')
 
 var lastUrl,
     currentPieceI,
-    selectors = false
+    selectors = false,
+    whitelist = false
 function resetPieceI (){
   lastUrl = false
   currentPieceI = -1
@@ -44,14 +45,20 @@ fetch( "https://raw.githubusercontent.com/owise1/addendum-exhibitions/master/exh
   return fetch('https://easylist-downloads.adblockplus.org/easylist.txt', true)
 })
 .then(function (txt) {
-  selectors = txt.split("\n")
-        .reverse()
-        .filter(function name(line) {
+  var txtArr = txt.split("\n").reverse() 
+  selectors = txtArr 
+        .filter(function (line) {
           return /^##/.test(line)
         })
         .map(function (line) {
           return line.replace(/^##/, '')
         })
+
+  whitelist = txtArr
+        .filter(function (line){
+          return /^[a-z0-9]/.test(line) && !/##/.test(line)
+        })
+        .map(R.split('#@#'))
   go()
 }, go)
 
@@ -64,7 +71,8 @@ function communication (worker){
     worker.port.emit('exhibition', {
       exhibition : getCurrentExhibition(),
       pieceI : getPieceI(),
-      selectors : selectors
+      selectors : selectors,
+      whitelist : whitelist
     })
   })
   function emitExhibitions (){
@@ -129,6 +137,7 @@ function go(){
   pageMod.PageMod({
     include: "*",
     contentScriptFile: [data.url("js/lib/jquery-1.11.2.min.js"),
+                        data.url("js/lib/ramda.min.js"),
                         data.url("js/artAdder.js"),
                         data.url("js/document_end.js")],
     onAttach : communication
