@@ -70,7 +70,7 @@ var ExhibitionInfo = React.createClass({
         exhib = this.props.exhibition,
         description = exhib.description
     if (this.props.open) className += ' opened'
-    if (this.props.exhibition.link) linkHtml = <div className="link"><a href={this.props.exhibition.link}>{this.props.exhibition.link.replace('http://','')}</a></div>
+    if (this.props.exhibition.link) linkHtml = <div className="link"><a target="_blank" href={this.props.exhibition.link}>{this.props.exhibition.link.replace('http://','')}</a></div>
     if (!exhib.addendum && exhib.url) description += "\n\nEssay URL:\n" + exhib.url
     return (
       <div className={className}>
