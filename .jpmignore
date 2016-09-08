@@ -3,7 +3,7 @@ node_modules/
 .gitignore
 **.swp
 **.DS_Store
-!node_modules/ramda/*
-node_modules/ramda/.eslintignore
-node_modules/ramda/.jshintignore
-node_modules/ramda/.eslintrc
+!node_modules/ramda/dist/*
+node_modules/ramda/dist/ramda.min.js
+!node_modules/ramda/package.json
+test/
