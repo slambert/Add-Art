@@ -28958,6 +28958,7 @@ module.exports = Reflux.createActions(['getExhibitions', 'openExhibition', 'setE
 },{"reflux":176}],181:[function(require,module,exports){
 const Reflux = require('reflux');
 const ExhibitionActions = require('./exhibitionActions.js');
+const R = require('ramda');
 
 const ExhibitionStore = Reflux.createStore({
   listenables: [ExhibitionActions],
@@ -28975,9 +28976,7 @@ const ExhibitionStore = Reflux.createStore({
 
     this.addon.port.on('exhibitions', function (exhibitions) {
       console.log(exhibitions);
-      _this.state.currentExhibition = exhibitions.currentExhibition;
-      _this.state.exhibitions = exhibitions.exhibitions;
-      _this.state.disableAutoUpdate = exhibitions.disableAutoUpdate;
+      _this.state = R.merge(_this.state, exhibitions);
       _this._t();
     });
     this.addon.port.on('exhibitionError', function (err) {
@@ -29032,7 +29031,7 @@ const ExhibitionStore = Reflux.createStore({
 
 module.exports = ExhibitionStore;
 
-},{"./exhibitionActions.js":180,"./mockAddon.js":182,"reflux":176}],182:[function(require,module,exports){
+},{"./exhibitionActions.js":180,"./mockAddon.js":182,"ramda":2,"reflux":176}],182:[function(require,module,exports){
 var anotherExhibition = { "_id": "606a8cb43bb59495855c02d8fdc00e30", "_rev": "2-1f420881a834232227b4f3520f9bb04c", "date": 1458164980053, "title": "Test Essay", "artist": "owise1", "description": "Lorem ipsum dolor sit amet turducken shoulder hamburger brisket chuck ball tip turkey pork short ribs pig bresaola. Rump brisket tail, meatball chuck ham leberkas frankfurter sausage corned beef pork flank swine meatloaf andouille. Fatback capicola tongue sirloin, pork jerky pig chuck cow bresaola. Filet mignon turducken pig ribeye, chuck pork chop frankfurter leberkas t-bone capicola tri-tip jowl. Venison andouille biltong flank hamburger beef ribs chicken corned beef cow pork belly tenderloin filet mignon shank pork boudin.", "thumbnail": "http:\/\/i.giphy.com\/m4UPmDFCkqX6M.gif", "works": [{ "image": "http:\/\/i.giphy.com\/u2cUV1E1JUkOA.gif", "title": "", "link": "" }, { "image": "http:\/\/i.giphy.com\/oLzT6CJRZYPrq.gif", "title": "", "link": "" }], "type": "exhibition", "url": "http://sharemiodotcom.ly" };
 
 var store = {
@@ -29095,7 +29094,8 @@ var store = {
       "image": "http://40.media.tumblr.com/f674a559153916b92bc503951ad10f53/tumblr_o2fy50sXY51r3pm3to10_1280.jpg"
     }]
   }],
-  currentExhibition: "How long can we tolerate this?"
+  currentExhibition: "How long can we tolerate this?",
+  blockedSites: []
 };
 
 var subscriptions = {};
@@ -29141,6 +29141,14 @@ const Reflux = require('reflux');
 const ExhibitionActions = require('./exhibitionActions.js');
 const ExhibitionStore = require('./exhibitionStore.js');
 const helpers = require('./addArtHelpers.js');
+
+var BlockedSiteSwitcher = React.createClass({
+  displayName: 'BlockedSiteSwitcher',
+
+  render: function () {
+    return React.createElement('a', { id: 'check', title: 'Click to disable for this website', className: 'off' });
+  }
+});
 
 var ExhibitionThumb = React.createClass({
   displayName: 'ExhibitionThumb',
@@ -29335,6 +29343,7 @@ var AddArtPopup = React.createClass({
     var closeClass = '',
         addSourceClass = '';
     var store = this.state.exhibitionStore;
+    console.log(store);
     if (store.exhibitions) {
       var _this = this;
       infos = store.exhibitions.map(function (exhibition) {
@@ -29354,7 +29363,8 @@ var AddArtPopup = React.createClass({
         'header',
         { id: 'top' },
         React.createElement('div', { onClick: ExhibitionActions.toggleSource, title: 'Add your own art show', id: 'addSource' }),
-        React.createElement('div', { id: 'close', className: closeClass, onClick: ExhibitionActions.close })
+        React.createElement('div', { id: 'close', className: closeClass, onClick: ExhibitionActions.close }),
+        React.createElement(BlockedSiteSwitcher, null)
       ),
       React.createElement(
         'div',

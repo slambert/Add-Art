@@ -85,7 +85,8 @@ var store = {
           ]
         }
       ],
-    currentExhibition :  "How long can we tolerate this?"
+  currentExhibition :  "How long can we tolerate this?",
+  blockedSites : []
 }
 
 

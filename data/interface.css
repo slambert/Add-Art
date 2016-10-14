@@ -27,6 +27,19 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 }
+#check{
+    display: block;
+    height: 60px;
+    width: 60px;
+    top: 0;
+    right: 0;
+    background: url(images/on.svg) center center no-repeat;
+    position: absolute;
+    background-size: 35px;
+}
+#check.off{
+    background-image: url(images/off.svg);
+}
 .clear{
   clear:both;
 }

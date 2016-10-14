@@ -36,6 +36,7 @@ function fetch (url, txt) {
   return d.promise
 }
 
+
 fetch( "https://raw.githubusercontent.com/owise1/addendum-exhibitions/master/exhibitions.json")
 .then(function (res){
   ss.storage.exhibitions = res.sort(helpers.exhibitionsSort)
@@ -61,6 +62,10 @@ fetch( "https://raw.githubusercontent.com/owise1/addendum-exhibitions/master/exh
         .map(R.split('#@#'))
   go()
 }, go)
+.catch(function (err){
+  console.log(err);
+
+})
 
 function getCurrentExhibition (){
   return R.find(R.propEq('title', ss.storage.currentExhibition), ss.storage.exhibitions)
@@ -80,10 +85,12 @@ function communication (worker){
     if (ss.storage.customExhibitions) {
       exhibitions = exhibitions.concat(ss.storage.customExhibitions).sort(helpers.exhibitionsSort)
     }
+    console.log(tabs.activeTab);
     worker.port.emit('exhibitions', {
       exhibitions : exhibitions,
       currentExhibition : ss.storage.currentExhibition,
-      disableAutoUpdate : ss.storage.disableAutoUpdate
+      disableAutoUpdate : ss.storage.disableAutoUpdate,
+      blockedSites : ss.storage.blockedSites || []
     })
   }
   worker.port.on('exhibitions',emitExhibitions)

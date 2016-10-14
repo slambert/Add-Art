@@ -44,6 +44,8 @@ Then open `data/popup.html` in a browser
 
 #### To run extension in the browser:
 
+First you need to download the [nightly build](https://nightly.mozilla.org/). Then... 
+
 ```
 npm run jpm 
 ```

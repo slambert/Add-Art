@@ -1,5 +1,6 @@
 const Reflux = require('reflux')
 const ExhibitionActions = require('./exhibitionActions.js')
+const R = require('ramda')
 
 const ExhibitionStore = Reflux.createStore({
   listenables : [ExhibitionActions],
@@ -17,9 +18,7 @@ const ExhibitionStore = Reflux.createStore({
 
     this.addon.port.on('exhibitions', function(exhibitions) {
       console.log(exhibitions);
-      _this.state.currentExhibition = exhibitions.currentExhibition
-      _this.state.exhibitions = exhibitions.exhibitions
-      _this.state.disableAutoUpdate = exhibitions.disableAutoUpdate
+      _this.state = R.merge(_this.state, exhibitions)
       _this._t()
     })
     this.addon.port.on('exhibitionError', function(err) {

@@ -12,7 +12,7 @@
   "scripts": {
     "watch": "watchify -t [ babelify --presets react ] src/popup.js -o data/js/popup.js",
     "build": "browserify -t [ babelify --presets react ] src/popup.js -o data/js/popup.js",
-    "jpm" : "npm run build; jpm run"
+    "jpm" : "npm run build; jpm run -b nightly"
   },
   "license": "GPL-3.0",
   "keywords": [
@@ -28,9 +28,11 @@
     "reflux": "^0.3.0",
     "watchify": "^3.7.0"
   },
-  "permissions": {
-    "cross-domain-content": [
-      "http://add-art.org/feed"
-    ]
-  }
+  "permissions": [
+    "*://add-art.org/*",
+    "*://raw.githubusercontent.com/*",
+    "*://easylist-downloads.adblockplus.org/*",
+    "tabs",
+    "storage"
+  ]
 }
