@@ -86,7 +86,7 @@ var store = {
         }
       ],
   currentExhibition :  "How long can we tolerate this?",
-  blockedSites : []
+  siteBlocked : false
 }
 
 
@@ -107,6 +107,10 @@ module.exports = {
     },
     emit : function (key, val) {
       switch(key) {
+        case 'toggleSiteBlock' :
+          store.siteBlocked = !store.siteBlocked
+          send('exhibitions', store)
+          break
         case 'exhibitions':
           send('exhibitions', store)
           break

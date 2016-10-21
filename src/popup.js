@@ -5,15 +5,7 @@ const Reflux = require('reflux')
 const ExhibitionActions = require('./exhibitionActions.js')
 const ExhibitionStore = require('./exhibitionStore.js')
 const helpers = require('./addArtHelpers.js')
-
-var BlockedSiteSwitcher = React.createClass({
-  render : function (){
-    return (
-        <a id="check" title="Click to disable for this website" className="off"></a>
-    )
-  }
-})
-
+const SwitchInput = require('./components/switch-input')
 
 
 var ExhibitionThumb = React.createClass({
@@ -144,7 +136,6 @@ var AddArtPopup = React.createClass({
     var infos = ''
     var closeClass = '', addSourceClass = ''
     var store = this.state.exhibitionStore
-    console.log(store);
     if (store.exhibitions) {
       var _this = this
       infos = store.exhibitions.map(function (exhibition){
@@ -164,7 +155,7 @@ var AddArtPopup = React.createClass({
         <header id="top">
           <div onClick={ExhibitionActions.toggleSource} title="Add your own art show" id="addSource"></div>
           <div id="close" className={closeClass} onClick={ExhibitionActions.close}></div>
-          <BlockedSiteSwitcher />
+        <SwitchInput onClick={this.toggleSiteBlock} on={!store.siteBlocked} />
         </header>
         <div>
           {infos}
@@ -176,7 +167,11 @@ var AddArtPopup = React.createClass({
         <NewSourceView store={store} />
       </div>
     )
+  },
+  toggleSiteBlock : function (){
+    ExhibitionActions.toggleSiteBlock()
   }
+
 })
 
 ReactDOM.render(

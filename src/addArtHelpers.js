@@ -1,6 +1,12 @@
 var R = require('ramda')
 
 var addArtHelpers = {
+  getHost : R.pipe(
+    R.replace(/https?:\/\//, ''),
+    R.split('/'),
+    R.nth(0),
+    R.replace(/www\./, '')
+  ),
   formatDate : function (date) {
     var dateObj = new Date(parseInt(date))
     var months = ["January","February","March","April","May","June","July","August","September","October","November","December"]

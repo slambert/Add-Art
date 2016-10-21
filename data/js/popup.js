@@ -28923,6 +28923,7 @@ module.exports = function(listenables){
 var R = require('ramda');
 
 var addArtHelpers = {
+  getHost: R.pipe(R.replace(/https?:\/\//, ''), R.split('/'), R.nth(0), R.replace(/www\./, '')),
   formatDate: function (date) {
     var dateObj = new Date(parseInt(date));
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -28951,11 +28952,22 @@ var addArtHelpers = {
 module.exports = addArtHelpers;
 
 },{"ramda":2}],180:[function(require,module,exports){
+const React = require('react');
+
+module.exports = React.createClass({
+  displayName: "exports",
+
+  render: function () {
+    return React.createElement("a", { id: "check", onClick: this.props.onClick, title: "Click to disable for this website", className: !this.props.on ? 'off' : '' });
+  }
+});
+
+},{"react":159}],181:[function(require,module,exports){
 var Reflux = require('reflux');
 
-module.exports = Reflux.createActions(['getExhibitions', 'openExhibition', 'setExhibition', 'addCustomExhibition', 'toggleAutoUpdate', 'toggleSource', 'close']);
+module.exports = Reflux.createActions(['getExhibitions', 'openExhibition', 'setExhibition', 'addCustomExhibition', 'toggleAutoUpdate', 'toggleSiteBlock', 'toggleSource', 'close']);
 
-},{"reflux":176}],181:[function(require,module,exports){
+},{"reflux":176}],182:[function(require,module,exports){
 const Reflux = require('reflux');
 const ExhibitionActions = require('./exhibitionActions.js');
 const R = require('ramda');
@@ -28975,7 +28987,6 @@ const ExhibitionStore = Reflux.createStore({
     this.addon = typeof addon === 'undefined' ? require('./mockAddon.js') : addon;
 
     this.addon.port.on('exhibitions', function (exhibitions) {
-      console.log(exhibitions);
       _this.state = R.merge(_this.state, exhibitions);
       _this._t();
     });
@@ -28996,6 +29007,10 @@ const ExhibitionStore = Reflux.createStore({
   },
   getInitialState: function () {
     return this.state;
+  },
+  toggleSiteBlock: function () {
+    this.addon.port.emit('toggleSiteBlock', true);
+    this._t();
   },
   toggleAutoUpdate: function () {
     this.state.disableAutoUpdate = !this.state.disableAutoUpdate;
@@ -29031,7 +29046,7 @@ const ExhibitionStore = Reflux.createStore({
 
 module.exports = ExhibitionStore;
 
-},{"./exhibitionActions.js":180,"./mockAddon.js":182,"ramda":2,"reflux":176}],182:[function(require,module,exports){
+},{"./exhibitionActions.js":181,"./mockAddon.js":183,"ramda":2,"reflux":176}],183:[function(require,module,exports){
 var anotherExhibition = { "_id": "606a8cb43bb59495855c02d8fdc00e30", "_rev": "2-1f420881a834232227b4f3520f9bb04c", "date": 1458164980053, "title": "Test Essay", "artist": "owise1", "description": "Lorem ipsum dolor sit amet turducken shoulder hamburger brisket chuck ball tip turkey pork short ribs pig bresaola. Rump brisket tail, meatball chuck ham leberkas frankfurter sausage corned beef pork flank swine meatloaf andouille. Fatback capicola tongue sirloin, pork jerky pig chuck cow bresaola. Filet mignon turducken pig ribeye, chuck pork chop frankfurter leberkas t-bone capicola tri-tip jowl. Venison andouille biltong flank hamburger beef ribs chicken corned beef cow pork belly tenderloin filet mignon shank pork boudin.", "thumbnail": "http:\/\/i.giphy.com\/m4UPmDFCkqX6M.gif", "works": [{ "image": "http:\/\/i.giphy.com\/u2cUV1E1JUkOA.gif", "title": "", "link": "" }, { "image": "http:\/\/i.giphy.com\/oLzT6CJRZYPrq.gif", "title": "", "link": "" }], "type": "exhibition", "url": "http://sharemiodotcom.ly" };
 
 var store = {
@@ -29095,7 +29110,7 @@ var store = {
     }]
   }],
   currentExhibition: "How long can we tolerate this?",
-  blockedSites: []
+  siteBlocked: false
 };
 
 var subscriptions = {};
@@ -29115,6 +29130,10 @@ module.exports = {
     },
     emit: function (key, val) {
       switch (key) {
+        case 'toggleSiteBlock':
+          store.siteBlocked = !store.siteBlocked;
+          send('exhibitions', store);
+          break;
         case 'exhibitions':
           send('exhibitions', store);
           break;
@@ -29133,7 +29152,7 @@ module.exports = {
   }
 };
 
-},{}],183:[function(require,module,exports){
+},{}],184:[function(require,module,exports){
 // main.js
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -29141,14 +29160,7 @@ const Reflux = require('reflux');
 const ExhibitionActions = require('./exhibitionActions.js');
 const ExhibitionStore = require('./exhibitionStore.js');
 const helpers = require('./addArtHelpers.js');
-
-var BlockedSiteSwitcher = React.createClass({
-  displayName: 'BlockedSiteSwitcher',
-
-  render: function () {
-    return React.createElement('a', { id: 'check', title: 'Click to disable for this website', className: 'off' });
-  }
-});
+const SwitchInput = require('./components/switch-input');
 
 var ExhibitionThumb = React.createClass({
   displayName: 'ExhibitionThumb',
@@ -29343,7 +29355,6 @@ var AddArtPopup = React.createClass({
     var closeClass = '',
         addSourceClass = '';
     var store = this.state.exhibitionStore;
-    console.log(store);
     if (store.exhibitions) {
       var _this = this;
       infos = store.exhibitions.map(function (exhibition) {
@@ -29364,7 +29375,7 @@ var AddArtPopup = React.createClass({
         { id: 'top' },
         React.createElement('div', { onClick: ExhibitionActions.toggleSource, title: 'Add your own art show', id: 'addSource' }),
         React.createElement('div', { id: 'close', className: closeClass, onClick: ExhibitionActions.close }),
-        React.createElement(BlockedSiteSwitcher, null)
+        React.createElement(SwitchInput, { onClick: this.toggleSiteBlock, on: !store.siteBlocked })
       ),
       React.createElement(
         'div',
@@ -29384,9 +29395,13 @@ var AddArtPopup = React.createClass({
       ),
       React.createElement(NewSourceView, { store: store })
     );
+  },
+  toggleSiteBlock: function () {
+    ExhibitionActions.toggleSiteBlock();
   }
+
 });
 
 ReactDOM.render(React.createElement(AddArtPopup, null), document.getElementById('main'));
 
-},{"./addArtHelpers.js":179,"./exhibitionActions.js":180,"./exhibitionStore.js":181,"react":159,"react-dom":3,"reflux":176}]},{},[183]);
+},{"./addArtHelpers.js":179,"./components/switch-input":180,"./exhibitionActions.js":181,"./exhibitionStore.js":182,"react":159,"react-dom":3,"reflux":176}]},{},[184]);

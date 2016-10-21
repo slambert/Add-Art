@@ -26,7 +26,11 @@ function fetch (url, txt) {
   var d = defer()
   var xhr = new XMLHttpRequest()
   xhr.onload = function (){
-    d.resolve(txt ? xhr.responseText : JSON.parse(xhr.responseText))
+    try {
+      d.resolve(txt ? xhr.responseText : JSON.parse(xhr.responseText))
+    } catch (e) {
+      d.reject(e)
+    }
   }
   xhr.onerror = function (evt){
     d.reject(evt)
@@ -71,13 +75,27 @@ function getCurrentExhibition (){
   return R.find(R.propEq('title', ss.storage.currentExhibition), ss.storage.exhibitions)
 }
 
+var siteIsBlocked = function (host){
+  return R.contains(host, ss.storage.blockedSites || [])
+} 
+
+function getCurrentHost(){
+  return helpers.getHost(tabs.activeTab.url)
+}
+
+var currentHostIsBlocked = R.pipe(
+  getCurrentHost,
+  siteIsBlocked
+)
+
 function communication (worker){
   worker.port.on('exhibition', function() {
     worker.port.emit('exhibition', {
       exhibition : getCurrentExhibition(),
       pieceI : getPieceI(),
       selectors : selectors,
-      whitelist : whitelist
+      whitelist : whitelist,
+      siteBlocked : currentHostIsBlocked() 
     })
   })
   function emitExhibitions (){
@@ -85,15 +103,27 @@ function communication (worker){
     if (ss.storage.customExhibitions) {
       exhibitions = exhibitions.concat(ss.storage.customExhibitions).sort(helpers.exhibitionsSort)
     }
-    console.log(tabs.activeTab);
     worker.port.emit('exhibitions', {
       exhibitions : exhibitions,
       currentExhibition : ss.storage.currentExhibition,
       disableAutoUpdate : ss.storage.disableAutoUpdate,
-      blockedSites : ss.storage.blockedSites || []
+      siteBlocked : currentHostIsBlocked() 
     })
   }
   worker.port.on('exhibitions',emitExhibitions)
+
+  worker.port.on('toggleSiteBlock', function (){
+    var blockedSites = ss.storage.blockedSites || []
+    var host = getCurrentHost()
+    if (currentHostIsBlocked()) {
+      blockedSites = R.filter(R.pipe(R.equals(host), R.not), blockedSites)
+      
+    } else{
+      blockedSites.push(host)
+    }
+    ss.storage.blockedSites = blockedSites
+    emitExhibitions()
+  })
 
   worker.port.on('disableAutoUpdate', function(state) {
     ss.storage.disableAutoUpdate = state

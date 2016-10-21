@@ -17,7 +17,6 @@ const ExhibitionStore = Reflux.createStore({
     this.addon = typeof addon === 'undefined' ? require('./mockAddon.js') : addon
 
     this.addon.port.on('exhibitions', function(exhibitions) {
-      console.log(exhibitions);
       _this.state = R.merge(_this.state, exhibitions)
       _this._t()
     })
@@ -38,6 +37,10 @@ const ExhibitionStore = Reflux.createStore({
   },
   getInitialState : function (){
     return this.state
+  },
+  toggleSiteBlock : function (){
+    this.addon.port.emit('toggleSiteBlock', true) 
+    this._t()
   },
   toggleAutoUpdate : function (){
     this.state.disableAutoUpdate = !this.state.disableAutoUpdate

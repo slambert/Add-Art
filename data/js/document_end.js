@@ -1,6 +1,8 @@
 jQuery(function ($){
   self.port.emit('exhibition')
   self.port.on('exhibition', function(exhibition) {
+    if (exhibition.siteBlocked) return
+
     var howMany = 3
     var tried = 0
     ;(function checkIFrames() {
@@ -13,7 +15,11 @@ jQuery(function ($){
         'ins[id^=aswift]',
         'img[src*=decknetwork]'
       ]
-      var host = R.path(['location', 'host'],parent)
+      try {
+        var host = R.path(['location', 'host'],parent)
+      } catch(e) {
+        return
+      }
       var skips = []
       if (host) {
         skips = exhibition.whitelist
