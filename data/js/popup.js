@@ -28955,10 +28955,16 @@ module.exports = addArtHelpers;
 const React = require('react');
 
 module.exports = React.createClass({
-  displayName: "exports",
+  displayName: 'exports',
 
   render: function () {
-    return React.createElement("a", { id: "check", onClick: this.props.onClick, title: "Click to disable for this website", className: !this.props.on ? 'off' : '' });
+    let className = '',
+        title = 'Click to disable add-art on this website';
+    if (!this.props.on) {
+      className = 'off';
+      title = 'Click to enable add-art for this website';
+    }
+    return React.createElement('a', { id: 'check', onClick: this.props.onClick, title: title, className: className });
   }
 });
 

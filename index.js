@@ -173,7 +173,7 @@ function go(){
   // on end
   pageMod.PageMod({
     include: "*",
-    contentScriptFile: [data.url("js/lib/jquery-1.11.2.min.js"),
+    contentScriptFile: [data.url("js/lib/jquery-3.1.1.min.js"),
                         data.url("js/lib/ramda.min.js"),
                         data.url("js/artAdder.js"),
                         data.url("js/document_end.js")],
