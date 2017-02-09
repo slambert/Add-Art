@@ -86,6 +86,7 @@ header#top #addSource {
 header#top #close {
 	background-image: url('images/close.png');
 	background-repeat: no-repeat;
+  background-color: #ED1C24;
     background-position: center; 
     background-size: 20px;
     position: absolute;

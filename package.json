@@ -1,7 +1,7 @@
 {
   "title": "Addendum",
   "name": "addendum",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "id" : "development@add-art.org",
   "description": "Replace ads with art.",
   "main": "index.js",
