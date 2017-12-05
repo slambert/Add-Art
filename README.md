@@ -1,4 +1,7 @@
-#Add-Art
+# Update 12.5.2017 - The Firefox extension has been merged with the [Chrome extension. Go there instead](https://github.com/coreytegeler/add-art-chrome/) *****
+
+
+## Add-Art
 Add-Art is a Firefox ([Chrome](https://github.com/coreytegeler/add-art-chrome) & [Safari](https://github.com/owise1/add-art-safari)) Browser Extension that replaces ads with art.
 
 When it works, it works pretty good. We all want it to be better, and we welcome your help with that.
